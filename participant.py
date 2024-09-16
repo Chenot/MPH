@@ -3,7 +3,7 @@ import csv
 import tkinter as tk
 from tkinter import messagebox
 from utils import generate_next_id, generate_random_id, save_participant_info, load_participant_info
-from experiment import launch_experiment_gui
+from experiment import launch_experiment_gui, launch_main_gui
 
 # CSV file to store participant info
 csv_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Participants_expInfo.csv')
@@ -19,7 +19,7 @@ def create_participant_gui():
             messagebox.showerror("Input Error", "Please fill in all fields")
             return
 
-        # Create the participant info dictionary without the 'last_task' field
+        # Create the participant info dictionary
         participant_info = {
             'participant_id': participant_id,
             'participant_initials': participant_initials,
@@ -29,17 +29,18 @@ def create_participant_gui():
             'date_session3': 'NA',
             'language': language_participant,
             'current_session': '1',
-            'completed_tasks': []  # No tasks completed yet
+            'completed_tasks': ''  # No tasks completed yet
         }
         
         # Save the participant information to the CSV
         save_participant_info(csv_file, participant_info)
         
-        # Close the window and launch the experiment GUI
+        # Close the window and launch the questionnaire GUI
         root.destroy()
-        launch_experiment_gui(participant_info)
+        launch_main_gui(participant_info)
 
-    # Tkinter window for creating a participant (remains unchanged)
+
+    # Tkinter window for creating a participant
     root = tk.Tk()
     root.title("Create Participant")
     root.attributes('-fullscreen', True)
@@ -61,7 +62,6 @@ def create_participant_gui():
     root.mainloop()
 
 
-
 def select_participant_gui():
     def load_selected_participant():
         selected = participant_listbox.curselection()
@@ -70,9 +70,13 @@ def select_participant_gui():
             return
         participant_id = participant_ids[selected[0]]
         participant_info = load_participant_info(csv_file, participant_id)
-        root.destroy()
-        launch_experiment_gui(participant_info)
 
+        # Close the window and launch the questionnaire GUI
+        root.destroy()
+        launch_main_gui(participant_info)
+
+
+    # Tkinter window for selecting a participant
     root = tk.Tk()
     root.title("Select Participant")
     root.attributes('-fullscreen', True)
