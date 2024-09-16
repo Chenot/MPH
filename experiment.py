@@ -14,7 +14,7 @@ def launch_experiment_gui(participant_info):
     def start_experiment():
         root.destroy()  # Close the Tkinter window when "Start" is clicked
         current_session = participant_info['current_session']
-        task_name = ''  # We'll determine this based on the session and task being run
+        completed_tasks = participant_info.get('completed_tasks', [])  # Load completed tasks
 
         # Create the window for the experiment
         win = visual.Window(size=[1920, 1080], fullscr=True, screen=0, 
@@ -24,72 +24,73 @@ def launch_experiment_gui(participant_info):
 
         # Choose experiments based on the session
         if current_session == '1':
-            task_name = 'SimpleRTT'
-            thisSession = session.Session(
-                win=win,
-                root=os.path.dirname(__file__),
-                experiments={
-                    'SimpleRTT': "Speed_SimpleRTT/simpleRTT_lastrun.py",
-                    'SimpleRTTmouse': "Speed_SimpleRTT_mouse/simpleRTT_mouse_lastrun.py",
-                    'DoubleRTT': "Speed_DoubleRTT/DoubleRTT_lastrun.py", 
-                }
-            )
-            run_session(thisSession, participant_info, list(thisSession.experiments.keys()))
+            tasks = {
+                'SimpleRTT': "Speed_SimpleRTT/simpleRTT_lastrun.py",
+                'SimpleRTTmouse': "Speed_SimpleRTT_mouse/simpleRTT_mouse_lastrun.py",
+                'DoubleRTT': "Speed_DoubleRTT/DoubleRTT_lastrun.py", 
+            }
         elif current_session == '2':
-            task_name = 'Antisaccade'
-            thisSession = session.Session(
-                win=win,
-                root=os.path.dirname(__file__),
-                experiments={
-                    'RS': "Resting_state/Resting_state_lastrun.py",
-                    'Antisaccade': "Inhibition_Antisaccade/Antisaccade_lastrun.py", 
-                    'KeepTrack': "Upadting_KeepTrack/KeepTrack_lastrun.py",      
-                }
-            )
-            run_session(thisSession, participant_info, list(thisSession.experiments.keys()))
+            tasks = {
+                'RS': "Resting_state/Resting_state_lastrun.py",
+                'Antisaccade': "Inhibition_Antisaccade/Antisaccade_lastrun.py", 
+                'KeepTrack': "Upadting_KeepTrack/KeepTrack_lastrun.py",      
+            }
         elif current_session == '3':
-            task_name = 'TOH'
-            thisSession = session.Session(
-                win=win,  
-                root=os.path.dirname(__file__),
-                experiments={
-                    'RS': "Resting_state/Resting_state_lastrun.py",
-                    'TOH': "Planning_TowerOfHanoi/TowerOfHanoi_lastrun.py", 
-                    'RAPM': "Reasoning_RavenMatrices/RAPM_lastrun.py",      
-                }
-            )
-            run_session(thisSession, participant_info, list(thisSession.experiments.keys()))
+            tasks = {
+                'RS': "Resting_state/Resting_state_lastrun.py",
+                'TOH': "Planning_TowerOfHanoi/TowerOfHanoi_lastrun.py", 
+                'RAPM': "Reasoning_RavenMatrices/RAPM_lastrun.py",      
+            }
+
+        # Run the session and skip completed tasks
+        run_session(win, participant_info, tasks, completed_tasks)
 
         # Once the session is completed, move data to the BIDS-compliant folder
         root_path = get_parent_directory(os.path.dirname(__file__))  # Get the parent directory
         bids_folder = create_bids_structure(root_path, participant_info['participant_id'], current_session)
-        move_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_info['participant_id'], current_session, task_name)
+        move_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_info['participant_id'], current_session)
 
         # Close the window and quit
         win.close()
         core.quit()
 
-    def run_session(thisSession, participant_info, tasks):
-        for task in tasks:
-            if participant_info['last_task'] == task:
-                continue
-            thisSession.runExperiment(task, expInfo={
-                'participant': participant_info['participant_id'], 
-                'session': participant_info['current_session'], 
-                'language': participant_info['language'], 
-                'date': datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            })
-            participant_info['last_task'] = task
+    def run_session(win, participant_info, tasks, completed_tasks):
+        for task, script in tasks.items():
+            if task in completed_tasks:
+                print(f"Skipping completed task: {task}")
+                continue  # Skip completed tasks
+
+            print(f"Running task: {task}")
             
-            # Corrected: pass both the CSV file and participant info to update
-            update_participant_info(csv_file, participant_info)
+            try:
+                thisSession = session.Session(
+                    win=win,
+                    root=os.path.dirname(__file__),
+                    experiments={task: script}
+                )
+                thisSession.runExperiment(task, expInfo={
+                    'participant': participant_info['participant_id'], 
+                    'session': participant_info['current_session'], 
+                    'language': participant_info['language'], 
+                    'date': datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+                })
+                
+                # Mark task as completed and update participant_info
+                completed_tasks.append(task)
+                participant_info['completed_tasks'] = completed_tasks
+                participant_info['last_task'] = task
+                update_participant_info(csv_file, participant_info)
+
+            except Exception as e:
+                print(f"Error while running task {task}: {e}")
+                break  # Stop if there's an error, and allow resuming later
 
         # Update session date and session number
-        session_key = f'date_session{participant_info["current_session"]}'
+        session_key = f"date_session{participant_info['current_session']}"
         participant_info[session_key] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         participant_info['current_session'] = str(int(participant_info['current_session']) + 1)
 
-        # Corrected: pass both the CSV file and participant info to update
+        # Final update of participant info
         update_participant_info(csv_file, participant_info)
 
     # Create the main Tkinter window for experiment launch

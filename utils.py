@@ -151,8 +151,18 @@ def load_participant_info(csv_file, participant_id):
 
 def update_participant_info(csv_file, info):
     """Updates participant information in the CSV file."""
-    rows = []
+    fieldnames = [
+        'participant_id', 'participant_initials', 'participant_anonymized_id', 
+        'date_session1', 'date_session2', 'date_session3', 'language', 
+        'last_task', 'current_session', 'completed_tasks'
+    ]
     
+    # Convert completed_tasks list to a string for CSV storage
+    if 'completed_tasks' in info and isinstance(info['completed_tasks'], list):
+        info['completed_tasks'] = ','.join(info['completed_tasks'])  # Convert list to string
+    
+    rows = []
+
     # Read current data and update the row corresponding to the participant
     if os.path.exists(csv_file):
         with open(csv_file, mode='r') as file:
@@ -165,10 +175,7 @@ def update_participant_info(csv_file, info):
 
     # Write updated data back to the file
     with open(csv_file, mode='w', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=[
-            'participant_id', 'participant_initials', 'participant_anonymized_id', 
-            'date_session1', 'date_session2', 'date_session3', 'language', 
-            'last_task', 'current_session'
-        ])
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
+
