@@ -5,12 +5,50 @@ from datetime import datetime
 from utils import update_participant_info, create_bids_structure, copy_psychopy_data_to_bids, get_parent_directory
 import webbrowser
 
-# URL placeholders (Replace these with actual URLs)
+# URL placeholders for questionnaires (Replace these with actual URLs)
+# Session 1 URLs
 url_demographics_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=CrPRB"
 url_demographics_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=u44hj"
+url_videogames_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=Jyv4p"
+url_videogames_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=yL9pb"
+url_sleep_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=Fh9fO"
+url_sleep_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=97LST"
+url_laterality_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=TD2kb"
+url_laterality_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=zODGs"
 url_presession_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=dbt78"
 url_presession_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=CsxH2"
 
+# Session 2 URLs
+url_rationality_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=7Uxnwh"
+url_rationality_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=ER3HF"
+url_metacognition_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=PXfzb"
+url_metacognition_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=tVpfd"
+url_executivefunctions_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=sSMjm"
+url_executivefunctions_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=taCZy"
+url_selfesteem_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=jR8WZ"
+url_selfesteem_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=FrgPf"
+
+# Session 3 URLs
+url_chronotype_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=uSgGw"
+url_chronotype_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=A6V8e"
+url_emotions1_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=32kBZ"
+url_emotions1_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=zuEca"
+url_emotions2_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=Rt3CC"
+url_emotions2_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=WgpSS"
+url_personality_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=JU3TJ"
+url_personality_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=pu4pB"
+
+# Supplementary Questionnaires URLs
+url_personality1_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=gS9mT"
+url_personality1_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=SjgbA"
+url_personality2_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=Lt9b4"
+url_personality2_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=JXTga"
+url_quality_of_life_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=CMR7q"
+url_quality_of_life_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=Vu7D5"
+url_anxiety_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=UDPaj"
+url_anxiety_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=3puxm"
+url_depression_english = "https://www.psytoolkit.org/c/3.4.0/survey?s=Qu7kJ"
+url_depression_french = "https://www.psytoolkit.org/c/3.4.0/survey?s=EVWWd"
 # Path to the data folder created by PsychoPy
 psychopy_data_dir = os.path.join(os.path.dirname(__file__), 'data')
 
@@ -130,17 +168,39 @@ def launch_experiment_gui(participant_info):
     root.mainloop()
 
 
-# --- GUI for selecting questionnaires ---
+# --- GUI for selecting questionnaires based on session ---
 def launch_questionnaire_gui(participant_info):
-    """Launches the GUI for selecting and opening questionnaires based on participant language."""
+    """Launches the GUI for selecting and opening questionnaires based on the session and language."""
     
-    # Define the URLs for the participant based on language
-    if participant_info['language'] == 'French':
-        url_demographics = url_demographics_french
-        url_presession = url_presession_french
-    else:
-        url_demographics = url_demographics_english
-        url_presession = url_presession_english
+    # Get the current session and language
+    current_session = participant_info['current_session']
+    language = participant_info['language']
+
+    # Define the URLs for the questionnaires based on session and language
+    if current_session == '1':
+        urls = {
+            'Demographics': url_demographics_french if language == 'French' else url_demographics_english,
+            'Video Games': url_videogames_french if language == 'French' else url_videogames_english,
+            'Sleep': url_sleep_french if language == 'French' else url_sleep_english,
+            'Laterality': url_laterality_french if language == 'French' else url_laterality_english,
+            'Pre-session': url_presession_french if language == 'French' else url_presession_english
+        }
+    elif current_session == '2':
+        urls = {
+            'Rationalité': url_rationality_french if language == 'French' else url_rationality_english,
+            'Metacognition': url_metacognition_french if language == 'French' else url_metacognition_english,
+            'Executive Functions': url_executivefunctions_french if language == 'French' else url_executivefunctions_english,
+            'Self-esteem': url_selfesteem_french if language == 'French' else url_selfesteem_english,
+            'Pre-session': url_presession_french if language == 'French' else url_presession_english
+        }
+    elif current_session == '3':
+        urls = {
+            'Chronotype': url_chronotype_french if language == 'French' else url_chronotype_english,
+            'Emotions (1)': url_emotions1_french if language == 'French' else url_emotions1_english,
+            'Emotions (2)': url_emotions2_french if language == 'French' else url_emotions2_english,
+            'Personality': url_personality_french if language == 'French' else url_personality_english,
+            'Pre-session': url_presession_french if language == 'French' else url_presession_english
+        }
 
     # Create the Tkinter window
     root = tk.Tk()
@@ -155,13 +215,9 @@ def launch_questionnaire_gui(participant_info):
     button_frame = tk.Frame(root)
     button_frame.pack(pady=50)
 
-    # Button for Demographics questionnaire
-    button_demographics = tk.Button(button_frame, text="Demographics", font=("Helvetica", 14), command=lambda: open_url(url_demographics))
-    button_demographics.grid(row=0, column=0, padx=20, pady=20)
-
-    # Button for Pre-session questionnaire
-    button_presession = tk.Button(button_frame, text="Pre-session", font=("Helvetica", 14), command=lambda: open_url(url_presession))
-    button_presession.grid(row=0, column=1, padx=20, pady=20)
+    # Create a button for each questionnaire
+    for title, url in urls.items():
+        tk.Button(button_frame, text=title, font=("Helvetica", 14), command=lambda url=url: open_url(url)).pack(padx=20, pady=10)
 
     # Back button to return to the main GUI
     button_back = tk.Button(root, text="Back", font=("Helvetica", 16), command=lambda: [root.destroy(), launch_main_gui(participant_info)])
@@ -170,10 +226,49 @@ def launch_questionnaire_gui(participant_info):
     # Run the Tkinter event loop
     root.mainloop()
 
+# --- GUI for selecting supplementary questionnaires ---
+def launch_supplementary_questionnaire_gui(participant_info):
+    """Launches the GUI for selecting supplementary questionnaires based on the language."""
 
+    # Get the participant language
+    language = participant_info['language']
+
+    # Define the URLs for the supplementary questionnaires
+    urls = {
+        'Personnalité (1)': url_personality1_french if language == 'French' else url_personality1_english,
+        'Personnalité (2)': url_personality2_french if language == 'French' else url_personality2_english,
+        'Qualité de vie': url_quality_of_life_french if language == 'French' else url_quality_of_life_english,
+        'Anxiété': url_anxiety_french if language == 'French' else url_anxiety_english,
+        'Dépression': url_depression_french if language == 'French' else url_depression_english
+    }
+
+    # Create the Tkinter window
+    root = tk.Tk()
+    root.title(f"Supplementary Questionnaires for Participant {participant_info['participant_id']}")
+    root.attributes('-fullscreen', True)
+
+    # Create a label to display the participant ID
+    label_id = tk.Label(root, text=f"Participant ID: {participant_info['participant_id']}", font=("Helvetica", 16))
+    label_id.pack(pady=10)
+
+    # Frame for buttons
+    button_frame = tk.Frame(root)
+    button_frame.pack(pady=50)
+
+    # Create a button for each supplementary questionnaire
+    for title, url in urls.items():
+        tk.Button(button_frame, text=title, font=("Helvetica", 14), command=lambda url=url: open_url(url)).pack(padx=20, pady=10)
+
+    # Back button to return to the main GUI
+    button_back = tk.Button(root, text="Back", font=("Helvetica", 16), command=lambda: [root.destroy(), launch_main_gui(participant_info)])
+    button_back.pack(pady=20)
+
+    # Run the Tkinter event loop
+    root.mainloop()
+    
 # --- Main GUI ---
 def launch_main_gui(participant_info):
-    """Main GUI with options for 'Questionnaires' and 'Tasks'."""
+    """Main GUI with options for 'Questionnaires', 'Tasks', and 'Supplementary Questionnaires'."""
     
     root = tk.Tk()
     root.title(f"Main Menu for Participant {participant_info['participant_id']}")
@@ -194,6 +289,10 @@ def launch_main_gui(participant_info):
     # Button for Tasks
     button_tasks = tk.Button(button_frame, text="Tasks", font=("Helvetica", 14), command=lambda: [root.destroy(), launch_experiment_gui(participant_info)])
     button_tasks.grid(row=0, column=1, padx=20, pady=20)
+
+    # Button for Supplementary Questionnaires
+    button_supplementary = tk.Button(button_frame, text="Supplementary Questionnaires", font=("Helvetica", 14), command=lambda: [root.destroy(), launch_supplementary_questionnaire_gui(participant_info)])
+    button_supplementary.grid(row=1, column=0, columnspan=2, padx=20, pady=20)
 
     # Run the Tkinter event loop
     root.mainloop()

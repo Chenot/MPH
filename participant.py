@@ -3,7 +3,7 @@ import csv
 import tkinter as tk
 from tkinter import messagebox
 from utils import generate_next_id, generate_random_id, save_participant_info, load_participant_info
-from experiment import launch_experiment_gui, launch_main_gui
+from experiment import launch_main_gui
 
 # CSV file to store participant info
 csv_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Participants_expInfo.csv')
