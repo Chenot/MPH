@@ -106,14 +106,20 @@ def move_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, s
 def generate_next_id(csv_file):
     """Generates the next participant ID based on existing CSV data."""
     if not os.path.exists(csv_file) or os.path.getsize(csv_file) == 0:
+        # If the CSV doesn't exist or is empty, return the first ID '001'
         return '001'
     
     with open(csv_file, mode='r') as file:
         reader = csv.DictReader(file)
-        participant_ids = sorted(int(row['participant_id']) for row in reader)
-        next_id = participant_ids[-1] + 1
-    
-    return str(next_id).zfill(3)
+        participant_ids = [int(row['participant_id']) for row in reader if row['participant_id']]
+
+    # If no participant IDs are found, start from '001'
+    if not participant_ids:
+        return '001'
+
+    # Return the next participant ID by incrementing the last ID
+    next_id = max(participant_ids) + 1
+    return str(next_id).zfill(3)  # Pad with zeros (e.g., '001', '002')
 
 
 def generate_random_id(length=6):
@@ -125,12 +131,19 @@ def save_participant_info(csv_file, info):
     """Saves participant information into a CSV file."""
     file_exists = os.path.isfile(csv_file)
     
+    # Update the fieldnames to match the updated structure
+    fieldnames = [
+        'participant_id', 'participant_initials', 'participant_anonymized_id', 
+        'date_session1', 'date_session2', 'date_session3', 'language', 
+        'current_session', 'completed_tasks'
+    ]
+    
+    # Ensure completed_tasks is serialized as a string for CSV
+    if 'completed_tasks' in info and isinstance(info['completed_tasks'], list):
+        info['completed_tasks'] = ','.join(info['completed_tasks'])  # Convert list to string
+    
     with open(csv_file, mode='a', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=[
-            'participant_id', 'participant_initials', 'participant_anonymized_id', 
-            'date_session1', 'date_session2', 'date_session3', 'language', 
-            'last_task', 'current_session'
-        ])
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
         if not file_exists:
             writer.writeheader()
         writer.writerow(info)
@@ -154,7 +167,7 @@ def update_participant_info(csv_file, info):
     fieldnames = [
         'participant_id', 'participant_initials', 'participant_anonymized_id', 
         'date_session1', 'date_session2', 'date_session3', 'language', 
-        'last_task', 'current_session', 'completed_tasks'
+        'current_session', 'completed_tasks'
     ]
     
     # Convert completed_tasks list to a string for CSV storage

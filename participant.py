@@ -19,6 +19,7 @@ def create_participant_gui():
             messagebox.showerror("Input Error", "Please fill in all fields")
             return
 
+        # Create the participant info dictionary without the 'last_task' field
         participant_info = {
             'participant_id': participant_id,
             'participant_initials': participant_initials,
@@ -27,13 +28,18 @@ def create_participant_gui():
             'date_session2': 'NA',
             'date_session3': 'NA',
             'language': language_participant,
-            'last_task': '',
-            'current_session': '1'
+            'current_session': '1',
+            'completed_tasks': []  # No tasks completed yet
         }
+        
+        # Save the participant information to the CSV
         save_participant_info(csv_file, participant_info)
+        
+        # Close the window and launch the experiment GUI
         root.destroy()
         launch_experiment_gui(participant_info)
 
+    # Tkinter window for creating a participant (remains unchanged)
     root = tk.Tk()
     root.title("Create Participant")
     root.attributes('-fullscreen', True)
@@ -53,6 +59,7 @@ def create_participant_gui():
     tk.Button(main_frame, text="Create", command=create_participant, font=("Helvetica", 16)).grid(row=2, columnspan=2, pady=10)
 
     root.mainloop()
+
 
 
 def select_participant_gui():

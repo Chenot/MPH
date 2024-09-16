@@ -55,6 +55,9 @@ def launch_experiment_gui(participant_info):
         core.quit()
 
     def run_session(win, participant_info, tasks, completed_tasks):
+        # Ensure completed_tasks is a list before appending tasks
+        if isinstance(completed_tasks, str):
+            completed_tasks = completed_tasks.split(',') if completed_tasks else []
         for task, script in tasks.items():
             if task in completed_tasks:
                 print(f"Skipping completed task: {task}")
@@ -78,7 +81,6 @@ def launch_experiment_gui(participant_info):
                 # Mark task as completed and update participant_info
                 completed_tasks.append(task)
                 participant_info['completed_tasks'] = completed_tasks
-                participant_info['last_task'] = task
                 update_participant_info(csv_file, participant_info)
 
             except Exception as e:
