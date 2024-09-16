@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from psychopy import visual, core, session
 from datetime import datetime
-from utils import update_participant_info, create_bids_structure, move_psychopy_data_to_bids, get_parent_directory
+from utils import update_participant_info, create_bids_structure, copy_psychopy_data_to_bids, get_parent_directory
 
 # Path to the data folder created by PsychoPy
 psychopy_data_dir = os.path.join(os.path.dirname(__file__), 'data')
@@ -48,7 +48,9 @@ def launch_experiment_gui(participant_info):
         # Once the session is completed, move data to the BIDS-compliant folder
         root_path = get_parent_directory(os.path.dirname(__file__))  # Get the parent directory
         bids_folder = create_bids_structure(root_path, participant_info['participant_id'], current_session)
-        move_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_info['participant_id'], current_session)
+        copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_info['participant_id'], current_session)
+
+
 
         # Close the window and quit
         win.close()

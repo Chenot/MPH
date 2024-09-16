@@ -44,63 +44,59 @@ def extract_task_and_timestamp(file_name):
         return task_name, timestamp
     return None, None
 
-def move_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, session_number, task_name=None):
+def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, session_number):
     """
-    Moves data files from the PsychoPy data folder to the BIDS-compliant folder.
+    Copies all relevant data files from the PsychoPy data folder to the BIDS-compliant folder.
 
     psychopy_data_dir: The directory where PsychoPy stores the data.
-    bids_folder: The BIDS-compliant folder where files should be moved.
-    participant_id: The participant's ID.
-    session_number: The session number.
-    task_name: (Optional) The task name for BIDS-compliance. If not provided, it will be extracted from the filename.
+    bids_folder: The BIDS-compliant folder where files should be copied.
+    participant_id: The participant's ID (to filter relevant files).
+    session_number: The session number (to include in the BIDS-compliant filenames).
     """
-    # Check if the data directory exists
-    if not os.path.exists(psychopy_data_dir):
-        print(f"No data found in {psychopy_data_dir}")
-        return
+    # Check if the data directory exists - DEBUG
+    #if not os.path.exists(psychopy_data_dir):
+    #    print(f"No data found in {psychopy_data_dir}")
+    #    return
 
-    # Search for PsychoPy-generated subdirectories (if they exist)
+    # Search for PsychoPy-generated subdirectories
     subdirs = [d for d in os.listdir(psychopy_data_dir) if os.path.isdir(os.path.join(psychopy_data_dir, d))]
     
-    # If there are subdirectories, look into them for files
-    if subdirs:
-        print(f"Found subdirectories: {subdirs}")
-        latest_subdir = max(subdirs, key=lambda d: os.path.getctime(os.path.join(psychopy_data_dir, d)))
-        psychopy_data_dir = os.path.join(psychopy_data_dir, latest_subdir, 'data')  # Adjust for the subfolder structure
+    #if not subdirs: # DEBUG
+    #    print(f"No subdirectories found in {psychopy_data_dir}")
+    #    return
+    #
+    # print(f"Found subdirectories: {subdirs}")
 
-    # Check if we have the correct directory now
-    if not os.path.exists(psychopy_data_dir):
-        print(f"No data found in {psychopy_data_dir} after checking subfolders.")
-        return
+    # Iterate over all subdirectories to find matching files
+    for subdir in subdirs:
+        subdir_path = os.path.join(psychopy_data_dir, subdir, 'data')
 
-    print(f"Looking for files in {psychopy_data_dir}")
+        # Check if the data folder exists in the subdirectory # DEBUG
+        #if not os.path.exists(subdir_path):
+        #    print(f"No data found in {subdir_path}")
+        #    continue
+        #print(f"Looking for files in {subdir_path}")
 
-    # Move and rename files
-    for file_name in os.listdir(psychopy_data_dir):
-        if file_name.endswith('.csv') or file_name.endswith('.psydat'):
-            print(f"Processing file: {file_name}")
-            
-            # Extract task and timestamp if not provided
-            if task_name is None:
+        # Process all files that match the participant ID and are either .csv or .psydat
+        for file_name in os.listdir(subdir_path):
+            if file_name.startswith(participant_id) and (file_name.endswith('.csv') or file_name.endswith('.psydat')):
+                #print(f"Processing file: {file_name}")
+                
+                # Construct BIDS-compliant filename
                 task_name, timestamp = extract_task_and_timestamp(file_name)
-            else:
-                # Use task_name provided, and extract only the timestamp
-                _, timestamp = extract_task_and_timestamp(file_name)
+                if task_name and timestamp:
+                    new_file_name = f"sub-{participant_id}_ses-{session_number}_task-{task_name}_{timestamp}{os.path.splitext(file_name)[1]}"
+                    source_path = os.path.join(subdir_path, file_name)
+                    target_path = os.path.join(bids_folder, new_file_name)
 
-            if task_name and timestamp:
-                # Construct simplified BIDS-compliant filename
-                new_file_name = f"sub-{participant_id}_ses-{session_number}_task-{task_name}_{timestamp}{os.path.splitext(file_name)[1]}"
-                source_path = os.path.join(psychopy_data_dir, file_name)
-                target_path = os.path.join(bids_folder, new_file_name)
-
-                # Move file to BIDS-compliant folder
-                try:
-                    shutil.move(source_path, target_path)
-                    print(f"Moved {source_path} to {target_path}")
-                except FileNotFoundError as e:
-                    print(f"Error moving file: {e}")
-            else:
-                print(f"Could not extract task and timestamp from file: {file_name}")
+                    # Copy the file to the BIDS-compliant folder
+                    try:
+                        shutil.copy2(source_path, target_path)
+                        print(f"Copied {source_path} to {target_path}")
+                    except FileNotFoundError as e:
+                        print(f"Error copying file: {e}")
+                else:
+                    print(f"Could not extract task and timestamp from file: {file_name}")
 
 
 def generate_next_id(csv_file):
