@@ -1,9 +1,17 @@
 import os
+import sys
 import tkinter as tk
 from psychopy import visual, core, session
 from datetime import datetime
 from utils import update_participant_info, create_bids_structure, copy_psychopy_data_to_bids, get_parent_directory
 import webbrowser
+
+# Adjust the path to import MPH_MATB.py
+current_directory = os.path.dirname(os.path.abspath(__file__))
+matb_directory = os.path.join(current_directory, 'Complex_OpenMATB')
+sys.path.append(matb_directory)
+from MPH_MATB import run_matb_task
+
 
 # URLs for questionnaires (Replace these with actual URLs)
 # Session 1 URLs
@@ -33,8 +41,8 @@ url_presession_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=CsxH2"
 # Session 3 URLs
 url_RMEQ_chronotype_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=uSgGw"
 url_RMEQ_chronotype_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=A6V8e"
-url_TEIQ_emotions1_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=32kBZ"
-url_TEIQ_emotions1_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=zuEca"
+url_TEIQ_emotions_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=32kBZ"
+url_TEIQ_emotions_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=zuEca"
 url_SSEIT_emotions_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=Rt3CC"
 url_SSEIT_emotions_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=WgpSS"
 url_BRIEF_executivefunctions_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=sSMjm"
@@ -43,10 +51,10 @@ url_presession_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=dbt78"
 url_presession_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=CsxH2"
 
 # Supplementary Questionnaires URLs
-url_MBTI_personality1_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=gS9mT"
-url_MBTI_personality1_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=SjgbA"
-url_PID_personality2_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=Lt9b4"
-url_PID_personality2_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=JXTga"
+url_MBTI_personality_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=gS9mT"
+url_MBTI_personality_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=SjgbA"
+url_PID_personality_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=Lt9b4"
+url_PID_personality_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=JXTga"
 url_QOL_quality_of_life_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=CMR7q"
 url_QOL_quality_of_life_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=Vu7D5"
 url_STAI_anxiety_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=UDPaj"
@@ -103,7 +111,7 @@ def launch_experiment_gui(participant_info):
 
         # Run the session and skip completed tasks
         run_session(win, participant_info, tasks, completed_tasks)
-
+              
         # Once the session is completed, move data to the BIDS-compliant folder
         root_path = get_parent_directory(os.path.dirname(__file__))  # Get the parent directory
         bids_folder = create_bids_structure(root_path, participant_info['participant_id'], current_session)
@@ -201,7 +209,7 @@ def launch_questionnaire_gui(participant_info):
     elif current_session == '3':
         urls = {
             'Chronotype (rMEQ)': url_RMEQ_chronotype_french if language == 'French' else url_RMEQ_chronotype_english,
-            'Emotions (TEIQ)': url_TEIQ_emotions1_french if language == 'French' else url_TEIQ_emotions1_english,
+            'Emotions (TEIQ)': url_TEIQ_emotions_french if language == 'French' else url_TEIQ_emotions_english,
             'Emotions (SSEIT)': url_SSEIT_emotions_french if language == 'French' else url_SSEIT_emotions_english,
             'Executive Functions (BRIEF)': url_BRIEF_executivefunctions_french if language == 'French' else url_BRIEF_executivefunctions_english
         }
@@ -240,8 +248,8 @@ def launch_supplementary_questionnaire_gui(participant_info):
 
     # Define the URLs for the supplementary questionnaires
     urls = {
-        'Personality (MBTI)': url_MBTI_personality1_french if language == 'French' else url_MBTI_personality1_english,
-        'Personality (PID)': url_PID_personality2_french if language == 'French' else url_PID_personality2_english,
+        'Personality (MBTI)': url_MBTI_personality_french if language == 'French' else url_MBTI_personality_english,
+        'Personality (PID)': url_PID_personality_french if language == 'French' else url_PID_personality_english,
         'Quality of Life': url_QOL_quality_of_life_french if language == 'French' else url_QOL_quality_of_life_english,
         'Anxiety (STAI)': url_STAI_anxiety_french if language == 'French' else url_STAI_anxiety_english,
         'Depression (BDI)': url_BDI_depression_french if language == 'French' else url_BDI_depression_english
