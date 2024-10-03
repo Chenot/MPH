@@ -12,6 +12,12 @@ matb_directory = os.path.join(current_directory, 'Complex_OpenMATB')
 sys.path.append(matb_directory)
 from MPH_MATB import run_matb_task
 
+# Adjust the path to import questionnaire_post_task.py
+script_dir = os.path.dirname(os.path.abspath(__file__))
+psychopytasks_directory = os.path.abspath(os.path.join(script_dir, 'Questionnaires'))
+sys.path.append(psychopytasks_directory)
+from questionnaire_post_task import QuestionnaireApp
+
 
 # URLs for questionnaires (Replace these with actual URLs)
 # Session 1 URLs
@@ -93,8 +99,6 @@ def launch_experiment_gui(participant_info):
         if current_session == '1':
             tasks = {
                 'SimpleRTT': "Speed_SimpleRTT/simpleRTT_lastrun.py",
-                'SimpleRTTmouse': "Speed_SimpleRTT_mouse/simpleRTT_mouse_lastrun.py",
-                'DoubleRTT': "Speed_DoubleRTT/DoubleRTT_lastrun.py", 
             }
         elif current_session == '2':
             tasks = {
@@ -121,15 +125,24 @@ def launch_experiment_gui(participant_info):
         win.close()
         core.quit()
 
+    def launch_questionnaire(participant_info, completed_complex_task):
+        # Directly instantiate the QuestionnaireApp class and pass completed_complex_task
+        root = tk.Tk()
+        QuestionnaireApp(root, participant_info, completed_complex_task)
+        root.mainloop()
+
+    
     def run_session(win, participant_info, tasks, completed_tasks):
         # Ensure completed_tasks is a list before appending tasks
         if isinstance(completed_tasks, str):
             completed_tasks = completed_tasks.split(',') if completed_tasks else []
+    
+        # Run PsychoPy tasks
         for task, script in tasks.items():
             if task in completed_tasks:
                 print(f"Skipping completed task: {task}")
                 continue  # Skip completed tasks
-
+    
             print(f"Running task: {task}")
             
             try:
@@ -147,20 +160,58 @@ def launch_experiment_gui(participant_info):
                 
                 # Mark task as completed and update participant_info
                 completed_tasks.append(task)
-                participant_info['completed_tasks'] = completed_tasks
+                participant_info['completed_tasks'] = ','.join(completed_tasks)  # Ensure it's saved as a string
                 update_participant_info(csv_file, participant_info)
-
+    
             except Exception as e:
                 print(f"Error while running task {task}: {e}")
                 break  # Stop if there's an error, and allow resuming later
+    
+        # Close the PsychoPy window after all tasks have been run
+        win.close() 
+    
+        # Define the 4 MATB scenarios based on the current session, but use meaningful labels
+        matb_scenarios = {
+            'MATB_easy': f"session-{participant_info['current_session']}_easy.txt",
+            'MATB_hard': f"session-{participant_info['current_session']}_hard.txt",
+            'MATB_easy_oddball': f"session-{participant_info['current_session']}_easy_oddball.txt",
+            'MATB_hard_oddball': f"session-{participant_info['current_session']}_hard_oddball.txt"
+        }
+    
+        # Run MATB scenarios (track completed scenarios using meaningful labels)
+        for label, scenario in matb_scenarios.items():
+            if label in completed_tasks:
+                print(f"Skipping completed MATB scenario: {label}")
+                continue  # Skip completed MATB scenarios
+    
+            print(f"Running MATB scenario: {label}")
+            try:
+                # Run the MATB task
+                run_matb_task(participant_info, scenario)
+    
+                # Mark the MATB scenario as completed and update participant_info
+                completed_tasks.append(label)
+                participant_info['completed_tasks'] = ','.join(completed_tasks)  # Save as a comma-separated string
+                update_participant_info(csv_file, participant_info)
+                
+                # Launch the questionnaire
+                launch_questionnaire(participant_info, label)
 
+            except Exception as e:
+                print(f"Error while running MATB scenario {label}: {e}")
+                break  # Stop if there's an error, and allow resuming later
+    
         # Update session date and session number
         session_key = f"date_session{participant_info['current_session']}"
         participant_info[session_key] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         participant_info['current_session'] = str(int(participant_info['current_session']) + 1)
-
+    
         # Final update of participant info
         update_participant_info(csv_file, participant_info)
+    
+        print("Session completed.")
+
+
 
     # Create the main Tkinter window for experiment launch
     root = tk.Tk()

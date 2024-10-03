@@ -10,7 +10,7 @@ def create_main_gui():
     def open_select_participant():
         root.destroy()
         select_participant_gui()
-
+ 
     root = tk.Tk()
     root.title("Cognitive Experiment Meta Script")
     root.attributes('-fullscreen', True)
@@ -22,7 +22,6 @@ def create_main_gui():
     tk.Button(main_frame, text="Select Participant", command=open_select_participant, font=("Helvetica", 20)).pack(pady=10)
 
     root.mainloop()
-
 
 if __name__ == '__main__':
     create_main_gui()
