@@ -136,26 +136,35 @@ def generate_random_id(length=6):
 
 
 def save_participant_info(csv_file, info):
-    """Saves participant information into a CSV file."""
+    """Saves participant information into the CSV file, appending if necessary."""
     file_exists = os.path.isfile(csv_file)
     
-    # Update the fieldnames to match the updated structure
     fieldnames = [
         'participant_id', 'participant_initials', 'participant_anonymized_id', 
         'date_session1', 'date_session2', 'date_session3', 'language', 
         'current_session', 'completed_tasks'
     ]
-    
-    # Ensure completed_tasks is serialized as a string for CSV
-    if 'completed_tasks' in info and isinstance(info['completed_tasks'], list):
-        info['completed_tasks'] = ','.join(info['completed_tasks'])  # Convert list to string
-    
-    with open(csv_file, mode='a', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        if not file_exists:
-            writer.writeheader()
-        writer.writerow(info)
 
+    if 'completed_tasks' in info and isinstance(info['completed_tasks'], list):
+        info['completed_tasks'] = ','.join(info['completed_tasks'])
+
+    # Append participant info (new row) if it doesn't exist
+    if not file_exists or not participant_exists(csv_file, info['participant_id']):
+        with open(csv_file, mode='a', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            if not file_exists:
+                writer.writeheader()
+            writer.writerow(info)
+
+def participant_exists(csv_file, participant_id):
+    """Checks if a participant already exists in the CSV."""
+    if os.path.exists(csv_file):
+        with open(csv_file, mode='r', newline='') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row['participant_id'] == participant_id:
+                    return True
+    return False
 
 def load_participant_info(csv_file, participant_id):
     """Loads participant information by ID from a CSV file."""
@@ -171,30 +180,36 @@ def load_participant_info(csv_file, participant_id):
 
 
 def update_participant_info(csv_file, info):
-    """Updates participant information in the CSV file."""
+    """Updates participant information in the CSV file, only modifying the participant's line."""
     fieldnames = [
         'participant_id', 'participant_initials', 'participant_anonymized_id', 
         'date_session1', 'date_session2', 'date_session3', 'language', 
         'current_session', 'completed_tasks'
     ]
-    
-    # Convert completed_tasks list to a string for CSV storage
+
     if 'completed_tasks' in info and isinstance(info['completed_tasks'], list):
-        info['completed_tasks'] = ','.join(info['completed_tasks'])  # Convert list to string
-    
+        info['completed_tasks'] = ','.join(info['completed_tasks'])
+
+    # Read all rows, update only the participant's line
+    updated = False
     rows = []
 
-    # Read current data and update the row corresponding to the participant
+    # Read the current file and update the relevant row
     if os.path.exists(csv_file):
-        with open(csv_file, mode='r') as file:
+        with open(csv_file, mode='r', newline='') as file:
             reader = csv.DictReader(file)
             for row in reader:
                 if row['participant_id'] == info['participant_id']:
-                    rows.append(info)
+                    rows.append(info)  # Update this participant's info
+                    updated = True
                 else:
                     rows.append(row)
 
-    # Write updated data back to the file
+    # If no update was made (participant was not found), append new info
+    if not updated:
+        rows.append(info)
+
+    # Write everything back
     with open(csv_file, mode='w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
