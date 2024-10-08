@@ -3,7 +3,7 @@ import sys
 import tkinter as tk
 from psychopy import visual, core, session
 from datetime import datetime
-from utils import update_participant_info, create_bids_structure, copy_psychopy_data_to_bids, get_parent_directory
+from utils import update_participant_info, create_bids_structure, copy_psychopy_data_to_bids, get_parent_directory, send_command_to_labrecorder, launch_lsl_metascript
 import webbrowser
 
 # Adjust the path to import MPH_MATB.py
@@ -205,13 +205,14 @@ def launch_experiment_gui(participant_info):
         session_key = f"date_session{participant_info['current_session']}"
         participant_info[session_key] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         participant_info['current_session'] = str(int(participant_info['current_session']) + 1)
-    
+
         # Final update of participant info
         update_participant_info(csv_file, participant_info)
-    
+        
+        # Stop Lab Recorder
+        send_command_to_labrecorder('stop\n')
         print("Session completed.")
-
-
+        
 
     # Create the main Tkinter window for experiment launch
     root = tk.Tk()
@@ -333,8 +334,8 @@ def launch_supplementary_questionnaire_gui(participant_info):
 
 # --- Main GUI ---
 def launch_main_gui(participant_info):
-    """Main GUI with options for 'Questionnaires', 'Tasks', 'Supplementary Questionnaires', and a back and finish session button."""
-    
+    """Main GUI with options for 'Questionnaires', 'Start Recording', 'Tasks', 'Supplementary Questionnaires', and other buttons."""
+
     root = tk.Tk()
     root.title(f"Main Menu for Participant {participant_info['participant_id']}")
     root.attributes('-fullscreen', True)
@@ -358,13 +359,17 @@ def launch_main_gui(participant_info):
     button_questionnaires = tk.Button(button_frame, text="Questionnaires", **button_options, command=lambda: [root.destroy(), launch_questionnaire_gui(participant_info)])
     button_questionnaires.grid(row=0, column=0, padx=20, pady=20)
 
-    # Button for Tasks
-    button_tasks = tk.Button(button_frame, text="Tasks", **button_options, command=lambda: [root.destroy(), launch_experiment_gui(participant_info)])
-    button_tasks.grid(row=1, column=0, padx=20, pady=20)
+    # Button for Start Recording (Launch LSL Metascript)
+    button_start_recording = tk.Button(button_frame, text="Start Recording", **button_options, command=lambda: launch_lsl_metascript(participant_info))
+    button_start_recording.grid(row=1, column=0, padx=20, pady=20)
+
+    # Button for Tasks (Initially disabled)
+    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options,  command=lambda: [root.destroy(), launch_experiment_gui(participant_info)])
+    button_tasks.grid(row=2, column=0, padx=20, pady=20)
 
     # Button for Supplementary Questionnaires
     button_supplementary = tk.Button(button_frame, text="Supplementary Questionnaires", **button_options, command=lambda: [root.destroy(), launch_supplementary_questionnaire_gui(participant_info)])
-    button_supplementary.grid(row=2, column=0, padx=20, pady=20)
+    button_supplementary.grid(row=3, column=0, padx=20, pady=20)
 
     # Bottom frame for the "Back" and "Finish Session" buttons
     bottom_frame = tk.Frame(root)
@@ -379,6 +384,7 @@ def launch_main_gui(participant_info):
     button_finish.grid(row=0, column=1, padx=10)
 
     root.mainloop()
+
 
 def go_back_to_main_gui(root):
     """Handles the back button to return to the main GUI in main.py."""

@@ -4,6 +4,18 @@ import random
 import string
 import shutil
 import re
+import socket
+import sys
+
+# Adjust the path to import LSL_metascript.py
+current_directory = os.path.dirname(os.path.abspath(__file__))
+lsl_metascript_directory = os.path.abspath(os.path.join(current_directory, '..', 'utils'))
+sys.path.append(lsl_metascript_directory)
+
+# Import start_recording function from LSL_metascript
+from LSL_metascript import start_recording
+
+
 
 def get_parent_directory(path):
     """Returns the parent directory of the given path."""
@@ -188,3 +200,29 @@ def update_participant_info(csv_file, info):
         writer.writeheader()
         writer.writerows(rows)
 
+def launch_lsl_metascript(participant_info):
+    """Launch the LSL metascript by calling the recording function directly."""
+    try:
+        start_recording(participant_info)
+        print("LSL_metascript recording started successfully.")
+    except Exception as e:
+        print(f"Error starting LSL_metascript recording: {e}")
+
+# Function to send a command to LabRecorder and get the response
+def send_command_to_labrecorder(command):
+    s = socket.create_connection(("localhost", 22346))
+    s.settimeout(1)  # Set a timeout to prevent blocking
+    s.sendall(command.encode('utf-8'))
+    response = ''
+    try:
+        while True:
+            data = s.recv(4096).decode('utf-8')
+            if not data:
+                break
+            response += data
+            if '\n' in data:
+                break
+    except socket.timeout:
+        pass  # Ignore timeout errors
+    s.close()
+    return response
