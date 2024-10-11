@@ -213,7 +213,6 @@ def launch_experiment_gui(participant_info):
         send_command_to_labrecorder('stop\n')
         print("Session completed.")
         
-
     # Create the main Tkinter window for experiment launch
     root = tk.Tk()
     root.title("Launch Experiment")

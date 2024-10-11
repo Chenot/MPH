@@ -6,6 +6,7 @@ import shutil
 import re
 import socket
 import sys
+import subprocess
 
 # Adjust the path to import LSL_metascript.py
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +15,6 @@ sys.path.append(lsl_metascript_directory)
 
 # Import start_recording function from LSL_metascript
 from LSL_metascript import start_recording
-
 
 
 def get_parent_directory(path):
