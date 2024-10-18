@@ -3,21 +3,25 @@ import sys
 import tkinter as tk
 from psychopy import visual, core, session
 from datetime import datetime
-from utils import update_participant_info, create_bids_structure, copy_psychopy_data_to_bids, get_parent_directory, send_command_to_labrecorder, launch_lsl_metascript
+from utils import update_participant_info, create_bids_structure, copy_psychopy_data_to_bids, get_parent_directory, get_participant_info, minimize_all_windows, send_command_to_labrecorder, launch_lsl_metascript, run_EyeTracking_Calibration
 import webbrowser
 
-# Adjust the path to import MPH_MATB.py
-current_directory = os.path.dirname(os.path.abspath(__file__))
-matb_directory = os.path.join(current_directory, 'Complex_OpenMATB')
-sys.path.append(matb_directory)
-from MPH_MATB import run_matb_task
-
-# Adjust the path to import questionnaire_post_task.py
+# Adjust the path to import MATB, questionnaires, resting-state
 script_dir = os.path.dirname(os.path.abspath(__file__))
-psychopytasks_directory = os.path.abspath(os.path.join(script_dir, 'Questionnaires'))
-sys.path.append(psychopytasks_directory)
-from questionnaire_post_task import QuestionnaireApp
+matb_directory = os.path.join(script_dir, 'Complex_OpenMATB')
+questionnaire_directory = os.path.abspath(os.path.join(script_dir, 'Questionnaires'))
+RS_directory = os.path.abspath(os.path.join(script_dir, 'Resting_state'))
 
+
+sys.path.append(matb_directory)
+sys.path.append(questionnaire_directory)
+sys.path.append(RS_directory)
+
+from MPH_MATB import run_matb_task
+from MPH_MATB_training import run_MATB_training
+from questionnaire_post_task import QuestionnaireApp
+from questionnaire_ARSQ import ARSQ
+from RS import run_RS
 
 # URLs for questionnaires (Replace these with actual URLs)
 # Session 1 URLs
@@ -75,144 +79,252 @@ psychopy_data_dir = os.path.join(os.path.dirname(__file__), 'data')
 csv_file = os.path.join(os.path.dirname(__file__), 'Participants_expInfo.csv')
 
 
+# Path to the data folder created by PsychoPy
+psychopy_data_dir = os.path.join(script_dir, 'data')
+
+# Path to the CSV file storing participant information
+csv_file = os.path.join(script_dir, 'Participants_expInfo.csv')
+
+
 def open_url(url):
     """Opens the given URL in the default web browser."""
     webbrowser.open(url)
 
 
-# --- GUI for launching the experiment ---
-def launch_experiment_gui(participant_info):
-    """Launches the GUI for starting the experiment tasks."""
+def run_RS_task(participant_info):
+    """Runs the Resting State task if not already completed."""
+    if 'RS' in participant_info.get('completed_tasks', []):
+        print("Skipping Resting State, already completed.")
+        return
+
+    try:
+        print("Running Resting State task...")
+        run_RS(participant_info)  # Assuming run_RS is properly defined
+        participant_info['completed_tasks'].append('RS')
+        update_participant_info(csv_file, participant_info)
+    except Exception as e:
+        print(f"Error while running Resting State: {e}")
+        raise
+
+
+def run_ARSQ_task(participant_info):
+    """Runs the ARSQ questionnaire if not already completed."""
+    # Ensure 'completed_tasks' is a list
+    if isinstance(participant_info.get('completed_tasks', []), str):
+        participant_info['completed_tasks'] = participant_info['completed_tasks'].split(',')
+
+    if 'ARSQ' in participant_info['completed_tasks']:
+        print("Skipping ARSQ, already completed.")
+        return
+
+    try:
+        print("Running ARSQ questionnaire...")
+        # Launch the ARSQ questionnaire GUI
+        root = tk.Tk()
+        root.withdraw()  # Hide the root window if not needed
+        arsq_window = tk.Toplevel()
+        app = ARSQ(arsq_window, participant_info)
+        arsq_window.wait_window()
+        root.destroy()
+
+        participant_info['completed_tasks'].append('ARSQ')
+        update_participant_info(csv_file, participant_info)
+    except Exception as e:
+        print(f"Error while running ARSQ: {e}")
+        raise
+
+
+
+def run_psychopy_tasks(participant_info):
+    """Runs the PsychoPy tasks for the current session."""
+    current_session = participant_info['current_session']
+    completed_tasks = participant_info.get('completed_tasks', [])
+
+    # **Add this code to ensure 'completed_tasks' is a list**
+    if isinstance(completed_tasks, str):
+        completed_tasks = completed_tasks.split(',') if completed_tasks else []
+        participant_info['completed_tasks'] = completed_tasks
+
+    # Define tasks based on the current session
+    if current_session == '1':
+        tasks = {
+            'SimpleRTT': "Speed_SimpleRTT/simpleRTT_lastrun.py",
+            'Similarities': "Verbal_Similarities/Similarities_lastrun.py",
+            'DoubleRTT': "Speed_DoubleRTT/DoubleRTT_lastrun.py",
+            'Vocabulary': "Verbal_Vocabulary/vocabulary_lastrun.py",
+            'SimpleRTT_mouse': "Speed_SimpleRTT_mouse/simpleRTT_mouse_lastrun.py",  
+            'Knowledge': "Verbal_Knowledge/knowledge_lastrun.py"
+        }
+    elif current_session == '2':
+        tasks = {
+            'Oddball': "Perception_Oddball/Oddball_lastrun.py",
+            'Antisaccade': "Inhibition_Antisaccade/Antisaccade_lastrun.py",
+            'KeepTrack': "Upadting_KeepTrack/KeepTrack_lastrun.py",
+            'CategorySwitch': 'Switch_CategorySwitch/CategorySwitch_lastrun.py',
+            'GoNoGo': "Inhibition_GoNoGo/GoNoGo_lastrun.py",
+            'DualNback': "Updating_DualNback/DualNback_lastrun.py",
+            'ColorShape': 'Switch_ColorShape/ColorShape_lastrun.py'
+            
+        }
+    elif current_session == '3':
+        tasks = {
+            'MentalRotation': "MentalRotation_MRT/MentalRotation_lastrun.py",
+            'VAC': "Perception_visuo-auditory-conflict/VAC_lastrun.py",
+            'symbols': "Speed_Symbols/symbols_lastrun.py",
+            'TOH': "Planning_TowerOfHanoi/TowerOfHanoi_lastrun.py",
+            'coding': "Speed_Coding/coding_lastrun.py",
+            'MARS': "Reasoning_MARS-IB/MARS-IB_lastrun.py",
+        }
+    else:
+        print(f"No PsychoPy tasks defined for session {current_session}")
+        return
     
-    def start_experiment():
-        root.destroy()  # Close the Tkinter window when "Start" is clicked
-        current_session = participant_info['current_session']
-        completed_tasks = participant_info.get('completed_tasks', [])  # Load completed tasks
 
-        # Create the window for the experiment
-        win = visual.Window(size=[1920, 1080], fullscr=True, screen=0, 
-                            winType='pyglet', allowGUI=True, allowStencil=False,
-                            monitor='testMonitor', color='grey', colorSpace='rgb',
-                            blendMode='avg', useFBO=True)
+    # Create the PsychoPy window
+    win = visual.Window(
+        size=[1920, 1080],
+        fullscr=True,
+        screen=0,
+        winType='pyglet',
+        allowGUI=True,
+        allowStencil=False,
+        monitor='testMonitor',
+        color='grey',
+        colorSpace='rgb',
+        blendMode='avg',
+        useFBO=True
+    )
 
-        # Choose experiments based on the session
+    for task_name, script_path in tasks.items():
+        if task_name in completed_tasks:
+            print(f"Skipping completed task: {task_name}")
+            continue
+
+        print(f"Running task: {task_name}")
+        try:
+            thisSession = session.Session(
+                win=win,
+                root=os.path.dirname(__file__),
+                experiments={task_name: script_path}
+            )
+            thisSession.runExperiment(task_name, expInfo={
+                'participant': participant_info['participant_id'],
+                'session': participant_info['current_session'],
+                'language': participant_info['language'],
+                'date': datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            })
+            completed_tasks.append(task_name)
+            participant_info['completed_tasks'] = completed_tasks
+            update_participant_info(csv_file, participant_info)
+        except Exception as e:
+            print(f"Error while running task {task_name}: {e}")
+            win.close()
+            raise
+
+    win.close()
+    
+    
+def run_MATB_tasks(participant_info):
+    """Runs the MATB tasks with associated questionnaires."""
+    current_session = participant_info['current_session']
+    completed_tasks = participant_info.get('completed_tasks', [])
+
+    # Ensure 'completed_tasks' is a list
+    if isinstance(completed_tasks, str):
+        completed_tasks = completed_tasks.split(',') if completed_tasks else []
+        participant_info['completed_tasks'] = completed_tasks
+
+    # Define MATB scenarios
+    matb_scenarios = {
+        'MATB_easy': f"session-{current_session}_easy.txt",
+        'MATB_hard': f"session-{current_session}_hard.txt",
+        'MATB_easy_oddball': f"session-{current_session}_easy_oddball.txt",
+        'MATB_hard_oddball': f"session-{current_session}_hard_oddball.txt"
+    }
+
+    for label, scenario in matb_scenarios.items():
+        if label in completed_tasks:
+            print(f"Skipping completed MATB scenario: {label}")
+            continue
+
+        print(f"Running MATB scenario: {label}")
+        try:
+            run_matb_task(participant_info, scenario)
+            completed_tasks.append(label)
+            participant_info['completed_tasks'] = completed_tasks
+            update_participant_info(csv_file, participant_info)
+            # Launch the post-MATB questionnaire
+            root = tk.Tk()
+            app = QuestionnaireApp(root, participant_info, label)
+            root.mainloop()
+        except Exception as e:
+            print(f"Error while running MATB scenario {label}: {e}")
+            raise
+
+
+def run_session(participant_info):
+    """Runs the session tasks based on the current session number."""
+    current_session = participant_info['current_session']
+    completed_tasks = participant_info.get('completed_tasks', [])
+    if isinstance(completed_tasks, str):
+        completed_tasks = completed_tasks.split(',') if completed_tasks else []
+    participant_info['completed_tasks'] = completed_tasks
+
+    # Start LabRecorder (if needed)
+    # send_command_to_labrecorder('start\n')
+
+    try:
         if current_session == '1':
-            tasks = {
-                'SimpleRTT': "Speed_SimpleRTT/simpleRTT_lastrun.py",
-            }
+            run_EyeTracking_Calibration(participant_info)
+            run_RS_task(participant_info)
+            run_ARSQ_task(participant_info)
+            run_psychopy_tasks(participant_info)
+            run_MATB_training(participant_info)
+            run_MATB_tasks(participant_info)
+            
         elif current_session == '2':
-            tasks = {
-                'RS': "Resting_state/Resting_state_lastrun.py",
-                'Antisaccade': "Inhibition_Antisaccade/Antisaccade_lastrun.py", 
-                'KeepTrack': "Upadting_KeepTrack/KeepTrack_lastrun.py",      
-            }
+            run_EyeTracking_Calibration(participant_info)
+            run_psychopy_tasks(participant_info)
+            run_MATB_tasks(participant_info)
+            
         elif current_session == '3':
-            tasks = {
-                'RS': "Resting_state/Resting_state_lastrun.py",
-                'TOH': "Planning_TowerOfHanoi/TowerOfHanoi_lastrun.py", 
-                'RAPM': "Reasoning_RavenMatrices/RAPM_lastrun.py",      
-            }
+            run_EyeTracking_Calibration(participant_info)
+            run_RS_task(participant_info)
+            run_psychopy_tasks(participant_info)
+            run_MATB_tasks(participant_info)
+        else:
+            print(f"No tasks defined for session {current_session}")
+            return
 
-        # Run the session and skip completed tasks
-        run_session(win, participant_info, tasks, completed_tasks)
-              
-        # Once the session is completed, move data to the BIDS-compliant folder
-        root_path = get_parent_directory(os.path.dirname(__file__))  # Get the parent directory
+        # Move data to BIDS-compliant folder
+        root_path = get_parent_directory(os.path.dirname(__file__))
         bids_folder = create_bids_structure(root_path, participant_info['participant_id'], current_session)
         copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_info['participant_id'], current_session)
 
-        # Close the window and quit
-        win.close()
-        core.quit()
-
-    def launch_questionnaire(participant_info, completed_complex_task):
-        # Directly instantiate the QuestionnaireApp class and pass completed_complex_task
-        root = tk.Tk()
-        QuestionnaireApp(root, participant_info, completed_complex_task)
-        root.mainloop()
-
-    
-    def run_session(win, participant_info, tasks, completed_tasks):
-        # Ensure completed_tasks is a list before appending tasks
-        if isinstance(completed_tasks, str):
-            completed_tasks = completed_tasks.split(',') if completed_tasks else []
-    
-        # Run PsychoPy tasks
-        for task, script in tasks.items():
-            if task in completed_tasks:
-                print(f"Skipping completed task: {task}")
-                continue  # Skip completed tasks
-    
-            print(f"Running task: {task}")
-            
-            try:
-                thisSession = session.Session(
-                    win=win,
-                    root=os.path.dirname(__file__),
-                    experiments={task: script}
-                )
-                thisSession.runExperiment(task, expInfo={
-                    'participant': participant_info['participant_id'], 
-                    'session': participant_info['current_session'], 
-                    'language': participant_info['language'], 
-                    'date': datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-                })
-                
-                # Mark task as completed and update participant_info
-                completed_tasks.append(task)
-                participant_info['completed_tasks'] = ','.join(completed_tasks)  # Ensure it's saved as a string
-                update_participant_info(csv_file, participant_info)
-    
-            except Exception as e:
-                print(f"Error while running task {task}: {e}")
-                break  # Stop if there's an error, and allow resuming later
-    
-        # Close the PsychoPy window after all tasks have been run
-        win.close() 
-    
-        # Define the 4 MATB scenarios based on the current session, but use meaningful labels
-        matb_scenarios = {
-            'MATB_easy': f"session-{participant_info['current_session']}_easy.txt",
-            'MATB_hard': f"session-{participant_info['current_session']}_hard.txt",
-            'MATB_easy_oddball': f"session-{participant_info['current_session']}_easy_oddball.txt",
-            'MATB_hard_oddball': f"session-{participant_info['current_session']}_hard_oddball.txt"
-        }
-    
-        # Run MATB scenarios (track completed scenarios using meaningful labels)
-        for label, scenario in matb_scenarios.items():
-            if label in completed_tasks:
-                print(f"Skipping completed MATB scenario: {label}")
-                continue  # Skip completed MATB scenarios
-    
-            print(f"Running MATB scenario: {label}")
-            try:
-                # Run the MATB task
-                run_matb_task(participant_info, scenario)
-    
-                # Mark the MATB scenario as completed and update participant_info
-                completed_tasks.append(label)
-                participant_info['completed_tasks'] = ','.join(completed_tasks)  # Save as a comma-separated string
-                update_participant_info(csv_file, participant_info)
-                
-                # Launch the questionnaire
-                launch_questionnaire(participant_info, label)
-
-            except Exception as e:
-                print(f"Error while running MATB scenario {label}: {e}")
-                break  # Stop if there's an error, and allow resuming later
-    
-        # Update session date and session number
-        session_key = f"date_session{participant_info['current_session']}"
+        # Update session date and increment session number
+        session_key = f"date_session{current_session}"
         participant_info[session_key] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        participant_info['current_session'] = str(int(participant_info['current_session']) + 1)
-
-        # Final update of participant info
+        participant_info['current_session'] = str(int(current_session) + 1)
         update_participant_info(csv_file, participant_info)
-        
-        # Stop Lab Recorder
+
+        # Stop LabRecorder (if needed)
         send_command_to_labrecorder('stop\n')
         print("Session completed.")
+
+    except Exception as e:
+        print(f"Session interrupted due to error: {e}")
+        print("You can restart the session to resume from where you left off.")
+        # Optionally, re-raise the exception if you want to crash the program
+        # raise
         
+def launch_experiment_gui(participant_info):
+    """Launches the GUI for starting the experiment tasks."""
+
+    def start_experiment():
+        root.destroy()
+        run_session(participant_info)
+        core.quit()
+
     # Create the main Tkinter window for experiment launch
     root = tk.Tk()
     root.title("Launch Experiment")
@@ -231,6 +343,7 @@ def launch_experiment_gui(participant_info):
 
     root.mainloop()
 
+    
 
 # --- GUI for selecting questionnaires based on session ---
 def launch_questionnaire_gui(participant_info):
@@ -359,11 +472,26 @@ def launch_main_gui(participant_info):
     button_questionnaires.grid(row=0, column=0, padx=20, pady=20)
 
     # Button for Start Recording (Launch LSL Metascript)
-    button_start_recording = tk.Button(button_frame, text="Start Recording", **button_options, command=lambda: launch_lsl_metascript(participant_info))
+    def start_recording():
+        try:
+            launch_lsl_metascript(participant_info)
+            button_tasks.config(state="normal")  # Enable the tasks button after recording starts
+        except Exception as e:
+            print(f"Error starting recording: {e}")
+            tk.messagebox.showerror("Error", f"Failed to start recording: {e}")
+
+    button_start_recording = tk.Button(button_frame, text="Start Recording", **button_options, command=start_recording)
     button_start_recording.grid(row=1, column=0, padx=20, pady=20)
 
     # Button for Tasks (Initially disabled)
-    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options,  command=lambda: [root.destroy(), launch_experiment_gui(participant_info)])
+    def start_tasks():
+        minimize_all_windows()  # Minimize all open windows
+        root.iconify()  # Minimize the main Tkinter window
+        root.destroy()  # Optionally, destroy the main window if no longer needed
+        launch_experiment_gui(participant_info)  # Start tasks
+        button_finish.config(state="normal")  # Enable the finish button after tasks are completed
+
+    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options, state="disabled", command=start_tasks)
     button_tasks.grid(row=2, column=0, padx=20, pady=20)
 
     # Button for Supplementary Questionnaires
@@ -378,11 +506,14 @@ def launch_main_gui(participant_info):
     button_back = tk.Button(bottom_frame, text="Back", font=("Helvetica", 16), width=20, height=2, command=lambda: go_back_to_main_gui(root))
     button_back.grid(row=0, column=0, padx=10)
 
-    # 'Finish Session' button to close the Tkinter window
-    button_finish = tk.Button(bottom_frame, text="Finish Session", font=("Helvetica", 16), width=20, height=2, command=root.destroy)
+    # 'Finish Session' button (Initially disabled) to stop recording and close the Tkinter window
+    button_finish = tk.Button(bottom_frame, text="Finish Session", font=("Helvetica", 16), width=20, height=2, 
+                              state="disabled", command=lambda: [send_command_to_labrecorder('stop\n'), root.destroy()])
     button_finish.grid(row=0, column=1, padx=10)
 
     root.mainloop()
+
+
 
 
 def go_back_to_main_gui(root):

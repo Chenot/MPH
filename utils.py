@@ -7,15 +7,18 @@ import re
 import socket
 import sys
 import subprocess
+import pygetwindow as gw
 
 # Adjust the path to import LSL_metascript.py
 current_directory = os.path.dirname(os.path.abspath(__file__))
 lsl_metascript_directory = os.path.abspath(os.path.join(current_directory, '..', 'utils'))
+gazepoint_calibration_directory = os.path.abspath(os.path.join(current_directory, '..', 'utils','LabStreamingLayer','EyeTracking'))
 sys.path.append(lsl_metascript_directory)
+sys.path.append(gazepoint_calibration_directory)
 
 # Import start_recording function from LSL_metascript
 from LSL_metascript import start_recording
-
+from gazepoint_calibration import run_ET_calibration
 
 def get_parent_directory(path):
     """Returns the parent directory of the given path."""
@@ -56,7 +59,7 @@ def extract_task_and_timestamp(file_name):
         return task_name, timestamp
     return None, None
 
-def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, session_number):
+def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, session_number): 
     """
     Copies all relevant data files from the PsychoPy data folder to the BIDS-compliant folder.
 
@@ -65,34 +68,28 @@ def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, s
     participant_id: The participant's ID (to filter relevant files).
     session_number: The session number (to include in the BIDS-compliant filenames).
     """
-    # Check if the data directory exists - DEBUG
-    #if not os.path.exists(psychopy_data_dir):
-    #    print(f"No data found in {psychopy_data_dir}")
-    #    return
+    # Check if the data directory exists
+    if not os.path.exists(psychopy_data_dir):
+        print(f"No data found in {psychopy_data_dir}")
+        return
 
     # Search for PsychoPy-generated subdirectories
     subdirs = [d for d in os.listdir(psychopy_data_dir) if os.path.isdir(os.path.join(psychopy_data_dir, d))]
     
-    #if not subdirs: # DEBUG
-    #    print(f"No subdirectories found in {psychopy_data_dir}")
-    #    return
-    #
-    # print(f"Found subdirectories: {subdirs}")
-
-    # Iterate over all subdirectories to find matching files
     for subdir in subdirs:
         subdir_path = os.path.join(psychopy_data_dir, subdir, 'data')
 
-        # Check if the data folder exists in the subdirectory # DEBUG
-        #if not os.path.exists(subdir_path):
-        #    print(f"No data found in {subdir_path}")
-        #    continue
-        #print(f"Looking for files in {subdir_path}")
+        # Check if the 'data' folder exists in the subdirectory
+        if not os.path.exists(subdir_path):
+            print(f"No data found in {subdir_path}")
+            continue
+        else:
+            print(f"Looking for files in {subdir_path}")
 
         # Process all files that match the participant ID and are either .csv or .psydat
         for file_name in os.listdir(subdir_path):
             if file_name.startswith(participant_id) and (file_name.endswith('.csv') or file_name.endswith('.psydat')):
-                #print(f"Processing file: {file_name}")
+                print(f"Processing file: {file_name}")
                 
                 # Construct BIDS-compliant filename
                 task_name, timestamp = extract_task_and_timestamp(file_name)
@@ -109,7 +106,6 @@ def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, s
                         print(f"Error copying file: {e}")
                 else:
                     print(f"Could not extract task and timestamp from file: {file_name}")
-
 
 def generate_next_id(csv_file):
     """Generates the next participant ID based on existing CSV data."""
@@ -178,6 +174,23 @@ def load_participant_info(csv_file, participant_id):
                 return row
     return None
 
+def get_participant_info(csv_file, participant_id):
+    """Retrieves participant information from the CSV file."""
+    if not os.path.exists(csv_file):
+        return None
+    with open(csv_file, mode='r', newline='', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row['participant_id'] == participant_id:
+                participant_info = dict(row)
+                # Convert 'completed_tasks' from a comma-separated string to a list
+                completed_tasks = participant_info.get('completed_tasks', '')
+                if isinstance(completed_tasks, str):
+                    participant_info['completed_tasks'] = completed_tasks.split(',') if completed_tasks else []
+                else:
+                    participant_info['completed_tasks'] = []
+                return participant_info
+    return None
 
 def update_participant_info(csv_file, info):
     """Updates participant information in the CSV file, only modifying the participant's line."""
@@ -187,8 +200,16 @@ def update_participant_info(csv_file, info):
         'current_session', 'completed_tasks'
     ]
 
-    if 'completed_tasks' in info and isinstance(info['completed_tasks'], list):
-        info['completed_tasks'] = ','.join(info['completed_tasks'])
+    # Ensure 'completed_tasks' is a string before writing
+    if 'completed_tasks' in info:
+        if isinstance(info['completed_tasks'], list):
+            info['completed_tasks'] = ','.join(info['completed_tasks'])
+        elif not isinstance(info['completed_tasks'], str):
+            # If it's neither a list nor a string, set it to an empty string
+            info['completed_tasks'] = ''
+    else:
+        # If 'completed_tasks' is missing, add it as an empty string
+        info['completed_tasks'] = ''
 
     # Read all rows, update only the participant's line
     updated = False
@@ -196,7 +217,7 @@ def update_participant_info(csv_file, info):
 
     # Read the current file and update the relevant row
     if os.path.exists(csv_file):
-        with open(csv_file, mode='r', newline='') as file:
+        with open(csv_file, mode='r', newline='', encoding='utf-8') as file:
             reader = csv.DictReader(file)
             for row in reader:
                 if row['participant_id'] == info['participant_id']:
@@ -204,16 +225,24 @@ def update_participant_info(csv_file, info):
                     updated = True
                 else:
                     rows.append(row)
+    else:
+        # If the file doesn't exist, we'll create a new one
+        rows.append(info)
+        updated = True
 
     # If no update was made (participant was not found), append new info
     if not updated:
         rows.append(info)
 
     # Write everything back
-    with open(csv_file, mode='w', newline='') as file:
+    with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
+
+def run_EyeTracking_Calibration(participant_info):
+    run_ET_calibration(participant_info)
+
 
 def launch_lsl_metascript(participant_info):
     """Launch the LSL metascript by calling the recording function directly."""
@@ -223,9 +252,17 @@ def launch_lsl_metascript(participant_info):
     except Exception as e:
         print(f"Error starting LSL_metascript recording: {e}")
 
+def minimize_all_windows():
+    """Minimizes all application windows."""
+    for window in gw.getAllWindows():
+        try:
+            window.minimize()
+        except Exception as e:
+            print(f"Could not minimize window {window.title}: {e}")
+            
 # Function to send a command to LabRecorder and get the response
 def send_command_to_labrecorder(command):
-    s = socket.create_connection(("localhost", 22346))
+    s = socket.create_connection(("localhost", 22345))
     s.settimeout(1)  # Set a timeout to prevent blocking
     s.sendall(command.encode('utf-8'))
     response = ''
