@@ -366,8 +366,8 @@ def run_session(participant_info):
             run_MATB_tasks(participant_info)
             
         elif current_session == '2':
-            #run_EyeTracking_Calibration(participant_info)
-            #run_psychopy_tasks(participant_info)
+            run_EyeTracking_Calibration(participant_info)
+            run_psychopy_tasks(participant_info)
             run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
             
@@ -580,7 +580,7 @@ def launch_main_gui(participant_info):
         launch_experiment_gui(participant_info)  # Start tasks
         button_finish.config(state="normal")  # Enable the finish button after tasks are completed
 
-    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options, state="normal", command=start_tasks)
+    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options, state="disabled", command=start_tasks)
     button_tasks.grid(row=2, column=0, padx=20, pady=20)
 
     # Button for Supplementary Questionnaires

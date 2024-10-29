@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 import csv
 import random
 import string
@@ -59,15 +60,23 @@ def extract_task_and_timestamp(file_name):
         return task_name, timestamp
     return None, None
 
+def extract_date_from_filename(file_name):
+    """Extracts the date from the file name in 'YYYY-MM-DD' format."""
+    date_str = file_name.split('_')[2]
+    return datetime.strptime(date_str, '%Y-%m-%d').date()
+
 def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, session_number): 
     """
     Copies all relevant data files from the PsychoPy data folder to the BIDS-compliant folder.
-
+    
     psychopy_data_dir: The directory where PsychoPy stores the data.
     bids_folder: The BIDS-compliant folder where files should be copied.
     participant_id: The participant's ID (to filter relevant files).
     session_number: The session number (to include in the BIDS-compliant filenames).
     """
+    # Get today's date in 'YYYY-MM-DD' format
+    today_date = datetime.now().date()
+
     # Check if the data directory exists
     if not os.path.exists(psychopy_data_dir):
         print(f"No data found in {psychopy_data_dir}")
@@ -75,7 +84,7 @@ def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, s
 
     # Search for PsychoPy-generated subdirectories
     subdirs = [d for d in os.listdir(psychopy_data_dir) if os.path.isdir(os.path.join(psychopy_data_dir, d))]
-    
+
     for subdir in subdirs:
         subdir_path = os.path.join(psychopy_data_dir, subdir, 'data')
 
@@ -90,10 +99,14 @@ def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, s
         for file_name in os.listdir(subdir_path):
             if file_name.startswith(participant_id) and (file_name.endswith('.csv') or file_name.endswith('.psydat')):
                 print(f"Processing file: {file_name}")
+
+                # Extract the date from the filename to match with today's date
+                file_date = extract_date_from_filename(file_name)
                 
-                # Construct BIDS-compliant filename
-                task_name, timestamp = extract_task_and_timestamp(file_name)
-                if task_name and timestamp:
+                # Check if file date matches today's date
+                if file_date == today_date:
+                    # Construct BIDS-compliant filename
+                    task_name, timestamp = extract_task_and_timestamp(file_name)
                     new_file_name = f"sub-{participant_id}_ses-{session_number}_task-{task_name}_{timestamp}{os.path.splitext(file_name)[1]}"
                     source_path = os.path.join(subdir_path, file_name)
                     target_path = os.path.join(bids_folder, new_file_name)
@@ -105,7 +118,7 @@ def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, s
                     except FileNotFoundError as e:
                         print(f"Error copying file: {e}")
                 else:
-                    print(f"Could not extract task and timestamp from file: {file_name}")
+                    print(f"Skipping file {file_name} as it does not match today's date {today_date}")
 
 def generate_next_id(csv_file):
     """Generates the next participant ID based on existing CSV data."""
