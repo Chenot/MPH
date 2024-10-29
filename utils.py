@@ -211,6 +211,9 @@ def update_participant_info(csv_file, info):
         # If 'completed_tasks' is missing, add it as an empty string
         info['completed_tasks'] = ''
 
+    # Filter the `info` dictionary to only include keys in `fieldnames`
+    filtered_info = {key: info[key] for key in fieldnames if key in info}
+
     # Read all rows, update only the participant's line
     updated = False
     rows = []
@@ -220,19 +223,19 @@ def update_participant_info(csv_file, info):
         with open(csv_file, mode='r', newline='', encoding='utf-8') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                if row['participant_id'] == info['participant_id']:
-                    rows.append(info)  # Update this participant's info
+                if row['participant_id'] == filtered_info['participant_id']:
+                    rows.append(filtered_info)  # Update this participant's info
                     updated = True
                 else:
                     rows.append(row)
     else:
         # If the file doesn't exist, we'll create a new one
-        rows.append(info)
+        rows.append(filtered_info)
         updated = True
 
     # If no update was made (participant was not found), append new info
     if not updated:
-        rows.append(info)
+        rows.append(filtered_info)
 
     # Write everything back
     with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
@@ -240,17 +243,17 @@ def update_participant_info(csv_file, info):
         writer.writeheader()
         writer.writerows(rows)
 
+
 def run_EyeTracking_Calibration(participant_info):
     run_ET_calibration(participant_info)
 
-
 def launch_lsl_metascript(participant_info):
     """Launch the LSL metascript by calling the recording function directly."""
-    try:
-        start_recording(participant_info)
+    recording_started = start_recording(participant_info)
+    if recording_started:
         print("LSL_metascript recording started successfully.")
-    except Exception as e:
-        print(f"Error starting LSL_metascript recording: {e}")
+    else:
+        raise Exception("Recording did not start due to missing streams.")
 
 def minimize_all_windows():
     """Minimizes all application windows."""
@@ -278,3 +281,29 @@ def send_command_to_labrecorder(command):
         pass  # Ignore timeout errors
     s.close()
     return response
+
+def close_applications():
+    # List of target process names to close
+    target_process_names = ['LabRecorder.exe', 'Keyboard.exe', 'Gazepoint Control x64', 'Biosemi.exe']
+    
+    # Terminate target processes by name using taskkill
+    for process_name in target_process_names:
+        try:
+            subprocess.run(['taskkill', '/f', '/im', process_name], check=True)
+            print(f"Terminated process: {process_name}")
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to terminate process {process_name}: {e}")
+    
+    # Close application windows by title
+    windows_to_close = ['LabRecorder', 'BioSemi', 'Keyboard', 'Gazepoint Control']
+    windows = gw.getAllWindows()
+    for window in windows:
+        if any(title in window.title for title in windows_to_close):
+            try:
+                window.close()
+                print(f"Closed window: {window.title}")
+            except Exception as e:
+                print(f"Failed to close window {window.title}: {e}")
+
+    print("Closed specified applications and windows.")
+    

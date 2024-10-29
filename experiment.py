@@ -3,7 +3,7 @@ import sys
 import tkinter as tk
 from psychopy import visual, core, session
 from datetime import datetime
-from utils import update_participant_info, create_bids_structure, copy_psychopy_data_to_bids, get_parent_directory, get_participant_info, minimize_all_windows, send_command_to_labrecorder, launch_lsl_metascript, run_EyeTracking_Calibration
+from utils import update_participant_info, create_bids_structure, copy_psychopy_data_to_bids, get_parent_directory, minimize_all_windows, send_command_to_labrecorder, launch_lsl_metascript, run_EyeTracking_Calibration, close_applications
 import webbrowser
 
 # Adjust the path to import MATB, questionnaires, resting-state
@@ -12,13 +12,13 @@ matb_directory = os.path.join(script_dir, 'Complex_OpenMATB')
 questionnaire_directory = os.path.abspath(os.path.join(script_dir, 'Questionnaires'))
 RS_directory = os.path.abspath(os.path.join(script_dir, 'Resting_state'))
 
-
 sys.path.append(matb_directory)
 sys.path.append(questionnaire_directory)
 sys.path.append(RS_directory)
 
 from MPH_MATB import run_matb_task
-from MPH_MATB_training import run_MATB_training
+from MPH_MATB_training import MATB_training
+from MPH_MATB_instructions import MATB_instructions
 from questionnaire_post_task import QuestionnaireApp
 from questionnaire_ARSQ import ARSQ
 from RS import run_RS
@@ -93,6 +93,14 @@ def open_url(url):
 
 def run_RS_task(participant_info):
     """Runs the Resting State task if not already completed."""
+    current_session = participant_info['current_session']
+    completed_tasks = participant_info.get('completed_tasks', [])
+
+    # **Add this code to ensure 'completed_tasks' is a list**
+    if isinstance(completed_tasks, str):
+        completed_tasks = completed_tasks.split(',') if completed_tasks else []
+        participant_info['completed_tasks'] = completed_tasks
+        
     if 'RS' in participant_info.get('completed_tasks', []):
         print("Skipping Resting State, already completed.")
         return
@@ -110,8 +118,13 @@ def run_RS_task(participant_info):
 def run_ARSQ_task(participant_info):
     """Runs the ARSQ questionnaire if not already completed."""
     # Ensure 'completed_tasks' is a list
-    if isinstance(participant_info.get('completed_tasks', []), str):
-        participant_info['completed_tasks'] = participant_info['completed_tasks'].split(',')
+    current_session = participant_info['current_session']
+    completed_tasks = participant_info.get('completed_tasks', [])
+
+    # **Add this code to ensure 'completed_tasks' is a list**
+    if isinstance(completed_tasks, str):
+        completed_tasks = completed_tasks.split(',') if completed_tasks else []
+        participant_info['completed_tasks'] = completed_tasks
 
     if 'ARSQ' in participant_info['completed_tasks']:
         print("Skipping ARSQ, already completed.")
@@ -132,8 +145,6 @@ def run_ARSQ_task(participant_info):
     except Exception as e:
         print(f"Error while running ARSQ: {e}")
         raise
-
-
 
 def run_psychopy_tasks(participant_info):
     """Runs the PsychoPy tasks for the current session."""
@@ -157,13 +168,13 @@ def run_psychopy_tasks(participant_info):
         }
     elif current_session == '2':
         tasks = {
-            'Oddball': "Perception_Oddball/Oddball_lastrun.py",
             'Antisaccade': "Inhibition_Antisaccade/Antisaccade_lastrun.py",
-            'KeepTrack': "Upadting_KeepTrack/KeepTrack_lastrun.py",
+            'KeepTrack': "Updating_KeepTrack/KeepTrack_lastrun.py",
             'CategorySwitch': 'Switch_CategorySwitch/CategorySwitch_lastrun.py',
             'GoNoGo': "Inhibition_GoNoGo/GoNoGo_lastrun.py",
             'DualNback': "Updating_DualNback/DualNback_lastrun.py",
-            'ColorShape': 'Switch_ColorShape/ColorShape_lastrun.py'
+            'ColorShape': 'Switch_ColorShape/ColorShape_lastrun.py',
+            'Oddball': "Perception_Oddball/Oddball_lastrun.py"
             
         }
     elif current_session == '3':
@@ -173,7 +184,7 @@ def run_psychopy_tasks(participant_info):
             'symbols': "Speed_Symbols/symbols_lastrun.py",
             'TOH': "Planning_TowerOfHanoi/TowerOfHanoi_lastrun.py",
             'coding': "Speed_Coding/coding_lastrun.py",
-            'MARS': "Reasoning_MARS-IB/MARS-IB_lastrun.py",
+            'MARS': "Reasoning_MARS-IB/MARS-IB_lastrun.py"
         }
     else:
         print(f"No PsychoPy tasks defined for session {current_session}")
@@ -223,7 +234,37 @@ def run_psychopy_tasks(participant_info):
 
     win.close()
     
-    
+def run_MATB_training(participant_info):
+    """Runs the MATB training."""
+    current_session = participant_info['current_session']
+    completed_tasks = participant_info.get('completed_tasks', [])
+
+    # Ensure 'completed_tasks' is a list
+    if isinstance(completed_tasks, str):
+        completed_tasks = completed_tasks.split(',') if completed_tasks else []
+        participant_info['completed_tasks'] = completed_tasks
+
+    # Define a label for the training task
+    training_label = f"MATB_training_session-{current_session}"
+
+    if training_label in completed_tasks:
+        print(f"Skipping completed MATB training: {training_label}")
+        return  # If the training task is already completed, skip it
+
+    print(f"Running MATB training for session {current_session}")
+    try:
+        MATB_training(participant_info)  # Runs the actual training
+
+        # Append the training label to completed tasks and update participant info
+        completed_tasks.append(training_label)
+        participant_info['completed_tasks'] = completed_tasks
+        update_participant_info(csv_file, participant_info)
+
+        print(f"MATB training for session {current_session} completed successfully.")
+    except Exception as e:
+        print(f"Error while running MATB training {training_label}: {e}")
+        raise
+            
 def run_MATB_tasks(participant_info):
     """Runs the MATB tasks with associated questionnaires."""
     current_session = participant_info['current_session']
@@ -234,33 +275,78 @@ def run_MATB_tasks(participant_info):
         completed_tasks = completed_tasks.split(',') if completed_tasks else []
         participant_info['completed_tasks'] = completed_tasks
 
-    # Define MATB scenarios
-    matb_scenarios = {
-        'MATB_easy': f"session-{current_session}_easy.txt",
-        'MATB_hard': f"session-{current_session}_hard.txt",
-        'MATB_easy_oddball': f"session-{current_session}_easy_oddball.txt",
-        'MATB_hard_oddball': f"session-{current_session}_hard_oddball.txt"
-    }
+    # Define MATB scenarios with session-specific filenames
+    if current_session == '1':
+        matb_scenarios = {
+            'MATB_easy': f"session-{current_session}_easy.txt",
+            'MATB_hard': f"session-{current_session}_hard.txt"
+        }
+    elif current_session in ['2', '3']:
+        matb_scenarios = {
+            'MATB_easy': f"session-{current_session}_easy.txt",
+            'MATB_hard': f"session-{current_session}_hard.txt",
+            'MATB_easy_oddball': f"session-{current_session}_easy_oddball.txt",
+            'MATB_hard_oddball': f"session-{current_session}_hard_oddball.txt"
+        }
 
-    for label, scenario in matb_scenarios.items():
-        if label in completed_tasks:
-            print(f"Skipping completed MATB scenario: {label}")
+    for scenario_label, scenario_file in matb_scenarios.items():
+        completed_label = f"{scenario_label}_session-{current_session}"  # Session-specific label for tracking
+
+        if completed_label in completed_tasks:
+            print(f"Skipping completed MATB scenario: {scenario_label} for session {current_session}")
             continue
 
-        print(f"Running MATB scenario: {label}")
+        print(f"Running MATB scenario: {scenario_label} for session {current_session}")
         try:
-            run_matb_task(participant_info, scenario)
-            completed_tasks.append(label)
+            # Run the task with the correct scenario filename
+            run_matb_task(participant_info, scenario_file)
+            
+            # Append the session-specific label to completed tasks
+            completed_tasks.append(completed_label)
             participant_info['completed_tasks'] = completed_tasks
             update_participant_info(csv_file, participant_info)
+
             # Launch the post-MATB questionnaire
             root = tk.Tk()
-            app = QuestionnaireApp(root, participant_info, label)
+            app = QuestionnaireApp(root, participant_info, scenario_label)
             root.mainloop()
         except Exception as e:
-            print(f"Error while running MATB scenario {label}: {e}")
+            print(f"Error while running MATB scenario {scenario_label} for session {current_session}: {e}")
             raise
 
+def run_MATB_instructions(participant_info):
+    """Runs the MATB instructions if required."""
+    current_session = participant_info['current_session']
+    completed_tasks = participant_info.get('completed_tasks', [])
+
+    # Ensure 'completed_tasks' is a list
+    if isinstance(completed_tasks, str):
+        completed_tasks = completed_tasks.split(',') if completed_tasks else []
+        participant_info['completed_tasks'] = completed_tasks
+
+    # The instructions are only used in sessions 2 and 3
+    if current_session in ['2', '3']:
+        instruction_label = f"MATB_instructions_session-{current_session}"
+        
+        if instruction_label in completed_tasks:
+            print(f"Skipping completed MATB instructions: {instruction_label}")
+            return  # If the instructions are already completed, skip it
+
+        print(f"Running MATB instructions for session {current_session}")
+        try:
+            MATB_instructions(participant_info)  # Runs the instructions script
+
+            # Append the instruction label to completed tasks and update participant info
+            completed_tasks.append(instruction_label)
+            participant_info['completed_tasks'] = ','.join(completed_tasks)
+            update_participant_info(csv_file, participant_info)
+
+            print(f"MATB instructions for session {current_session} completed successfully.")
+        except Exception as e:
+            print(f"Error while running MATB instructions {instruction_label}: {e}")
+            raise
+    else:
+        print(f"MATB instructions are not required for session {current_session}")
 
 def run_session(participant_info):
     """Runs the session tasks based on the current session number."""
@@ -269,9 +355,6 @@ def run_session(participant_info):
     if isinstance(completed_tasks, str):
         completed_tasks = completed_tasks.split(',') if completed_tasks else []
     participant_info['completed_tasks'] = completed_tasks
-
-    # Start LabRecorder (if needed)
-    # send_command_to_labrecorder('start\n')
 
     try:
         if current_session == '1':
@@ -283,14 +366,16 @@ def run_session(participant_info):
             run_MATB_tasks(participant_info)
             
         elif current_session == '2':
-            run_EyeTracking_Calibration(participant_info)
-            run_psychopy_tasks(participant_info)
+            #run_EyeTracking_Calibration(participant_info)
+            #run_psychopy_tasks(participant_info)
+            run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
             
         elif current_session == '3':
             run_EyeTracking_Calibration(participant_info)
             run_RS_task(participant_info)
             run_psychopy_tasks(participant_info)
+            run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
         else:
             print(f"No tasks defined for session {current_session}")
@@ -316,6 +401,10 @@ def run_session(participant_info):
         print("You can restart the session to resume from where you left off.")
         # Optionally, re-raise the exception if you want to crash the program
         # raise
+        
+    finally:
+        close_applications()
+        
         
 def launch_experiment_gui(participant_info):
     """Launches the GUI for starting the experiment tasks."""
@@ -491,7 +580,7 @@ def launch_main_gui(participant_info):
         launch_experiment_gui(participant_info)  # Start tasks
         button_finish.config(state="normal")  # Enable the finish button after tasks are completed
 
-    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options, state="disabled", command=start_tasks)
+    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options, state="normal", command=start_tasks)
     button_tasks.grid(row=2, column=0, padx=20, pady=20)
 
     # Button for Supplementary Questionnaires
@@ -512,9 +601,6 @@ def launch_main_gui(participant_info):
     button_finish.grid(row=0, column=1, padx=10)
 
     root.mainloop()
-
-
-
 
 def go_back_to_main_gui(root):
     """Handles the back button to return to the main GUI in main.py."""

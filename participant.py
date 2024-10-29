@@ -94,7 +94,7 @@ def select_participant_gui():
             reader = csv.DictReader(file)
             for row in reader:
                 participant_ids.append(row['participant_id'])
-                participant_listbox.insert(tk.END, f"ID: {row['participant_id']}, Initials: {row['participant_initials']}, Language: {row['language']}")
+                participant_listbox.insert(tk.END, f"ID: {row['participant_id']}, Initials: {row['participant_initials']}, session: {row['current_session']}, Language: {row['language']}")
 
     tk.Button(main_frame, text="Load", command=load_selected_participant, font=("Helvetica", 16)).pack(pady=10)
 
