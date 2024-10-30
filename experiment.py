@@ -23,7 +23,7 @@ from questionnaire_post_task import QuestionnaireApp
 from questionnaire_ARSQ import ARSQ
 from RS import run_RS
 
-# URLs for questionnaires (Replace these with actual URLs)
+# URLs for questionnaires
 # Session 1 URLs
 url_demographics_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=CrPRB"
 url_demographics_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=u44hj"
@@ -364,19 +364,23 @@ def run_session(participant_info):
             run_psychopy_tasks(participant_info)
             run_MATB_training(participant_info)
             run_MATB_tasks(participant_info)
-            
+            #run_SF_training(participant_info)
+            #run_SF_tasks(participant_info)            
         elif current_session == '2':
             run_EyeTracking_Calibration(participant_info)
             run_psychopy_tasks(participant_info)
             run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
-            
+            #run_SF_instructions(participant_info)
+            #run_SF_tasks(participant_info)          
         elif current_session == '3':
             run_EyeTracking_Calibration(participant_info)
             run_RS_task(participant_info)
             run_psychopy_tasks(participant_info)
             run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
+            #run_SF_instructions(participant_info)
+            #run_SF_tasks(participant_info)    
         else:
             print(f"No tasks defined for session {current_session}")
             return
