@@ -10,108 +10,99 @@ import sys
 import subprocess
 import pygetwindow as gw
 
-# Adjust the path to import LSL_metascript.py
+# Adjust paths to import LSL_metascript/gazepoint_calibration
 current_directory = os.path.dirname(os.path.abspath(__file__))
 lsl_metascript_directory = os.path.abspath(os.path.join(current_directory, '..', 'utils'))
-gazepoint_calibration_directory = os.path.abspath(os.path.join(current_directory, '..', 'utils','LabStreamingLayer','EyeTracking'))
+gazepoint_calibration_directory = os.path.abspath(
+    os.path.join(current_directory, '..', 'utils', 'LabStreamingLayer', 'EyeTracking')
+)
 sys.path.append(lsl_metascript_directory)
 sys.path.append(gazepoint_calibration_directory)
 
-# Import start_recording function from LSL_metascript
+# ----------------------------------------------------------------
+# Import from LSL/gazepoint scripts
+# ----------------------------------------------------------------
 from LSL_metascript import start_recording
 from gazepoint_calibration import run_ET_calibration
 
+
+# ----------------------------------------------------------------
+# Utility Functions
+# ----------------------------------------------------------------
 def get_parent_directory(path):
     """Returns the parent directory of the given path."""
     return os.path.dirname(path)
 
+
 def create_bids_structure(root_path, participant_id, session_number):
     """
     Creates the BIDS-compliant directory structure for a given participant and session.
-    
-    root_path: The root directory where the BIDS folder will be created.
-    participant_id: The participant's ID.
-    session_number: The current session number.
+    Returns the path to the session folder.
     """
-    # Define BIDS folder path
     bids_data_dir = os.path.join(root_path, 'BIDS_data')
-
-    # Create participant and session folder in BIDS structure
     participant_folder = f"sub-{participant_id}"
     session_folder = f"ses-{session_number}"
-    
+
     session_path = os.path.join(bids_data_dir, participant_folder, session_folder)
     os.makedirs(session_path, exist_ok=True)
-    
-    return session_path  # Return the session path to store task files directly
+    return session_path
+
 
 def extract_task_and_timestamp(file_name):
     """
     Extracts the task name and timestamp from the file name.
-    Assumes filenames are formatted like: '001_taskName_YYYY-MM-DD_HH-MM-SS.csv'
+    Assumes filenames are like '001_taskName_YYYY-MM-DD_HH-MM-SS.csv'.
     """
     pattern = r'(\d+)_(\w+)_([\d-]+_[\d-]+)'
     match = re.match(pattern, file_name)
-    
     if match:
-        participant_id = match.group(1)
         task_name = match.group(2)
         timestamp = match.group(3)
         return task_name, timestamp
     return None, None
 
+
 def extract_date_from_filename(file_name):
-    """Extracts the date from the file name in 'YYYY-MM-DD' format."""
-    date_str = file_name.split('_')[2]
-    return datetime.strptime(date_str, '%Y-%m-%d').date()
+    """Extracts the date 'YYYY-MM-DD' from a filename like '001_task_YYYY-MM-DD_HH-MM-SS.csv'."""
+    parts = file_name.split('_')
+    # Typically, parts[2] is 'YYYY-MM-DD'
+    return datetime.strptime(parts[2], '%Y-%m-%d').date()
 
-def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, session_number): 
+
+def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, session_number):
     """
-    Copies all relevant data files from the PsychoPy data folder to the BIDS-compliant folder.
-    
-    psychopy_data_dir: The directory where PsychoPy stores the data.
-    bids_folder: The BIDS-compliant folder where files should be copied.
-    participant_id: The participant's ID (to filter relevant files).
-    session_number: The session number (to include in the BIDS-compliant filenames).
+    Copies relevant data files from PsychoPy data folder to BIDS folder, 
+    only if they match today's date.
     """
-    # Get today's date in 'YYYY-MM-DD' format
     today_date = datetime.now().date()
-
-    # Check if the data directory exists
     if not os.path.exists(psychopy_data_dir):
         print(f"No data found in {psychopy_data_dir}")
         return
 
-    # Search for PsychoPy-generated subdirectories
-    subdirs = [d for d in os.listdir(psychopy_data_dir) if os.path.isdir(os.path.join(psychopy_data_dir, d))]
+    subdirs = [d for d in os.listdir(psychopy_data_dir)
+               if os.path.isdir(os.path.join(psychopy_data_dir, d))]
 
     for subdir in subdirs:
         subdir_path = os.path.join(psychopy_data_dir, subdir, 'data')
-
-        # Check if the 'data' folder exists in the subdirectory
         if not os.path.exists(subdir_path):
             print(f"No data found in {subdir_path}")
             continue
         else:
             print(f"Looking for files in {subdir_path}")
 
-        # Process all files that match the participant ID and are either .csv or .psydat
         for file_name in os.listdir(subdir_path):
-            if file_name.startswith(participant_id) and (file_name.endswith('.csv') or file_name.endswith('.psydat')):
+            if file_name.startswith(participant_id) and (
+                file_name.endswith('.csv') or file_name.endswith('.psydat')
+            ):
                 print(f"Processing file: {file_name}")
-
-                # Extract the date from the filename to match with today's date
                 file_date = extract_date_from_filename(file_name)
-                
-                # Check if file date matches today's date
                 if file_date == today_date:
-                    # Construct BIDS-compliant filename
                     task_name, timestamp = extract_task_and_timestamp(file_name)
-                    new_file_name = f"sub-{participant_id}_ses-{session_number}_task-{task_name}_{timestamp}{os.path.splitext(file_name)[1]}"
+                    ext = os.path.splitext(file_name)[1]
+                    new_file_name = (f"sub-{participant_id}_ses-{session_number}_"
+                                     f"task-{task_name}_{timestamp}{ext}")
                     source_path = os.path.join(subdir_path, file_name)
                     target_path = os.path.join(bids_folder, new_file_name)
-
-                    # Copy the file to the BIDS-compliant folder
                     try:
                         shutil.copy2(source_path, target_path)
                         print(f"Copied {source_path} to {target_path}")
@@ -120,23 +111,18 @@ def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, s
                 else:
                     print(f"Skipping file {file_name} as it does not match today's date {today_date}")
 
+
 def generate_next_id(csv_file):
-    """Generates the next participant ID based on existing CSV data."""
+    """Generates the next participant ID based on existing CSV data (e.g., '001','002', etc.)."""
     if not os.path.exists(csv_file) or os.path.getsize(csv_file) == 0:
-        # If the CSV doesn't exist or is empty, return the first ID '001'
         return '001'
-    
-    with open(csv_file, mode='r') as file:
+    with open(csv_file, 'r') as file:
         reader = csv.DictReader(file)
         participant_ids = [int(row['participant_id']) for row in reader if row['participant_id']]
-
-    # If no participant IDs are found, start from '001'
     if not participant_ids:
         return '001'
-
-    # Return the next participant ID by incrementing the last ID
     next_id = max(participant_ids) + 1
-    return str(next_id).zfill(3)  # Pad with zeros (e.g., '001', '002')
+    return str(next_id).zfill(3)
 
 
 def generate_random_id(length=6):
@@ -145,141 +131,140 @@ def generate_random_id(length=6):
 
 
 def save_participant_info(csv_file, info):
-    """Saves participant information into the CSV file, appending if necessary."""
+    """Saves new participant info (a new row) into CSV, or appends if it doesn't exist."""
     file_exists = os.path.isfile(csv_file)
-    
     fieldnames = [
-        'participant_id', 'participant_initials', 'participant_anonymized_id', 
-        'date_session1', 'date_session2', 'date_session3', 'language', 
+        'participant_id', 'participant_initials', 'participant_anonymized_id',
+        'date_session1', 'date_session2', 'date_session3', 'language',
         'current_session', 'completed_tasks'
     ]
 
     if 'completed_tasks' in info and isinstance(info['completed_tasks'], list):
         info['completed_tasks'] = ','.join(info['completed_tasks'])
 
-    # Append participant info (new row) if it doesn't exist
     if not file_exists or not participant_exists(csv_file, info['participant_id']):
-        with open(csv_file, mode='a', newline='') as file:
+        with open(csv_file, 'a', newline='') as file:
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             if not file_exists:
                 writer.writeheader()
             writer.writerow(info)
 
+
 def participant_exists(csv_file, participant_id):
-    """Checks if a participant already exists in the CSV."""
+    """Check if a participant_id row exists in the CSV."""
     if os.path.exists(csv_file):
-        with open(csv_file, mode='r', newline='') as file:
+        with open(csv_file, 'r', newline='') as file:
             reader = csv.DictReader(file)
             for row in reader:
                 if row['participant_id'] == participant_id:
                     return True
     return False
 
+
 def load_participant_info(csv_file, participant_id):
-    """Loads participant information by ID from a CSV file."""
+    """Loads participant info by ID from the CSV, or returns None if not found."""
     if not os.path.exists(csv_file):
         return None
-    
-    with open(csv_file, mode='r') as file:
+    with open(csv_file, 'r') as file:
         reader = csv.DictReader(file)
         for row in reader:
             if row['participant_id'] == participant_id:
                 return row
     return None
 
+
 def get_participant_info(csv_file, participant_id):
-    """Retrieves participant information from the CSV file."""
+    """Retrieve participant info from CSV, converting completed_tasks to a list."""
     if not os.path.exists(csv_file):
         return None
-    with open(csv_file, mode='r', newline='', encoding='utf-8') as file:
+    with open(csv_file, 'r', newline='', encoding='utf-8') as file:
         reader = csv.DictReader(file)
         for row in reader:
             if row['participant_id'] == participant_id:
                 participant_info = dict(row)
-                # Convert 'completed_tasks' from a comma-separated string to a list
-                completed_tasks = participant_info.get('completed_tasks', '')
-                if isinstance(completed_tasks, str):
-                    participant_info['completed_tasks'] = completed_tasks.split(',') if completed_tasks else []
+                tasks_str = participant_info.get('completed_tasks', '')
+                if isinstance(tasks_str, str):
+                    participant_info['completed_tasks'] = tasks_str.split(',') if tasks_str else []
                 else:
                     participant_info['completed_tasks'] = []
                 return participant_info
     return None
 
+
 def update_participant_info(csv_file, info):
-    """Updates participant information in the CSV file, only modifying the participant's line."""
+    """Updates a participant's info in the CSV, matching by participant_id."""
     fieldnames = [
-        'participant_id', 'participant_initials', 'participant_anonymized_id', 
-        'date_session1', 'date_session2', 'date_session3', 'language', 
+        'participant_id', 'participant_initials', 'participant_anonymized_id',
+        'date_session1', 'date_session2', 'date_session3', 'language',
         'current_session', 'completed_tasks'
     ]
-
-    # Ensure 'completed_tasks' is a string before writing
     if 'completed_tasks' in info:
         if isinstance(info['completed_tasks'], list):
             info['completed_tasks'] = ','.join(info['completed_tasks'])
         elif not isinstance(info['completed_tasks'], str):
-            # If it's neither a list nor a string, set it to an empty string
             info['completed_tasks'] = ''
     else:
-        # If 'completed_tasks' is missing, add it as an empty string
         info['completed_tasks'] = ''
 
-    # Filter the `info` dictionary to only include keys in `fieldnames`
-    filtered_info = {key: info[key] for key in fieldnames if key in info}
-
-    # Read all rows, update only the participant's line
+    filtered_info = {k: info[k] for k in fieldnames if k in info}
     updated = False
     rows = []
 
-    # Read the current file and update the relevant row
     if os.path.exists(csv_file):
-        with open(csv_file, mode='r', newline='', encoding='utf-8') as file:
+        with open(csv_file, 'r', newline='', encoding='utf-8') as file:
             reader = csv.DictReader(file)
             for row in reader:
                 if row['participant_id'] == filtered_info['participant_id']:
-                    rows.append(filtered_info)  # Update this participant's info
+                    rows.append(filtered_info)
                     updated = True
                 else:
                     rows.append(row)
     else:
-        # If the file doesn't exist, we'll create a new one
         rows.append(filtered_info)
         updated = True
 
-    # If no update was made (participant was not found), append new info
     if not updated:
         rows.append(filtered_info)
 
-    # Write everything back
-    with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
+    with open(csv_file, 'w', newline='', encoding='utf-8') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
 
 
 def run_EyeTracking_Calibration(participant_info):
+    """Just calls the Gazepoint calibration script from gazepoint_calibration.py"""
     run_ET_calibration(participant_info)
 
+
 def launch_lsl_metascript(participant_info):
-    """Launch the LSL metascript by calling the recording function directly."""
+    """
+    Launch the LSL metascript by directly calling start_recording().
+    Raises Exception if streams are missing.
+    """
     recording_started = start_recording(participant_info)
     if recording_started:
         print("LSL_metascript recording started successfully.")
     else:
         raise Exception("Recording did not start due to missing streams.")
 
+
 def minimize_all_windows():
-    """Minimizes all application windows."""
+    """Minimizes all application windows using pygetwindow."""
     for window in gw.getAllWindows():
         try:
             window.minimize()
         except Exception as e:
             print(f"Could not minimize window {window.title}: {e}")
-            
-# Function to send a command to LabRecorder and get the response
+
+
 def send_command_to_labrecorder(command):
+    """
+    Sends a command to LabRecorder (listening on localhost:22345),
+    returns the response (if any).
+    """
     s = socket.create_connection(("localhost", 22345))
-    s.settimeout(1)  # Set a timeout to prevent blocking
+    s.settimeout(1)
     s.sendall(command.encode('utf-8'))
     response = ''
     try:
@@ -291,26 +276,29 @@ def send_command_to_labrecorder(command):
             if '\n' in data:
                 break
     except socket.timeout:
-        pass  # Ignore timeout errors
+        pass
     s.close()
     return response
 
+
 def close_applications():
-    # List of target process names to close
+    """
+    Closes/terminates known processes and windows:
+      - LabRecorder.exe
+      - Keyboard.exe
+      - Gazepoint Control x64
+      - Biosemi.exe
+    """
     target_process_names = ['LabRecorder.exe', 'Keyboard.exe', 'Gazepoint Control x64', 'Biosemi.exe']
-    
-    # Terminate target processes by name using taskkill
     for process_name in target_process_names:
         try:
             subprocess.run(['taskkill', '/f', '/im', process_name], check=True)
             print(f"Terminated process: {process_name}")
         except subprocess.CalledProcessError as e:
             print(f"Failed to terminate process {process_name}: {e}")
-    
-    # Close application windows by title
+
     windows_to_close = ['LabRecorder', 'BioSemi', 'Keyboard', 'Gazepoint Control']
-    windows = gw.getAllWindows()
-    for window in windows:
+    for window in gw.getAllWindows():
         if any(title in window.title for title in windows_to_close):
             try:
                 window.close()
@@ -319,4 +307,86 @@ def close_applications():
                 print(f"Failed to close window {window.title}: {e}")
 
     print("Closed specified applications and windows.")
+
+
+# ----------------------------------------------------------------
+# perform_post_task_steps
+# ----------------------------------------------------------------
+def perform_post_task_steps(participant_info, csv_file, psychopy_data_dir):
+    """
+    Performs the 6 post-task steps in order, logging any errors:
+      1) Stop LabRecorder
+      2) Update session date & increment session number
+      3) Move data to BIDS
+      4) Create a log file & redirect stdout/stderr
+      5) Close external applications
+      6) Show an end page (Tkinter) in French or English
+
+    If any step fails, logs an error but continues to next step.
+    """
+    import sys
+    log_messages = []
+    current_session = participant_info['current_session']
+    bids_folder = None
+
+    # ------------------ STEP 1) Stop LabRecorder ------------------
+    try:
+        send_command_to_labrecorder('stop\n')
+        log_messages.append("LabRecorder stopped.")
+    except Exception as e:
+        log_messages.append(f"Error while stopping LabRecorder: {repr(e)}")
+
+    # ------------------ STEP 2) Update session date & increment number ------------------
+    try:
+        session_key = f"date_session{current_session}"
+        participant_info[session_key] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        participant_info['current_session'] = str(int(current_session) + 1)
+        update_participant_info(csv_file, participant_info)
+        log_messages.append("Session date recorded, and session number incremented.")
+    except Exception as e:
+        log_messages.append(f"Error updating participant info: {repr(e)}")
+
+    # ------------------ STEP 3) Move data to BIDS ------------------
+    try:
+        root_path = get_parent_directory(os.path.dirname(__file__))
+        bids_folder = create_bids_structure(root_path, participant_info['participant_id'], current_session)
+        copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder,
+                                   participant_info['participant_id'], current_session)
+        log_messages.append("Data successfully copied to BIDS folder.")
+    except Exception as e:
+        log_messages.append(f"Error copying data to BIDS: {repr(e)}")
+
+    # ------------------ STEP 4) Create log file & redirect prints ------------------
+    log_file = None
+    if bids_folder:
+        try:
+            log_filename = f"command_prompt_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+            log_filepath = os.path.join(bids_folder, log_filename)
+            log_file = open(log_filepath, "w", buffering=1)
+
+            # Write out stored log_messages
+            for msg in log_messages:
+                log_file.write(msg + "\n")
+
+            # Redirect stdout/stderr to log_file
+            sys.stdout = log_file
+            sys.stderr = log_file
+
+            print(f"Log file created at: {log_filepath}")
+        except Exception as e:
+            print(f"Error creating or opening log file: {repr(e)}")
+    else:
+        print("No BIDS folder available, cannot create log file.")
     
+    # Close the log file if we have one
+    if log_file and not log_file.closed:
+        log_file.close()
+
+    # ------------------ STEP 5) Close external applications ------------------
+    try:
+        close_applications()
+        print("All specified external applications closed.")
+    except Exception as e:
+        print(f"Error while closing applications: {repr(e)}")
+
+    print("Post-task steps completed (some errors may be in the log if they occurred).")
