@@ -5,7 +5,6 @@ import tkinter as tk
 from tkinter import messagebox
 from psychopy import visual, core, session
 from datetime import datetime
-import webbrowser
 
 # ----------------------------------------------------------------
 # Global paths
@@ -19,14 +18,15 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 matb_directory = os.path.join(script_dir, 'Complex_OpenMATB')
 questionnaire_directory = os.path.abspath(os.path.join(script_dir, 'Questionnaires'))
 RS_directory = os.path.abspath(os.path.join(script_dir, 'Resting_state'))
+ 
 
 sys.path.append(matb_directory)
 sys.path.append(questionnaire_directory)
 sys.path.append(RS_directory)
 
-# ----------------------------------------------------------------
-# Import from other scripts: utils, MPH_MATB, ARSQ, questionnaires
-# ----------------------------------------------------------------
+# --------------------------------------------------------------------------
+# Import functions from other scripts: utils, MPH_MATB, ARSQ, questionnaires
+# --------------------------------------------------------------------------
 from utils import (
     generate_next_id,
     generate_random_id,
@@ -41,7 +41,8 @@ from utils import (
     launch_lsl_metascript,
     run_EyeTracking_Calibration,
     close_applications,
-    perform_post_task_steps
+    perform_post_task_steps,
+    open_url
 )
 
 from MPH_MATB import run_matb_task
@@ -95,14 +96,6 @@ url_STAI_anxiety_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=UDPaj"
 url_STAI_anxiety_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=3puxm"
 url_BDI_depression_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=Qu7kJ"
 url_BDI_depression_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=EVWWd"
-
-
-# ----------------------------------------------------------------
-# Simple open_url helper
-# ----------------------------------------------------------------
-def open_url(url):
-    """Opens the given URL in the default web browser."""
-    webbrowser.open(url)
 
 
 # ----------------------------------------------------------------
@@ -177,8 +170,9 @@ def run_psychopy_tasks(participant_info):
             'Similarities': "Verbal_Similarities/Similarities_lastrun.py",
             'DoubleRTT': "Speed_DoubleRTT/DoubleRTT_lastrun.py",
             'Vocabulary': "Verbal_Vocabulary/vocabulary_lastrun.py",
-            'SimpleRTT_mouse': "Speed_SimpleRTT_mouse/simpleRTT_mouse_lastrun.py",
-            'Knowledge': "Verbal_Knowledge/knowledge_lastrun.py"
+            'SimpleRTTmouse': "Speed_SimpleRTTmouse/simpleRTTmouse_lastrun.py",
+            'Knowledge': "Verbal_Knowledge/knowledge_lastrun.py",
+            'numericalRTT': "Speed_Numerical/numericalRTT_lastrun.py"
         }
     elif current_session == '2':
         tasks = {
@@ -282,6 +276,7 @@ def run_MATB_tasks(participant_info):
     """Runs the MATB tasks with associated questionnaires."""
     current_session = participant_info['current_session']
     completed_tasks = participant_info.get('completed_tasks', [])
+    os.chdir(matb_directory) # Change directory (errors may appear otherwise)
 
     if isinstance(completed_tasks, str):
         completed_tasks = completed_tasks.split(',') if completed_tasks else []
@@ -416,8 +411,7 @@ def run_session(participant_info):
         # 5) Close apps
         # 6) Show the end of the session page for the participant
         perform_post_task_steps(participant_info, csv_file, psychopy_data_dir)
-        show_end_page_experiment(participant_info)
-        print("Session finished. All post-task steps done.")
+        
 
 
 # ----------------------------------------------------------------
@@ -504,7 +498,7 @@ def create_participant_gui():
 
     tk.Button(main_frame, text="Create", command=create_participant, font=("Helvetica", 16)).grid(row=2, columnspan=2, pady=10)
 
-    # Exit button at the bottom
+    # Back button at the bottom
     tk.Button(main_frame, text="Back", command=close_create_participant, font=("Helvetica", 10))\
     .grid(row=3, columnspan=2, pady=20)
 
@@ -549,7 +543,7 @@ def select_participant_gui():
 
     tk.Button(main_frame, text="Load", command=load_selected_participant, font=("Helvetica", 16)).pack(pady=10)
 
-    # Exit button at the bottom
+    # Back button at the bottom
     tk.Button(main_frame, text="Back", command=close_load_selected_participant, font=("Helvetica", 10)).pack(pady=20)
     root.mainloop()
 
@@ -559,6 +553,7 @@ def launch_experiment_gui(participant_info):
     def start_experiment():
         root.destroy()
         run_session(participant_info)
+        show_end_page_experiment(participant_info)
         core.quit()
 
     root = tk.Tk()
@@ -720,8 +715,6 @@ def show_end_page_experiment(participant_info):
     Displays a fullscreen grey Tkinter page with a message in 
     French or English, depending on participant_info['language'].
     """
-    import tkinter as tk
-
     root = tk.Tk()
     root.title("Session Complete")
     root.attributes('-fullscreen', True)

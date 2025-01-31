@@ -7,7 +7,9 @@ import shutil
 import re
 import socket
 import sys
-import subprocess
+import webbrowser
+import psutil
+import time
 import pygetwindow as gw
 
 # Adjust paths to import LSL_metascript/gazepoint_calibration
@@ -29,6 +31,10 @@ from gazepoint_calibration import run_ET_calibration
 # ----------------------------------------------------------------
 # Utility Functions
 # ----------------------------------------------------------------
+def open_url(url):
+    """Opens the given URL in the default web browser."""
+    webbrowser.open(url)
+
 def get_parent_directory(path):
     """Returns the parent directory of the given path."""
     return os.path.dirname(path)
@@ -71,45 +77,55 @@ def extract_date_from_filename(file_name):
 
 def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, session_number):
     """
-    Copies relevant data files from PsychoPy data folder to BIDS folder, 
-    only if they match today's date.
+    Copies all relevant data files from the PsychoPy data folder to the BIDS-compliant folder.
+
+    psychopy_data_dir: The directory where PsychoPy stores the data.
+    bids_folder: The BIDS-compliant folder where files should be copied.
+    participant_id: The participant's ID (to filter relevant files).
+    session_number: The session number (to include in the BIDS-compliant filenames).
     """
-    today_date = datetime.now().date()
     if not os.path.exists(psychopy_data_dir):
         print(f"No data found in {psychopy_data_dir}")
         return
 
-    subdirs = [d for d in os.listdir(psychopy_data_dir)
-               if os.path.isdir(os.path.join(psychopy_data_dir, d))]
+    # Get today's date string in the format "YYYY-MM-DD"
+    today_str = datetime.now().strftime('%Y-%m-%d')
 
+    # Search for subdirectories that start with today's date
+    subdirs = [
+        d for d in os.listdir(psychopy_data_dir) 
+        if os.path.isdir(os.path.join(psychopy_data_dir, d)) and d.startswith(today_str)
+    ]
+    
     for subdir in subdirs:
         subdir_path = os.path.join(psychopy_data_dir, subdir, 'data')
+
+        # Check if the 'data' folder exists in the subdirectory
         if not os.path.exists(subdir_path):
             print(f"No data found in {subdir_path}")
             continue
         else:
             print(f"Looking for files in {subdir_path}")
 
+        # Process all files that match the participant ID and are either .csv or .psydat
         for file_name in os.listdir(subdir_path):
-            if file_name.startswith(participant_id) and (
-                file_name.endswith('.csv') or file_name.endswith('.psydat')
-            ):
+            if file_name.startswith(participant_id) and (file_name.endswith('.csv') or file_name.endswith('.psydat')):
                 print(f"Processing file: {file_name}")
-                file_date = extract_date_from_filename(file_name)
-                if file_date == today_date:
-                    task_name, timestamp = extract_task_and_timestamp(file_name)
-                    ext = os.path.splitext(file_name)[1]
-                    new_file_name = (f"sub-{participant_id}_ses-{session_number}_"
-                                     f"task-{task_name}_{timestamp}{ext}")
+
+                # Construct BIDS-compliant filename (assuming you have extract_task_and_timestamp function)
+                task_name, timestamp = extract_task_and_timestamp(file_name)
+                if task_name and timestamp:
+                    new_file_name = f"sub-{participant_id}_ses-{session_number}_task-{task_name}_{timestamp}{os.path.splitext(file_name)[1]}"
                     source_path = os.path.join(subdir_path, file_name)
                     target_path = os.path.join(bids_folder, new_file_name)
+
                     try:
                         shutil.copy2(source_path, target_path)
                         print(f"Copied {source_path} to {target_path}")
                     except FileNotFoundError as e:
                         print(f"Error copying file: {e}")
                 else:
-                    print(f"Skipping file {file_name} as it does not match today's date {today_date}")
+                    print(f"Could not extract task and timestamp from file: {file_name}")
 
 
 def generate_next_id(csv_file):
@@ -280,25 +296,33 @@ def send_command_to_labrecorder(command):
     s.close()
     return response
 
-
 def close_applications():
-    """
-    Closes/terminates known processes and windows:
-      - LabRecorder.exe
-      - Keyboard.exe
-      - Gazepoint Control x64
-      - Biosemi.exe
-    """
-    target_process_names = ['LabRecorder.exe', 'Keyboard.exe', 'Gazepoint Control x64', 'Biosemi.exe']
+    # List of target process names to close
+    target_process_names = ['LabRecorder.exe', 'Keyboard.exe', 'Gazepoint Control x64', 'BioSemi.exe']
+    
+    # Close processes by name using psutil
     for process_name in target_process_names:
         try:
-            subprocess.run(['taskkill', '/f', '/im', process_name], check=True)
-            print(f"Terminated process: {process_name}")
-        except subprocess.CalledProcessError as e:
-            print(f"Failed to terminate process {process_name}: {e}")
+            # Iterate over all processes to find matching ones
+            for proc in psutil.process_iter(['pid', 'name']):
+                if proc.info['name'] == process_name:
+                    # Terminate process
+                    proc.terminate()
+                    print(f"Terminated process: {process_name} with PID {proc.info['pid']}")
+                    try:
+                        # Wait for the process to terminate fully
+                        proc.wait(timeout=3)
+                    except psutil.TimeoutExpired:
+                        # Force kill if termination fails
+                        proc.kill()
+                        print(f"Force killed process: {process_name} with PID {proc.info['pid']}")
+        except Exception as e:
+            print(f"Error while terminating process {process_name}: {e}")
 
+    # Close application windows by title
     windows_to_close = ['LabRecorder', 'BioSemi', 'Keyboard', 'Gazepoint Control']
-    for window in gw.getAllWindows():
+    windows = gw.getAllWindows()
+    for window in windows:
         if any(title in window.title for title in windows_to_close):
             try:
                 window.close()
@@ -307,8 +331,8 @@ def close_applications():
                 print(f"Failed to close window {window.title}: {e}")
 
     print("Closed specified applications and windows.")
-
-
+    
+    
 # ----------------------------------------------------------------
 # perform_post_task_steps
 # ----------------------------------------------------------------
@@ -356,7 +380,16 @@ def perform_post_task_steps(participant_info, csv_file, psychopy_data_dir):
     except Exception as e:
         log_messages.append(f"Error copying data to BIDS: {repr(e)}")
 
-    # ------------------ STEP 4) Create log file & redirect prints ------------------
+    # ------------------ STEP 4) Close external applications ------------------
+    try:
+        close_applications()
+        print("All specified external applications closed.")
+    except Exception as e:
+        print(f"Error while closing applications: {repr(e)}")
+
+    print("Post-task steps completed (some errors may be in the log if they occurred).")
+
+    # ------------------ STEP 5) Create log file & redirect prints ------------------
     log_file = None
     if bids_folder:
         try:
@@ -382,11 +415,5 @@ def perform_post_task_steps(participant_info, csv_file, psychopy_data_dir):
     if log_file and not log_file.closed:
         log_file.close()
 
-    # ------------------ STEP 5) Close external applications ------------------
-    try:
-        close_applications()
-        print("All specified external applications closed.")
-    except Exception as e:
-        print(f"Error while closing applications: {repr(e)}")
 
-    print("Post-task steps completed (some errors may be in the log if they occurred).")
+
