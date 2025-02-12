@@ -10,19 +10,27 @@ from datetime import datetime
 # Global paths
 # ----------------------------------------------------------------
 script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Adjust the path to import applications from scripts (MATB, questionnaires, resting-state, etc.)
 psychopy_data_dir = os.path.join(script_dir, 'data')  # Where PsychoPy data is stored
-csv_file = os.path.join(script_dir, 'Participants_expInfo.csv')
-
-# Adjust the path to import MATB, questionnaires, resting-state
-script_dir = os.path.dirname(os.path.abspath(__file__))
 matb_directory = os.path.join(script_dir, 'Complex_OpenMATB')
-questionnaire_directory = os.path.abspath(os.path.join(script_dir, 'Questionnaires'))
+questionnaire_directory = os.path.abspath(os.path.join(script_dir, '..', 'questionnaires'))
 RS_directory = os.path.abspath(os.path.join(script_dir, 'Resting_state'))
- 
-
 sys.path.append(matb_directory)
 sys.path.append(questionnaire_directory)
 sys.path.append(RS_directory)
+
+# Define the local path
+local_path = script_dir
+csv_file = os.path.join(local_path, 'Participants_expInfo.csv') # local
+data_dir = os.path.join(local_path, 'BIDS_data')
+
+# Define the network data path
+network_path = r"\\partage-neurodata\neurodata\MPH"
+csv_file_network = os.path.join(network_path, 'tasks', 'Participants_expInfo.csv')
+data_dir_network = os.path.join(network_path, 'BIDS_data')
+    
+
 
 # --------------------------------------------------------------------------
 # Import functions from other scripts: utils, MPH_MATB, ARSQ, questionnaires
@@ -49,8 +57,55 @@ from MPH_MATB import run_matb_task
 from MPH_MATB_training import MATB_training
 from MPH_MATB_instructions import MATB_instructions
 from questionnaire_post_task import QuestionnaireApp
-from questionnaire_ARSQ import ARSQ
+from run_questionnaire import run_questionnaire
 from RS import run_RS
+
+# ------------------ Questionnaire paths ------------------
+# Session 1
+path_demographics_english = os.path.join(questionnaire_directory,'demographics_eng.txt')
+path_demographics_french = os.path.join(questionnaire_directory,'demographics_fr.txt')
+path_BIG5_personality_english = os.path.join(questionnaire_directory,'Big5_eng.txt')
+path_BIG5_personality_french = os.path.join(questionnaire_directory,'Big5_fr.txt')
+path_SCI_sleep_english = os.path.join(questionnaire_directory,'SCI_eng.txt')
+path_SCI_sleep_french = os.path.join(questionnaire_directory,'SCI_fr.txt')
+path_EHI_laterality_english = os.path.join(questionnaire_directory,'EHI_eng.txt')
+path_EHI_laterality_french = os.path.join(questionnaire_directory,'EHI_fr.txt')
+path_presession_english = os.path.join(questionnaire_directory,'presession_eng.txt')
+path_presession_french = os.path.join(questionnaire_directory,'presession_fr.txt')
+path_ARSQ_english  = os.path.join(questionnaire_directory,'arsq_eng.txt')
+path_ARSQ_french  = os.path.join(questionnaire_directory,'arsq_fr.txt')
+
+# Session 2
+path_REI_rationality_english = os.path.join(questionnaire_directory,'REI_eng.txt')
+path_REI_rationality_french = os.path.join(questionnaire_directory,'REI_fr.txt')
+path_MAI_metacognition_english = os.path.join(questionnaire_directory,'MAI_eng.txt')
+path_MAI_metacognition_french = os.path.join(questionnaire_directory,'MAI_fr.txt')
+path_VGxp_videogames_english = os.path.join(questionnaire_directory,'VGexp_eng.txt')
+path_VGxp_videogames_french = os.path.join(questionnaire_directory,'VGexp_fr.txt')
+path_RSES_selfesteem_english = os.path.join(questionnaire_directory,'RSES_eng.txt')
+path_RSES_selfesteem_french = os.path.join(questionnaire_directory,'RSES_fr.txt')
+
+# Session 3
+path_RMEQ_chronotype_english = os.path.join(questionnaire_directory,'rMEQ_eng.txt')
+path_RMEQ_chronotype_french = os.path.join(questionnaire_directory,'rMEQ_fr.txt')
+path_TEIQ_emotions_english = os.path.join(questionnaire_directory,'TEIQ_eng.txt')
+path_TEIQ_emotions_french = os.path.join(questionnaire_directory,'TEIQ_fr.txt')
+path_SSEIT_emotions_english = os.path.join(questionnaire_directory,'SSEIT_eng.txt')
+path_SSEIT_emotions_french = os.path.join(questionnaire_directory,'SSEIT_fr.txt')
+path_BRIEF_executivefunctions_english = os.path.join(questionnaire_directory,'BRIEF_eng.txt')
+path_BRIEF_executivefunctions_french = os.path.join(questionnaire_directory,'BRIEF_fr.txt')
+
+# Supplementary Questionnaires
+path_MBTI_personality_english = os.path.join(questionnaire_directory,'MBTI_eng.txt')
+path_MBTI_personality_french = os.path.join(questionnaire_directory,'MBTI_fr.txt')
+path_PID_personality_english = os.path.join(questionnaire_directory,'PID_eng.txt')
+path_PID_personality_french = os.path.join(questionnaire_directory,'PID_fr.txt')
+path_QOL_quality_of_life_english = os.path.join(questionnaire_directory,'Q-LES_eng.txt')
+path_QOL_quality_of_life_french = os.path.join(questionnaire_directory,'Q-LES_fr.txt')
+path_STAI_anxiety_english = os.path.join(questionnaire_directory,'SSEIT_eng.txt')
+path_STAI_anxiety_french = os.path.join(questionnaire_directory,'SSEIT_fr.txt')
+path_BDI_depression_english = os.path.join(questionnaire_directory,'BDI_eng.txt')
+path_BDI_depression_french = os.path.join(questionnaire_directory,'BDI_fr.txt')
 
 # ------------------ Questionnaire URLs ------------------
 # Session 1
@@ -97,7 +152,6 @@ url_STAI_anxiety_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=3puxm"
 url_BDI_depression_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=Qu7kJ"
 url_BDI_depression_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=EVWWd"
 
-
 # ----------------------------------------------------------------
 # RS and ARSQ tasks
 # ----------------------------------------------------------------
@@ -136,16 +190,15 @@ def run_ARSQ_task(participant_info):
 
     try:
         print("Running ARSQ questionnaire...")
-        root = tk.Tk()
-        root.withdraw()
-        arsq_window = tk.Toplevel()
-        app = ARSQ(arsq_window, participant_info)
-        arsq_window.wait_window()
-        root.destroy()
 
+        # Define the path to the ARSQ questionnaire based on the language
+        language = participant_info['language']
+        questionnaire_file = path_ARSQ_french if language == 'French' else path_ARSQ_english
+        run_questionnaire(questionnaire_file, participant_info)
         completed_tasks.append('ARSQ')
         participant_info['completed_tasks'] = completed_tasks
         update_participant_info(csv_file, participant_info)
+        
     except Exception as e:
         print(f"Error while running ARSQ: {e}")
         raise
@@ -172,7 +225,7 @@ def run_psychopy_tasks(participant_info):
             'Vocabulary': "Verbal_Vocabulary/vocabulary_lastrun.py",
             'SimpleRTTmouse': "Speed_SimpleRTTmouse/simpleRTTmouse_lastrun.py",
             'Knowledge': "Verbal_Knowledge/knowledge_lastrun.py",
-            'numericalRTT': "Speed_Numerical/numericalRTT_lastrun.py"
+            'numericalRTT': "Speed_NumericalRTT/numericalRTT_lastrun.py"
         }
     elif current_session == '2':
         tasks = {
@@ -366,17 +419,17 @@ def run_session(participant_info):
     try:
         # RUN MAIN TASKS
         if current_session == '1':
-            run_EyeTracking_Calibration(participant_info)
-            run_RS_task(participant_info)
-            run_ARSQ_task(participant_info)
-            run_psychopy_tasks(participant_info)
-            run_MATB_training(participant_info)
+            #run_EyeTracking_Calibration(participant_info)
+            #run_RS_task(participant_info)
+            #run_ARSQ_task(participant_info)
+            #run_psychopy_tasks(participant_info)
+            # run_MATB_training(participant_info)
             run_MATB_tasks(participant_info)
             # run_SF_training(participant_info)
             # run_SF_tasks(participant_info)
 
         elif current_session == '2':
-            run_EyeTracking_Calibration(participant_info)
+            #run_EyeTracking_Calibration(participant_info)
             run_psychopy_tasks(participant_info)
             run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
@@ -384,8 +437,8 @@ def run_session(participant_info):
             # run_SF_tasks(participant_info)
 
         elif current_session == '3':
-            run_EyeTracking_Calibration(participant_info)
-            run_RS_task(participant_info)
+            #run_EyeTracking_Calibration(participant_info)
+            #run_RS_task(participant_info)
             run_psychopy_tasks(participant_info)
             run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
@@ -409,7 +462,6 @@ def run_session(participant_info):
         # 3) Move data to BIDS folder
         # 4) Create a log file of the session
         # 5) Close apps
-        # 6) Show the end of the session page for the participant
         perform_post_task_steps(participant_info, csv_file, psychopy_data_dir)
         
 
@@ -575,50 +627,55 @@ def launch_questionnaire_gui(participant_info):
     """Launches the GUI for selecting questionnaires based on the session and language."""
     current_session = participant_info['current_session']
     language = participant_info['language']
-
+    
+    # Define the paths for each questionnaire based on the session and language
     if current_session == '1':
-        urls = {
-            "Demographics": url_demographics_french if language == "French" else url_demographics_english,
-            "Personality (BIG-5)": url_BIG5_personality_french if language == "French" else url_BIG5_personality_english,
-            "Sleep Quality (SCI)": url_SCI_sleep_french if language == "French" else url_SCI_sleep_english,
-            "Handedness (EHI)": url_EHI_laterality_french if language == "French" else url_EHI_laterality_english,
-            "Pre-session": url_presession_french if language == "French" else url_presession_english
+        paths = {
+            "Demographics": path_demographics_french if language == "French" else path_demographics_english,
+            "Personality (BIG-5)": path_BIG5_personality_french if language == "French" else path_BIG5_personality_english,
+            "Sleep Quality (SCI)": path_SCI_sleep_french if language == "French" else path_SCI_sleep_english,
+            "Handedness (EHI)": path_EHI_laterality_french if language == "French" else path_EHI_laterality_english,
+            "Pre-session": path_presession_french if language == "French" else path_presession_english
         }
     elif current_session == '2':
-        urls = {
-            "Rationality (REI)": url_REI_rationality_french if language == "French" else url_REI_rationality_english,
-            "Meta-cognition (MAI)": url_MAI_metacognition_french if language == "French" else url_MAI_metacognition_english,
-            "Video Game Experience (VGxp)": url_VGxp_videogames_french if language == "French" else url_VGxp_videogames_english,
-            "Self-esteem (RSES)": url_RSES_selfesteem_french if language == "French" else url_RSES_selfesteem_english,
-            "Pre-session": url_presession_french if language == "French" else url_presession_english
+        paths = {
+            "Rationality (REI)": path_REI_rationality_french if language == "French" else path_REI_rationality_english,
+            "Meta-cognition (MAI)": path_MAI_metacognition_french if language == "French" else path_MAI_metacognition_english,
+            "Video Game Experience (VGxp)": path_VGxp_videogames_french if language == "French" else path_VGxp_videogames_english,
+            "Self-esteem (RSES)": path_RSES_selfesteem_french if language == "French" else path_RSES_selfesteem_english,
+            "Pre-session": path_presession_french if language == "French" else path_presession_english
         }
     elif current_session == '3':
-        urls = {
-            "Chronotype (rMEQ)": url_RMEQ_chronotype_french if language == "French" else url_RMEQ_chronotype_english,
-            "Emotions (TEIQ)": url_TEIQ_emotions_french if language == "French" else url_TEIQ_emotions_english,
-            "Emotions (SSEIT)": url_SSEIT_emotions_french if language == "French" else url_SSEIT_emotions_english,
-            "Executive Functions (BRIEF)": url_BRIEF_executivefunctions_french if language == "French" else url_BRIEF_executivefunctions_english
+        paths = {
+            "Chronotype (rMEQ)": path_RMEQ_chronotype_french if language == "French" else path_RMEQ_chronotype_english,
+            "Emotions (TEIQ)": path_TEIQ_emotions_french if language == "French" else path_TEIQ_emotions_english,
+            "Emotions (SSEIT)": path_SSEIT_emotions_french if language == "French" else path_SSEIT_emotions_english,
+            "Executive Functions (BRIEF)": path_BRIEF_executivefunctions_french if language == "French" else path_BRIEF_executivefunctions_english
         }
     else:
-        urls = {}
+        paths = {}
 
+    # Create the main window
     root = tk.Tk()
     root.title(f"Questionnaires for Participant {participant_info['participant_id']}")
     root.attributes('-fullscreen', True)
 
+    # Display participant ID
     tk.Label(root, text=f"Participant ID: {participant_info['participant_id']}", font=("Helvetica", 16)).pack(pady=10)
     button_frame = tk.Frame(root)
     button_frame.pack(pady=50)
 
-    for title, url in urls.items():
-        tk.Button(button_frame, text=title, font=("Helvetica", 14), command=lambda u=url: open_url(u)).pack(padx=20, pady=10)
+    # Create a button for each questionnaire
+    for title, path in paths.items():
+        tk.Button(button_frame, text=title, font=("Helvetica", 14),
+                  command=lambda p=path: run_questionnaire(p, participant_info)).pack(padx=20, pady=10)
 
+    # Back button to return to main menu
     button_back = tk.Button(root, text="Back", font=("Helvetica", 16),
                             command=lambda: [root.destroy(), launch_main_gui(participant_info)])
     button_back.pack(pady=20)
 
     root.mainloop()
-
 
 def launch_supplementary_questionnaire_gui(participant_info):
     """Launches the GUI for selecting supplementary questionnaires based on language."""
@@ -684,7 +741,7 @@ def launch_main_gui(participant_info):
     button_start_recording = tk.Button(button_frame, text="Start Recording", **button_options, command=start_recording)
     button_start_recording.grid(row=1, column=0, padx=20, pady=20)
 
-    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options, state="disabled", command=start_tasks)
+    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options, state="normal", command=start_tasks)
     button_tasks.grid(row=2, column=0, padx=20, pady=20)
 
     button_supplementary = tk.Button(button_frame, text="Supplementary Questionnaires", **button_options,

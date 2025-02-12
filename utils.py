@@ -344,7 +344,6 @@ def perform_post_task_steps(participant_info, csv_file, psychopy_data_dir):
       3) Move data to BIDS
       4) Create a log file & redirect stdout/stderr
       5) Close external applications
-      6) Show an end page (Tkinter) in French or English
 
     If any step fails, logs an error but continues to next step.
     """
@@ -376,7 +375,6 @@ def perform_post_task_steps(participant_info, csv_file, psychopy_data_dir):
         bids_folder = create_bids_structure(root_path, participant_info['participant_id'], current_session)
         copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder,
                                    participant_info['participant_id'], current_session)
-        log_messages.append("Data successfully copied to BIDS folder.")
     except Exception as e:
         log_messages.append(f"Error copying data to BIDS: {repr(e)}")
 
@@ -414,6 +412,4 @@ def perform_post_task_steps(participant_info, csv_file, psychopy_data_dir):
     # Close the log file if we have one
     if log_file and not log_file.closed:
         log_file.close()
-
-
 
