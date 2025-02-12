@@ -1,10 +1,12 @@
 import os
 import sys
-import csv
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
 from psychopy import visual, core, session
 from datetime import datetime
+import threading
+import sqlite3
 
 # ----------------------------------------------------------------
 # Global paths
@@ -22,15 +24,13 @@ sys.path.append(RS_directory)
 
 # Define the local path
 local_path = script_dir
-csv_file = os.path.join(local_path, 'Participants_expInfo.csv') # local
+db_file = os.path.join(local_path, 'Participants_expInfo.db')  # Use .db instead of .csv
 data_dir = os.path.join(local_path, 'BIDS_data')
 
 # Define the network data path
 network_path = r"\\partage-neurodata\neurodata\MPH"
-csv_file_network = os.path.join(network_path, 'tasks', 'Participants_expInfo.csv')
+db_file_network = os.path.join(network_path, 'tasks', 'Participants_expInfo.db')
 data_dir_network = os.path.join(network_path, 'BIDS_data')
-    
-
 
 # --------------------------------------------------------------------------
 # Import functions from other scripts: utils, MPH_MATB, ARSQ, questionnaires
@@ -41,6 +41,8 @@ from utils import (
     save_participant_info,
     load_participant_info,
     update_participant_info,
+    get_participant_info,
+    increment_session,
     create_bids_structure,
     copy_psychopy_data_to_bids,
     get_parent_directory,
@@ -62,50 +64,50 @@ from RS import run_RS
 
 # ------------------ Questionnaire paths ------------------
 # Session 1
-path_demographics_english = os.path.join(questionnaire_directory,'demographics_eng.txt')
-path_demographics_french = os.path.join(questionnaire_directory,'demographics_fr.txt')
-path_BIG5_personality_english = os.path.join(questionnaire_directory,'Big5_eng.txt')
-path_BIG5_personality_french = os.path.join(questionnaire_directory,'Big5_fr.txt')
-path_SCI_sleep_english = os.path.join(questionnaire_directory,'SCI_eng.txt')
-path_SCI_sleep_french = os.path.join(questionnaire_directory,'SCI_fr.txt')
-path_EHI_laterality_english = os.path.join(questionnaire_directory,'EHI_eng.txt')
-path_EHI_laterality_french = os.path.join(questionnaire_directory,'EHI_fr.txt')
-path_presession_english = os.path.join(questionnaire_directory,'presession_eng.txt')
-path_presession_french = os.path.join(questionnaire_directory,'presession_fr.txt')
-path_ARSQ_english  = os.path.join(questionnaire_directory,'arsq_eng.txt')
-path_ARSQ_french  = os.path.join(questionnaire_directory,'arsq_fr.txt')
+path_demographics_english = os.path.join(questionnaire_directory, 'demographics_eng.txt')
+path_demographics_french = os.path.join(questionnaire_directory, 'demographics_fr.txt')
+path_BIG5_personality_english = os.path.join(questionnaire_directory, 'Big5_eng.txt')
+path_BIG5_personality_french = os.path.join(questionnaire_directory, 'Big5_fr.txt')
+path_SCI_sleep_english = os.path.join(questionnaire_directory, 'SCI_eng.txt')
+path_SCI_sleep_french = os.path.join(questionnaire_directory, 'SCI_fr.txt')
+path_EHI_laterality_english = os.path.join(questionnaire_directory, 'EHI_eng.txt')
+path_EHI_laterality_french = os.path.join(questionnaire_directory, 'EHI_fr.txt')
+path_presession_english = os.path.join(questionnaire_directory, 'presession_eng.txt')
+path_presession_french = os.path.join(questionnaire_directory, 'presession_fr.txt')
+path_ARSQ_english = os.path.join(questionnaire_directory, 'arsq_eng.txt')
+path_ARSQ_french = os.path.join(questionnaire_directory, 'arsq_fr.txt')
 
 # Session 2
-path_REI_rationality_english = os.path.join(questionnaire_directory,'REI_eng.txt')
-path_REI_rationality_french = os.path.join(questionnaire_directory,'REI_fr.txt')
-path_MAI_metacognition_english = os.path.join(questionnaire_directory,'MAI_eng.txt')
-path_MAI_metacognition_french = os.path.join(questionnaire_directory,'MAI_fr.txt')
-path_VGxp_videogames_english = os.path.join(questionnaire_directory,'VGexp_eng.txt')
-path_VGxp_videogames_french = os.path.join(questionnaire_directory,'VGexp_fr.txt')
-path_RSES_selfesteem_english = os.path.join(questionnaire_directory,'RSES_eng.txt')
-path_RSES_selfesteem_french = os.path.join(questionnaire_directory,'RSES_fr.txt')
+path_REI_rationality_english = os.path.join(questionnaire_directory, 'REI_eng.txt')
+path_REI_rationality_french = os.path.join(questionnaire_directory, 'REI_fr.txt')
+path_MAI_metacognition_english = os.path.join(questionnaire_directory, 'MAI_eng.txt')
+path_MAI_metacognition_french = os.path.join(questionnaire_directory, 'MAI_fr.txt')
+path_VGxp_videogames_english = os.path.join(questionnaire_directory, 'VGexp_eng.txt')
+path_VGxp_videogames_french = os.path.join(questionnaire_directory, 'VGexp_fr.txt')
+path_RSES_selfesteem_english = os.path.join(questionnaire_directory, 'RSES_eng.txt')
+path_RSES_selfesteem_french = os.path.join(questionnaire_directory, 'RSES_fr.txt')
 
 # Session 3
-path_RMEQ_chronotype_english = os.path.join(questionnaire_directory,'rMEQ_eng.txt')
-path_RMEQ_chronotype_french = os.path.join(questionnaire_directory,'rMEQ_fr.txt')
-path_TEIQ_emotions_english = os.path.join(questionnaire_directory,'TEIQ_eng.txt')
-path_TEIQ_emotions_french = os.path.join(questionnaire_directory,'TEIQ_fr.txt')
-path_SSEIT_emotions_english = os.path.join(questionnaire_directory,'SSEIT_eng.txt')
-path_SSEIT_emotions_french = os.path.join(questionnaire_directory,'SSEIT_fr.txt')
-path_BRIEF_executivefunctions_english = os.path.join(questionnaire_directory,'BRIEF_eng.txt')
-path_BRIEF_executivefunctions_french = os.path.join(questionnaire_directory,'BRIEF_fr.txt')
+path_RMEQ_chronotype_english = os.path.join(questionnaire_directory, 'rMEQ_eng.txt')
+path_RMEQ_chronotype_french = os.path.join(questionnaire_directory, 'rMEQ_fr.txt')
+path_TEIQ_emotions_english = os.path.join(questionnaire_directory, 'TEIQ_eng.txt')
+path_TEIQ_emotions_french = os.path.join(questionnaire_directory, 'TEIQ_fr.txt')
+path_SSEIT_emotions_english = os.path.join(questionnaire_directory, 'SSEIT_eng.txt')
+path_SSEIT_emotions_french = os.path.join(questionnaire_directory, 'SSEIT_fr.txt')
+path_BRIEF_executivefunctions_english = os.path.join(questionnaire_directory, 'BRIEF_eng.txt')
+path_BRIEF_executivefunctions_french = os.path.join(questionnaire_directory, 'BRIEF_fr.txt')
 
 # Supplementary Questionnaires
-path_MBTI_personality_english = os.path.join(questionnaire_directory,'MBTI_eng.txt')
-path_MBTI_personality_french = os.path.join(questionnaire_directory,'MBTI_fr.txt')
-path_PID_personality_english = os.path.join(questionnaire_directory,'PID_eng.txt')
-path_PID_personality_french = os.path.join(questionnaire_directory,'PID_fr.txt')
-path_QOL_quality_of_life_english = os.path.join(questionnaire_directory,'Q-LES_eng.txt')
-path_QOL_quality_of_life_french = os.path.join(questionnaire_directory,'Q-LES_fr.txt')
-path_STAI_anxiety_english = os.path.join(questionnaire_directory,'SSEIT_eng.txt')
-path_STAI_anxiety_french = os.path.join(questionnaire_directory,'SSEIT_fr.txt')
-path_BDI_depression_english = os.path.join(questionnaire_directory,'BDI_eng.txt')
-path_BDI_depression_french = os.path.join(questionnaire_directory,'BDI_fr.txt')
+path_MBTI_personality_english = os.path.join(questionnaire_directory, 'MBTI_eng.txt')
+path_MBTI_personality_french = os.path.join(questionnaire_directory, 'MBTI_fr.txt')
+path_PID_personality_english = os.path.join(questionnaire_directory, 'PID_eng.txt')
+path_PID_personality_french = os.path.join(questionnaire_directory, 'PID_fr.txt')
+path_QOL_quality_of_life_english = os.path.join(questionnaire_directory, 'Q-LES_eng.txt')
+path_QOL_quality_of_life_french = os.path.join(questionnaire_directory, 'Q-LES_fr.txt')
+path_STAI_anxiety_english = os.path.join(questionnaire_directory, 'SSEIT_eng.txt')
+path_STAI_anxiety_french = os.path.join(questionnaire_directory, 'SSEIT_fr.txt')
+path_BDI_depression_english = os.path.join(questionnaire_directory, 'BDI_eng.txt')
+path_BDI_depression_french = os.path.join(questionnaire_directory, 'BDI_fr.txt')
 
 # ------------------ Questionnaire URLs ------------------
 # Session 1
@@ -171,7 +173,7 @@ def run_RS_task(participant_info):
         run_RS(participant_info)  # The function from RS.py
         completed_tasks.append('RS')
         participant_info['completed_tasks'] = completed_tasks
-        update_participant_info(csv_file, participant_info)
+        update_participant_info(db_file, participant_info)
     except Exception as e:
         print(f"Error while running Resting State: {e}")
         raise
@@ -197,7 +199,7 @@ def run_ARSQ_task(participant_info):
         run_questionnaire(questionnaire_file, participant_info)
         completed_tasks.append('ARSQ')
         participant_info['completed_tasks'] = completed_tasks
-        update_participant_info(csv_file, participant_info)
+        update_participant_info(db_file, participant_info)
         
     except Exception as e:
         print(f"Error while running ARSQ: {e}")
@@ -286,7 +288,7 @@ def run_psychopy_tasks(participant_info):
             })
             completed_tasks.append(task_name)
             participant_info['completed_tasks'] = completed_tasks
-            update_participant_info(csv_file, participant_info)
+            update_participant_info(db_file, participant_info)
         except Exception as e:
             print(f"Error while running task {task_name}: {e}")
             win.close()
@@ -318,7 +320,7 @@ def run_MATB_training(participant_info):
         MATB_training(participant_info)
         completed_tasks.append(training_label)
         participant_info['completed_tasks'] = completed_tasks
-        update_participant_info(csv_file, participant_info)
+        update_participant_info(db_file, participant_info)
         print(f"MATB training for session {current_session} completed successfully.")
     except Exception as e:
         print(f"Error while running MATB training {training_label}: {e}")
@@ -329,7 +331,7 @@ def run_MATB_tasks(participant_info):
     """Runs the MATB tasks with associated questionnaires."""
     current_session = participant_info['current_session']
     completed_tasks = participant_info.get('completed_tasks', [])
-    os.chdir(matb_directory) # Change directory (errors may appear otherwise)
+    os.chdir(matb_directory)  # Change directory (errors may appear otherwise)
 
     if isinstance(completed_tasks, str):
         completed_tasks = completed_tasks.split(',') if completed_tasks else []
@@ -362,7 +364,7 @@ def run_MATB_tasks(participant_info):
             run_matb_task(participant_info, scenario_file)
             completed_tasks.append(completed_label)
             participant_info['completed_tasks'] = completed_tasks
-            update_participant_info(csv_file, participant_info)
+            update_participant_info(db_file, participant_info)
 
             # Launch the post-MATB questionnaire
             root = tk.Tk()
@@ -393,8 +395,9 @@ def run_MATB_instructions(participant_info):
         try:
             MATB_instructions(participant_info)
             completed_tasks.append(instruction_label)
+            # Here, for historical reasons, completed_tasks was stored as a comma‐separated string:
             participant_info['completed_tasks'] = ",".join(completed_tasks)
-            update_participant_info(csv_file, participant_info)
+            update_participant_info(db_file, participant_info)
             print(f"MATB instructions for session {current_session} completed successfully.")
         except Exception as e:
             print(f"Error while running MATB instructions {instruction_label}: {e}")
@@ -415,7 +418,7 @@ def run_session(participant_info):
     if isinstance(completed_tasks, str):
         completed_tasks = completed_tasks.split(',') if completed_tasks else []
     participant_info['completed_tasks'] = completed_tasks
-
+ 
     try:
         # RUN MAIN TASKS
         if current_session == '1':
@@ -450,21 +453,23 @@ def run_session(participant_info):
             return
 
         print("All session tasks completed successfully.")
-
+        tasks_completed = True  # Only mark as complete if no exception was raised.
+        
     except Exception as e:
         print(f"Error during session tasks: {e}")
         print("You can restart the session to resume from where you left off.")
 
     finally:
-        # PERFORM POST-TASK STEPS:
-        # 1) Stop Lab Recoder
-        # 2) Update session date & increment session number in the Participants_expInfo file
-        # 3) Move data to BIDS folder
-        # 4) Create a log file of the session
-        # 5) Close apps
-        perform_post_task_steps(participant_info, csv_file, psychopy_data_dir)
-        
-
+        if tasks_completed:
+            increment_session(participant_info, db_file) # Update session date & increment session number in the Participants_expInfo file
+        post_task_thread = threading.Thread(
+            target=perform_post_task_steps,
+            args=(participant_info, db_file, psychopy_data_dir),
+            daemon=True)  # so the thread won't block program exit
+        post_task_thread.start()
+    
+        # At the same time, show the session complete screen in the main thread.
+        show_end_page_experiment(participant_info)
 
 # ----------------------------------------------------------------
 # GUI-related launch functions
@@ -499,7 +504,7 @@ def create_main_gui():
 
 def create_participant_gui():
     def create_participant():
-        participant_id = generate_next_id(csv_file)
+        participant_id = generate_next_id(db_file)
         participant_initials = entry_initials.get()
         language_participant = language_var.get()
         
@@ -520,10 +525,10 @@ def create_participant_gui():
             'completed_tasks': ''  # No tasks completed yet
         }
         
-        # Save the participant information to the CSV
-        save_participant_info(csv_file, participant_info)
+        # Save the participant information to the DB
+        save_participant_info(db_file, participant_info)
         
-        # Close the window and launch the questionnaire GUI
+        # Close the window and launch the main GUI
         root.destroy()
         launch_main_gui(participant_info)
 
@@ -555,25 +560,65 @@ def create_participant_gui():
     .grid(row=3, columnspan=2, pady=20)
 
 
-
 def select_participant_gui():
-    def load_selected_participant():
-        selected = participant_listbox.curselection()
-        if not selected:
+    def load_selected_participant_from_tree():
+        selected_item = treeview.selection()
+        if not selected_item:
             messagebox.showerror("Selection Error", "Please select a participant")
             return
-        participant_id = participant_ids[selected[0]]
-        participant_info = load_participant_info(csv_file, participant_id)
-
-        # Close the window and launch the questionnaire GUI
+        # Get the participant_id from the selected row.
+        pid = treeview.set(selected_item[0], "participant_id")
+        participant_info = load_participant_info(db_file, pid)
         root.destroy()
         launch_main_gui(participant_info)
 
     def close_load_selected_participant():
-        root.destroy()  # This will close the Tkinter application
+        root.destroy()  # Close the Tkinter application
         create_main_gui()
 
-    # Tkinter window for selecting a participant
+    def on_double_click(event):
+        # Identify the item and column clicked.
+        region = treeview.identify("region", event.x, event.y)
+        if region != "cell":
+            return
+
+        rowid = treeview.identify_row(event.y)
+        column = treeview.identify_column(event.x)
+        if not rowid or column == "#0":
+            return
+
+        # Get bounding box of the cell in the treeview.
+        x, y, width, height = treeview.bbox(rowid, column)
+        # Map the Treeview column (e.g. "#1") to our field name.
+        col_index = int(column.replace("#", "")) - 1
+        col_names = ["participant_id", "participant_initials", "current_session", "completed_tasks"]
+        field = col_names[col_index]
+
+        # Get the current cell value.
+        current_value = treeview.set(rowid, column)
+
+        # Create an Entry widget over the cell.
+        entry = tk.Entry(treeview)
+        entry.place(x=x, y=y, width=width, height=height)
+        entry.insert(0, current_value)
+        entry.focus_set()
+
+        def on_focus_out(event):
+            new_value = entry.get()
+            treeview.set(rowid, column, new_value)
+            entry.destroy()
+            # Update the database record.
+            pid = treeview.set(rowid, "participant_id")
+            # Load the full participant info dictionary.
+            p_info = load_participant_info(db_file, pid)
+            # Update the changed field.
+            p_info[field] = new_value
+            update_participant_info(db_file, p_info)
+
+        entry.bind("<Return>", lambda e: on_focus_out(e))
+        entry.bind("<FocusOut>", on_focus_out)
+
+    # Create the main window.
     root = tk.Tk()
     root.title("Select Participant")
     root.attributes('-fullscreen', True)
@@ -581,22 +626,46 @@ def select_participant_gui():
     main_frame = tk.Frame(root)
     main_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-    tk.Label(main_frame, text="Select Participant", font=("Helvetica", 16)).pack(pady=10)
-    participant_listbox = tk.Listbox(main_frame, width=50, height=20, font=("Helvetica", 14))
-    participant_listbox.pack(pady=10)
+    # Create a Treeview widget with our desired columns.
+    columns = ("participant_id", "participant_initials", "current_session", "completed_tasks")
+    treeview = ttk.Treeview(main_frame, columns=columns, show="headings", height=20)
+    treeview.heading("participant_id", text="Participant ID")
+    treeview.heading("participant_initials", text="Participant Initials")
+    treeview.heading("current_session", text="Current Session")
+    treeview.heading("completed_tasks", text="Completed Tasks")
+    treeview.column("participant_id", width=100)
+    treeview.column("participant_initials", width=150)
+    treeview.column("current_session", width=120)
+    treeview.column("completed_tasks", width=200)
+    treeview.pack(pady=10)
 
+    # Load participants from the database.
     participant_ids = []
-    if os.path.exists(csv_file):
-        with open(csv_file, mode='r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                participant_ids.append(row['participant_id'])
-                participant_listbox.insert(tk.END, f"ID: {row['participant_id']}, Initials: {row['participant_initials']}, session: {row['current_session']}, Language: {row['language']}")
+    try:
+        conn = sqlite3.connect(db_file)
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        c.execute("SELECT * FROM participants")
+        rows = c.fetchall()
+        for row in rows:
+            pid = row['participant_id']
+            participant_ids.append(pid)
+            initials = row['participant_initials']
+            current_session = row['current_session']
+            completed = row['completed_tasks']
+            treeview.insert("", tk.END, values=(pid, initials, current_session, completed))
+        conn.close()
+    except Exception as e:
+        print(f"Error loading participants from DB: {e}")
 
-    tk.Button(main_frame, text="Load", command=load_selected_participant, font=("Helvetica", 16)).pack(pady=10)
+    # Bind a double-click to allow editing cells.
+    treeview.bind("<Double-1>", on_double_click)
 
-    # Back button at the bottom
+    # Load button.
+    tk.Button(main_frame, text="Load", command=load_selected_participant_from_tree, font=("Helvetica", 16)).pack(pady=10)
+    # Back button.
     tk.Button(main_frame, text="Back", command=close_load_selected_participant, font=("Helvetica", 10)).pack(pady=20)
+
     root.mainloop()
 
 
@@ -605,7 +674,6 @@ def launch_experiment_gui(participant_info):
     def start_experiment():
         root.destroy()
         run_session(participant_info)
-        show_end_page_experiment(participant_info)
         core.quit()
 
     root = tk.Tk()
@@ -766,6 +834,7 @@ def launch_main_gui(participant_info):
     button_finish.grid(row=0, column=1, padx=10)
 
     root.mainloop()
+
 
 def show_end_page_experiment(participant_info):
     """
