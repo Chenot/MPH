@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-import csv
+import logging
 import random
 import string
 import shutil
@@ -9,8 +9,13 @@ import socket
 import sys
 import webbrowser
 import psutil
-import time
 import pygetwindow as gw
+import sqlite3
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+questionnaire_directory = os.path.abspath(os.path.join(script_dir, '..', 'questionnaires'))
+sys.path.append(questionnaire_directory)
+from run_questionnaire import run_questionnaire
 
 # Adjust paths to import LSL_metascript/gazepoint_calibration
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -26,6 +31,32 @@ sys.path.append(gazepoint_calibration_directory)
 # ----------------------------------------------------------------
 from LSL_metascript import start_recording
 from gazepoint_calibration import run_ET_calibration
+
+
+# ------------------ Database helper functions ------------------
+def get_db_connection(db_file):
+    conn = sqlite3.connect(db_file)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db(db_file):
+    """Creates the participants table if it does not already exist."""
+    conn = get_db_connection(db_file)
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS participants (
+         participant_id TEXT PRIMARY KEY,
+         participant_initials TEXT,
+         participant_anonymized_id TEXT,
+         date_session1 TEXT,
+         date_session2 TEXT,
+         date_session3 TEXT,
+         language TEXT,
+         current_session TEXT,
+         completed_tasks TEXT,
+         completed_questionnaires TEXT
+         )''')
+    conn.commit()
+    conn.close()
 
 
 # ----------------------------------------------------------------
@@ -128,16 +159,18 @@ def copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder, participant_id, s
                     print(f"Could not extract task and timestamp from file: {file_name}")
 
 
-def generate_next_id(csv_file):
-    """Generates the next participant ID based on existing CSV data (e.g., '001','002', etc.)."""
-    if not os.path.exists(csv_file) or os.path.getsize(csv_file) == 0:
-        return '001'
-    with open(csv_file, 'r') as file:
-        reader = csv.DictReader(file)
-        participant_ids = [int(row['participant_id']) for row in reader if row['participant_id']]
-    if not participant_ids:
-        return '001'
-    next_id = max(participant_ids) + 1
+def generate_next_id(db_file):
+    """Generates the next participant ID based on existing DB data (e.g., '001','002', etc.)."""
+    init_db(db_file)
+    conn = get_db_connection(db_file)
+    c = conn.cursor()
+    c.execute("SELECT MAX(CAST(participant_id AS INTEGER)) FROM participants")
+    result = c.fetchone()[0]
+    if result is None:
+        next_id = 1
+    else:
+        next_id = int(result) + 1
+    conn.close()
     return str(next_id).zfill(3)
 
 
@@ -146,74 +179,71 @@ def generate_random_id(length=6):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
 
-def save_participant_info(csv_file, info):
-    """Saves new participant info (a new row) into CSV, or appends if it doesn't exist."""
-    file_exists = os.path.isfile(csv_file)
-    fieldnames = [
-        'participant_id', 'participant_initials', 'participant_anonymized_id',
-        'date_session1', 'date_session2', 'date_session3', 'language',
-        'current_session', 'completed_tasks'
-    ]
-
+def save_participant_info(db_file, info):
+    """Saves new participant info into the DB if the participant does not already exist."""
+    init_db(db_file)
     if 'completed_tasks' in info and isinstance(info['completed_tasks'], list):
         info['completed_tasks'] = ','.join(info['completed_tasks'])
-
-    if not file_exists or not participant_exists(csv_file, info['participant_id']):
-        with open(csv_file, 'a', newline='') as file:
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            if not file_exists:
-                writer.writeheader()
-            writer.writerow(info)
-
-
-def participant_exists(csv_file, participant_id):
-    """Check if a participant_id row exists in the CSV."""
-    if os.path.exists(csv_file):
-        with open(csv_file, 'r', newline='') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                if row['participant_id'] == participant_id:
-                    return True
-    return False
+    if 'completed_questionnaires' not in info:
+        info['completed_questionnaires'] = ''
+    if not participant_exists(db_file, info['participant_id']):
+        conn = get_db_connection(db_file)
+        c = conn.cursor()
+        c.execute('''INSERT INTO participants 
+                    (participant_id, participant_initials, participant_anonymized_id, date_session1, date_session2, date_session3, language, current_session, completed_tasks, completed_questionnaires)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                    (info['participant_id'], info['participant_initials'], info['participant_anonymized_id'],
+                     info['date_session1'], info['date_session2'], info['date_session3'], info['language'],
+                     info['current_session'], info['completed_tasks'], info['completed_questionnaires']))
+        conn.commit()
+        conn.close()
 
 
-def load_participant_info(csv_file, participant_id):
-    """Loads participant info by ID from the CSV, or returns None if not found."""
-    if not os.path.exists(csv_file):
-        return None
-    with open(csv_file, 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if row['participant_id'] == participant_id:
-                return row
+
+def participant_exists(db_file, participant_id):
+    """Check if a participant_id row exists in the DB."""
+    init_db(db_file)
+    conn = get_db_connection(db_file)
+    c = conn.cursor()
+    c.execute("SELECT 1 FROM participants WHERE participant_id = ?", (participant_id,))
+    exists = c.fetchone() is not None
+    conn.close()
+    return exists
+
+
+def load_participant_info(db_file, participant_id):
+    """Loads participant info by ID from the DB, or returns None if not found."""
+    init_db(db_file)
+    conn = get_db_connection(db_file)
+    c = conn.cursor()
+    c.execute("SELECT * FROM participants WHERE participant_id = ?", (participant_id,))
+    row = c.fetchone()
+    conn.close()
+    if row:
+        return dict(row)
     return None
 
 
-def get_participant_info(csv_file, participant_id):
-    """Retrieve participant info from CSV, converting completed_tasks to a list."""
-    if not os.path.exists(csv_file):
-        return None
-    with open(csv_file, 'r', newline='', encoding='utf-8') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            if row['participant_id'] == participant_id:
-                participant_info = dict(row)
-                tasks_str = participant_info.get('completed_tasks', '')
-                if isinstance(tasks_str, str):
-                    participant_info['completed_tasks'] = tasks_str.split(',') if tasks_str else []
-                else:
-                    participant_info['completed_tasks'] = []
-                return participant_info
-    return None
+def get_participant_info(db_file, participant_id):
+    """Retrieve participant info from DB, converting completed_tasks and completed_questionnaires to lists."""
+    info = load_participant_info(db_file, participant_id)
+    if info:
+        tasks_str = info.get('completed_tasks', '')
+        if isinstance(tasks_str, str):
+            info['completed_tasks'] = tasks_str.split(',') if tasks_str else []
+        else:
+            info['completed_tasks'] = []
+        # Do the same for questionnaires:
+        questionnaires_str = info.get('completed_questionnaires', '')
+        if isinstance(questionnaires_str, str):
+            info['completed_questionnaires'] = questionnaires_str.split(',') if questionnaires_str else []
+        else:
+            info['completed_questionnaires'] = []
+    return info
 
-
-def update_participant_info(csv_file, info):
-    """Updates a participant's info in the CSV, matching by participant_id."""
-    fieldnames = [
-        'participant_id', 'participant_initials', 'participant_anonymized_id',
-        'date_session1', 'date_session2', 'date_session3', 'language',
-        'current_session', 'completed_tasks'
-    ]
+def update_participant_info(db_file, info):
+    """Updates a participant's info in the DB, matching by participant_id."""
+    init_db(db_file)
     if 'completed_tasks' in info:
         if isinstance(info['completed_tasks'], list):
             info['completed_tasks'] = ','.join(info['completed_tasks'])
@@ -221,33 +251,72 @@ def update_participant_info(csv_file, info):
             info['completed_tasks'] = ''
     else:
         info['completed_tasks'] = ''
-
-    filtered_info = {k: info[k] for k in fieldnames if k in info}
-    updated = False
-    rows = []
-
-    if os.path.exists(csv_file):
-        with open(csv_file, 'r', newline='', encoding='utf-8') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                if row['participant_id'] == filtered_info['participant_id']:
-                    rows.append(filtered_info)
-                    updated = True
-                else:
-                    rows.append(row)
+    if 'completed_questionnaires' in info:
+        if isinstance(info['completed_questionnaires'], list):
+            info['completed_questionnaires'] = ','.join(info['completed_questionnaires'])
+        elif not isinstance(info['completed_questionnaires'], str):
+            info['completed_questionnaires'] = ''
     else:
-        rows.append(filtered_info)
-        updated = True
+        info['completed_questionnaires'] = ''
 
-    if not updated:
-        rows.append(filtered_info)
+    conn = get_db_connection(db_file)
+    c = conn.cursor()
+    c.execute('''UPDATE participants
+                 SET participant_initials = ?,
+                     participant_anonymized_id = ?,
+                     date_session1 = ?,
+                     date_session2 = ?,
+                     date_session3 = ?,
+                     language = ?,
+                     current_session = ?,
+                     completed_tasks = ?,
+                     completed_questionnaires = ?
+                 WHERE participant_id = ?''',
+              (info.get('participant_initials'), info.get('participant_anonymized_id'),
+               info.get('date_session1'), info.get('date_session2'), info.get('date_session3'),
+               info.get('language'), info.get('current_session'), info.get('completed_tasks'),
+               info.get('completed_questionnaires'), info.get('participant_id')))
+    conn.commit()
+    conn.close()
 
-    with open(csv_file, 'w', newline='', encoding='utf-8') as file:
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(rows)
+
+def extract_questionnaire_name(file_path):
+    """
+    Extracts the questionnaire name from a given file path.
+    Assumes the file name is in the format 'NAME_language.txt' (e.g., 'demographics_eng.txt')
+    and returns the part before the first underscore (e.g., 'demographics').
+    """
+    import os
+    base = os.path.basename(file_path)
+    name_part = os.path.splitext(base)[0]  # Remove extension.
+    parts = name_part.split('_')
+    return parts[0] if parts else name_part
 
 
+def mark_questionnaire_completed(db_file, participant_info, questionnaire_file):
+    """
+    Marks the given questionnaire as completed for the participant.
+    Extracts the questionnaire name from the file path, updates the
+    'completed_questionnaires' list, and updates the database.
+    Returns the extracted questionnaire name.
+    """
+    # Extract questionnaire name using the helper.
+    questionnaire_name = extract_questionnaire_name(questionnaire_file)
+    
+    # Get the current list from participant_info.
+    completed_questionnaires = participant_info.get('completed_questionnaires', [])
+    if isinstance(completed_questionnaires, str):
+        # Convert from comma-separated string if needed.
+        completed_questionnaires = completed_questionnaires.split(',') if completed_questionnaires else []
+    
+    # Add the questionnaire if not already present.
+    if questionnaire_name not in completed_questionnaires:
+        completed_questionnaires.append(questionnaire_name)
+        participant_info['completed_questionnaires'] = completed_questionnaires
+        update_participant_info(db_file, participant_info)
+    
+    return questionnaire_name
+    
 def run_EyeTracking_Calibration(participant_info):
     """Just calls the Gazepoint calibration script from gazepoint_calibration.py"""
     run_ET_calibration(participant_info)
@@ -336,19 +405,15 @@ def close_applications():
 # ----------------------------------------------------------------
 # perform_post_task_steps
 # ----------------------------------------------------------------
-def perform_post_task_steps(participant_info, csv_file, psychopy_data_dir):
+def perform_post_task_steps(participant_info, db_file, psychopy_data_dir, data_dir_network, tasks_completed):
     """
-    Performs the 6 post-task steps in order, logging any errors:
+    Performs post-task steps in order, logging any errors:
       1) Stop LabRecorder
-      2) Update session date & increment session number
-      3) Move data to BIDS
-      4) Create a log file & redirect stdout/stderr
-      5) Close external applications
-      6) Show an end page (Tkinter) in French or English
-
-    If any step fails, logs an error but continues to next step.
+      2) Move data to BIDS (local)
+      4) Copy the local BIDS folder for this participant/session to the network BIDS directory
+      4) Close external applications
+      5) Update session date & increment session number (only if tasks_completed is True)
     """
-    import sys
     log_messages = []
     current_session = participant_info['current_session']
     bids_folder = None
@@ -360,60 +425,54 @@ def perform_post_task_steps(participant_info, csv_file, psychopy_data_dir):
     except Exception as e:
         log_messages.append(f"Error while stopping LabRecorder: {repr(e)}")
 
-    # ------------------ STEP 2) Update session date & increment number ------------------
-    try:
-        session_key = f"date_session{current_session}"
-        participant_info[session_key] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        participant_info['current_session'] = str(int(current_session) + 1)
-        update_participant_info(csv_file, participant_info)
-        log_messages.append("Session date recorded, and session number incremented.")
-    except Exception as e:
-        log_messages.append(f"Error updating participant info: {repr(e)}")
-
-    # ------------------ STEP 3) Move data to BIDS ------------------
+    # ------------------ STEP 2) Move data to BIDS (local) ------------------
     try:
         root_path = get_parent_directory(os.path.dirname(__file__))
         bids_folder = create_bids_structure(root_path, participant_info['participant_id'], current_session)
         copy_psychopy_data_to_bids(psychopy_data_dir, bids_folder,
                                    participant_info['participant_id'], current_session)
-        log_messages.append("Data successfully copied to BIDS folder.")
+        log_messages.append("Data copied to local BIDS folder.")
     except Exception as e:
         log_messages.append(f"Error copying data to BIDS: {repr(e)}")
+
+    # ------------------ STEP 3) Copy local BIDS folder to network ------------------
+    try:
+        if bids_folder and os.path.exists(bids_folder):
+            # Construct the destination path following the BIDS structure on the network.
+            network_destination = os.path.join(
+                data_dir_network,
+                f"sub-{participant_info['participant_id']}",
+                f"ses-{current_session}"
+            )
+            # Remove destination folder if it exists so that we copy fresh data.
+            if os.path.exists(network_destination):
+                shutil.rmtree(network_destination)
+            shutil.copytree(bids_folder, network_destination)
+            log_messages.append("Local BIDS data copied to network.")
+        else:
+            log_messages.append("BIDS folder not found; skipping network copy.")
+    except Exception as e:
+        log_messages.append(f"Error copying BIDS data to network: {repr(e)}")
 
     # ------------------ STEP 4) Close external applications ------------------
     try:
         close_applications()
-        print("All specified external applications closed.")
+        log_messages.append("Closed external applications.")
     except Exception as e:
-        print(f"Error while closing applications: {repr(e)}")
+        log_messages.append(f"Error while closing applications: {repr(e)}")
+        
+    # ------------------ STEP 5) Update session date & increment session number ------------------
+    try:
+        if tasks_completed:
+            current_session = participant_info['current_session']
+            session_key = f"date_session{current_session}"
+            participant_info[session_key] = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            participant_info['current_session'] = str(int(current_session) + 1)
+            update_participant_info(db_file, participant_info)
+            log_messages.append("Session date updated and session number incremented.")
+    except Exception as e:
+        log_messages.append(f"Error updating session info: {repr(e)}")
 
-    print("Post-task steps completed (some errors may be in the log if they occurred).")
-
-    # ------------------ STEP 5) Create log file & redirect prints ------------------
-    log_file = None
-    if bids_folder:
-        try:
-            log_filename = f"command_prompt_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-            log_filepath = os.path.join(bids_folder, log_filename)
-            log_file = open(log_filepath, "w", buffering=1)
-
-            # Write out stored log_messages
-            for msg in log_messages:
-                log_file.write(msg + "\n")
-
-            # Redirect stdout/stderr to log_file
-            sys.stdout = log_file
-            sys.stderr = log_file
-
-            print(f"Log file created at: {log_filepath}")
-        except Exception as e:
-            print(f"Error creating or opening log file: {repr(e)}")
-    else:
-        print("No BIDS folder available, cannot create log file.")
-    
-    # Close the log file if we have one
-    if log_file and not log_file.closed:
-        log_file.close()
-
-
-
+    # Log all messages (here we simply print them; alternatively, use a logging module)
+    for msg in log_messages:
+        print(msg)

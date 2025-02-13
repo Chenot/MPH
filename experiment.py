@@ -1,28 +1,35 @@
 import os
 import sys
-import csv
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
 from psychopy import visual, core, session
 from datetime import datetime
+import threading
+import sqlite3
 
 # ----------------------------------------------------------------
 # Global paths
 # ----------------------------------------------------------------
 script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Adjust the path to import applications from scripts (MATB, questionnaires, resting-state, etc.)
 psychopy_data_dir = os.path.join(script_dir, 'data')  # Where PsychoPy data is stored
-csv_file = os.path.join(script_dir, 'Participants_expInfo.csv')
-
-# Adjust the path to import MATB, questionnaires, resting-state
-script_dir = os.path.dirname(os.path.abspath(__file__))
 matb_directory = os.path.join(script_dir, 'Complex_OpenMATB')
-questionnaire_directory = os.path.abspath(os.path.join(script_dir, 'Questionnaires'))
+questionnaire_directory = os.path.abspath(os.path.join(script_dir, '..', 'questionnaires'))
 RS_directory = os.path.abspath(os.path.join(script_dir, 'Resting_state'))
- 
-
 sys.path.append(matb_directory)
 sys.path.append(questionnaire_directory)
 sys.path.append(RS_directory)
+
+# Define the local path
+db_file = os.path.join(script_dir, 'Participants_expInfo.db')  # Use .db instead of .csv
+data_dir = os.path.join(script_dir, 'BIDS_data')
+
+# Define the network data path
+network_path = r"\\partage-neurodata\neurodata\MPH"
+db_file_network = os.path.join(network_path, 'tasks', 'Participants_expInfo.db')
+data_dir_network = os.path.join(network_path, 'BIDS_data')
 
 # --------------------------------------------------------------------------
 # Import functions from other scripts: utils, MPH_MATB, ARSQ, questionnaires
@@ -33,14 +40,13 @@ from utils import (
     save_participant_info,
     load_participant_info,
     update_participant_info,
-    create_bids_structure,
-    copy_psychopy_data_to_bids,
-    get_parent_directory,
+    get_participant_info,
+    extract_questionnaire_name,
+    mark_questionnaire_completed,
     minimize_all_windows,
     send_command_to_labrecorder,
     launch_lsl_metascript,
     run_EyeTracking_Calibration,
-    close_applications,
     perform_post_task_steps,
     open_url
 )
@@ -49,8 +55,55 @@ from MPH_MATB import run_matb_task
 from MPH_MATB_training import MATB_training
 from MPH_MATB_instructions import MATB_instructions
 from questionnaire_post_task import QuestionnaireApp
-from questionnaire_ARSQ import ARSQ
+from run_questionnaire import run_questionnaire
 from RS import run_RS
+
+# ------------------ Questionnaire paths ------------------
+# Session 1
+path_demographics_english = os.path.join(questionnaire_directory, 'demographics_eng.txt')
+path_demographics_french = os.path.join(questionnaire_directory, 'demographics_fr.txt')
+path_BIG5_personality_english = os.path.join(questionnaire_directory, 'Big5_eng.txt')
+path_BIG5_personality_french = os.path.join(questionnaire_directory, 'Big5_fr.txt')
+path_SCI_sleep_english = os.path.join(questionnaire_directory, 'SCI_eng.txt')
+path_SCI_sleep_french = os.path.join(questionnaire_directory, 'SCI_fr.txt')
+path_EHI_laterality_english = os.path.join(questionnaire_directory, 'EHI_eng.txt')
+path_EHI_laterality_french = os.path.join(questionnaire_directory, 'EHI_fr.txt')
+path_presession_english = os.path.join(questionnaire_directory, 'presession_eng.txt')
+path_presession_french = os.path.join(questionnaire_directory, 'presession_fr.txt')
+path_ARSQ_english = os.path.join(questionnaire_directory, 'arsq_eng.txt')
+path_ARSQ_french = os.path.join(questionnaire_directory, 'arsq_fr.txt')
+
+# Session 2
+path_REI_rationality_english = os.path.join(questionnaire_directory, 'REI_eng.txt')
+path_REI_rationality_french = os.path.join(questionnaire_directory, 'REI_fr.txt')
+path_MAI_metacognition_english = os.path.join(questionnaire_directory, 'MAI_eng.txt')
+path_MAI_metacognition_french = os.path.join(questionnaire_directory, 'MAI_fr.txt')
+path_VGxp_videogames_english = os.path.join(questionnaire_directory, 'VGexp_eng.txt')
+path_VGxp_videogames_french = os.path.join(questionnaire_directory, 'VGexp_fr.txt')
+path_RSES_selfesteem_english = os.path.join(questionnaire_directory, 'RSES_eng.txt')
+path_RSES_selfesteem_french = os.path.join(questionnaire_directory, 'RSES_fr.txt')
+
+# Session 3
+path_RMEQ_chronotype_english = os.path.join(questionnaire_directory, 'rMEQ_eng.txt')
+path_RMEQ_chronotype_french = os.path.join(questionnaire_directory, 'rMEQ_fr.txt')
+path_TEIQ_emotions_english = os.path.join(questionnaire_directory, 'TEIQ_eng.txt')
+path_TEIQ_emotions_french = os.path.join(questionnaire_directory, 'TEIQ_fr.txt')
+path_SSEIT_emotions_english = os.path.join(questionnaire_directory, 'SSEIT_eng.txt')
+path_SSEIT_emotions_french = os.path.join(questionnaire_directory, 'SSEIT_fr.txt')
+path_BRIEF_executivefunctions_english = os.path.join(questionnaire_directory, 'BRIEF_eng.txt')
+path_BRIEF_executivefunctions_french = os.path.join(questionnaire_directory, 'BRIEF_fr.txt')
+
+# Supplementary Questionnaires
+path_MBTI_personality_english = os.path.join(questionnaire_directory, 'MBTI_eng.txt')
+path_MBTI_personality_french = os.path.join(questionnaire_directory, 'MBTI_fr.txt')
+path_PID_personality_english = os.path.join(questionnaire_directory, 'PID_eng.txt')
+path_PID_personality_french = os.path.join(questionnaire_directory, 'PID_fr.txt')
+path_QOL_quality_of_life_english = os.path.join(questionnaire_directory, 'Q-LES_eng.txt')
+path_QOL_quality_of_life_french = os.path.join(questionnaire_directory, 'Q-LES_fr.txt')
+path_STAI_anxiety_english = os.path.join(questionnaire_directory, 'SSEIT_eng.txt')
+path_STAI_anxiety_french = os.path.join(questionnaire_directory, 'SSEIT_fr.txt')
+path_BDI_depression_english = os.path.join(questionnaire_directory, 'BDI_eng.txt')
+path_BDI_depression_french = os.path.join(questionnaire_directory, 'BDI_fr.txt')
 
 # ------------------ Questionnaire URLs ------------------
 # Session 1
@@ -97,7 +150,6 @@ url_STAI_anxiety_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=3puxm"
 url_BDI_depression_english = "https://www.psytoolkit.org/c/3.4.6/survey?s=Qu7kJ"
 url_BDI_depression_french = "https://www.psytoolkit.org/c/3.4.6/survey?s=EVWWd"
 
-
 # ----------------------------------------------------------------
 # RS and ARSQ tasks
 # ----------------------------------------------------------------
@@ -117,7 +169,7 @@ def run_RS_task(participant_info):
         run_RS(participant_info)  # The function from RS.py
         completed_tasks.append('RS')
         participant_info['completed_tasks'] = completed_tasks
-        update_participant_info(csv_file, participant_info)
+        update_participant_info(db_file, participant_info)
     except Exception as e:
         print(f"Error while running Resting State: {e}")
         raise
@@ -136,16 +188,15 @@ def run_ARSQ_task(participant_info):
 
     try:
         print("Running ARSQ questionnaire...")
-        root = tk.Tk()
-        root.withdraw()
-        arsq_window = tk.Toplevel()
-        app = ARSQ(arsq_window, participant_info)
-        arsq_window.wait_window()
-        root.destroy()
 
+        # Define the path to the ARSQ questionnaire based on the language
+        language = participant_info['language']
+        questionnaire_file = path_ARSQ_french if language == 'French' else path_ARSQ_english
+        run_questionnaire(questionnaire_file, participant_info)
         completed_tasks.append('ARSQ')
         participant_info['completed_tasks'] = completed_tasks
-        update_participant_info(csv_file, participant_info)
+        update_participant_info(db_file, participant_info)
+        
     except Exception as e:
         print(f"Error while running ARSQ: {e}")
         raise
@@ -172,7 +223,7 @@ def run_psychopy_tasks(participant_info):
             'Vocabulary': "Verbal_Vocabulary/vocabulary_lastrun.py",
             'SimpleRTTmouse': "Speed_SimpleRTTmouse/simpleRTTmouse_lastrun.py",
             'Knowledge': "Verbal_Knowledge/knowledge_lastrun.py",
-            'numericalRTT': "Speed_Numerical/numericalRTT_lastrun.py"
+            'numericalRTT': "Speed_NumericalRTT/numericalRTT_lastrun.py"
         }
     elif current_session == '2':
         tasks = {
@@ -233,7 +284,7 @@ def run_psychopy_tasks(participant_info):
             })
             completed_tasks.append(task_name)
             participant_info['completed_tasks'] = completed_tasks
-            update_participant_info(csv_file, participant_info)
+            update_participant_info(db_file, participant_info)
         except Exception as e:
             print(f"Error while running task {task_name}: {e}")
             win.close()
@@ -265,7 +316,7 @@ def run_MATB_training(participant_info):
         MATB_training(participant_info)
         completed_tasks.append(training_label)
         participant_info['completed_tasks'] = completed_tasks
-        update_participant_info(csv_file, participant_info)
+        update_participant_info(db_file, participant_info)
         print(f"MATB training for session {current_session} completed successfully.")
     except Exception as e:
         print(f"Error while running MATB training {training_label}: {e}")
@@ -276,7 +327,7 @@ def run_MATB_tasks(participant_info):
     """Runs the MATB tasks with associated questionnaires."""
     current_session = participant_info['current_session']
     completed_tasks = participant_info.get('completed_tasks', [])
-    os.chdir(matb_directory) # Change directory (errors may appear otherwise)
+    os.chdir(matb_directory)  # Change directory (errors may appear otherwise)
 
     if isinstance(completed_tasks, str):
         completed_tasks = completed_tasks.split(',') if completed_tasks else []
@@ -309,7 +360,7 @@ def run_MATB_tasks(participant_info):
             run_matb_task(participant_info, scenario_file)
             completed_tasks.append(completed_label)
             participant_info['completed_tasks'] = completed_tasks
-            update_participant_info(csv_file, participant_info)
+            update_participant_info(db_file, participant_info)
 
             # Launch the post-MATB questionnaire
             root = tk.Tk()
@@ -340,8 +391,9 @@ def run_MATB_instructions(participant_info):
         try:
             MATB_instructions(participant_info)
             completed_tasks.append(instruction_label)
+            # Here, for historical reasons, completed_tasks was stored as a comma‐separated string:
             participant_info['completed_tasks'] = ",".join(completed_tasks)
-            update_participant_info(csv_file, participant_info)
+            update_participant_info(db_file, participant_info)
             print(f"MATB instructions for session {current_session} completed successfully.")
         except Exception as e:
             print(f"Error while running MATB instructions {instruction_label}: {e}")
@@ -362,21 +414,21 @@ def run_session(participant_info):
     if isinstance(completed_tasks, str):
         completed_tasks = completed_tasks.split(',') if completed_tasks else []
     participant_info['completed_tasks'] = completed_tasks
-
+ 
     try:
         # RUN MAIN TASKS
         if current_session == '1':
-            run_EyeTracking_Calibration(participant_info)
-            run_RS_task(participant_info)
-            run_ARSQ_task(participant_info)
-            run_psychopy_tasks(participant_info)
-            run_MATB_training(participant_info)
+            #run_EyeTracking_Calibration(participant_info)
+            #run_RS_task(participant_info)
+            #run_ARSQ_task(participant_info)
+            #run_psychopy_tasks(participant_info)
+            # run_MATB_training(participant_info)
             run_MATB_tasks(participant_info)
             # run_SF_training(participant_info)
             # run_SF_tasks(participant_info)
 
         elif current_session == '2':
-            run_EyeTracking_Calibration(participant_info)
+            #run_EyeTracking_Calibration(participant_info)
             run_psychopy_tasks(participant_info)
             run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
@@ -384,8 +436,8 @@ def run_session(participant_info):
             # run_SF_tasks(participant_info)
 
         elif current_session == '3':
-            run_EyeTracking_Calibration(participant_info)
-            run_RS_task(participant_info)
+            #run_EyeTracking_Calibration(participant_info)
+            #run_RS_task(participant_info)
             run_psychopy_tasks(participant_info)
             run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
@@ -397,22 +449,21 @@ def run_session(participant_info):
             return
 
         print("All session tasks completed successfully.")
-
+        tasks_completed = True  # Only mark as complete if no exception was raised.
+        
     except Exception as e:
         print(f"Error during session tasks: {e}")
         print("You can restart the session to resume from where you left off.")
 
     finally:
-        # PERFORM POST-TASK STEPS:
-        # 1) Stop Lab Recoder
-        # 2) Update session date & increment session number in the Participants_expInfo file
-        # 3) Move data to BIDS folder
-        # 4) Create a log file of the session
-        # 5) Close apps
-        # 6) Show the end of the session page for the participant
-        perform_post_task_steps(participant_info, csv_file, psychopy_data_dir)
-        
-
+        post_task_thread = threading.Thread(
+            target=perform_post_task_steps,
+            args=(participant_info, db_file, psychopy_data_dir, data_dir_network,  tasks_completed),
+            daemon=True)  # so the thread won't block program exit
+        post_task_thread.start()
+    
+        # At the same time, show the session complete screen in the main thread.
+        show_end_page_experiment(participant_info)
 
 # ----------------------------------------------------------------
 # GUI-related launch functions
@@ -447,7 +498,7 @@ def create_main_gui():
 
 def create_participant_gui():
     def create_participant():
-        participant_id = generate_next_id(csv_file)
+        participant_id = generate_next_id(db_file)
         participant_initials = entry_initials.get()
         language_participant = language_var.get()
         
@@ -468,10 +519,10 @@ def create_participant_gui():
             'completed_tasks': ''  # No tasks completed yet
         }
         
-        # Save the participant information to the CSV
-        save_participant_info(csv_file, participant_info)
+        # Save the participant information to the DB
+        save_participant_info(db_file, participant_info)
         
-        # Close the window and launch the questionnaire GUI
+        # Close the window and launch the main GUI
         root.destroy()
         launch_main_gui(participant_info)
 
@@ -503,25 +554,65 @@ def create_participant_gui():
     .grid(row=3, columnspan=2, pady=20)
 
 
-
 def select_participant_gui():
-    def load_selected_participant():
-        selected = participant_listbox.curselection()
-        if not selected:
+    def load_selected_participant_from_tree():
+        selected_item = treeview.selection()
+        if not selected_item:
             messagebox.showerror("Selection Error", "Please select a participant")
             return
-        participant_id = participant_ids[selected[0]]
-        participant_info = load_participant_info(csv_file, participant_id)
-
-        # Close the window and launch the questionnaire GUI
+        # Get the participant_id from the selected row.
+        pid = treeview.set(selected_item[0], "participant_id")
+        participant_info = load_participant_info(db_file, pid)
         root.destroy()
         launch_main_gui(participant_info)
 
     def close_load_selected_participant():
-        root.destroy()  # This will close the Tkinter application
+        root.destroy()  # Close the Tkinter application
         create_main_gui()
 
-    # Tkinter window for selecting a participant
+    def on_double_click(event):
+        # Identify the item and column clicked.
+        region = treeview.identify("region", event.x, event.y)
+        if region != "cell":
+            return
+
+        rowid = treeview.identify_row(event.y)
+        column = treeview.identify_column(event.x)
+        if not rowid or column == "#0":
+            return
+
+        # Get bounding box of the cell in the treeview.
+        x, y, width, height = treeview.bbox(rowid, column)
+        # Map the Treeview column (e.g. "#1") to our field name.
+        col_index = int(column.replace("#", "")) - 1
+        col_names = ["participant_id", "participant_initials", "current_session", "completed_tasks"]
+        field = col_names[col_index]
+
+        # Get the current cell value.
+        current_value = treeview.set(rowid, column)
+
+        # Create an Entry widget over the cell.
+        entry = tk.Entry(treeview)
+        entry.place(x=x, y=y, width=width, height=height)
+        entry.insert(0, current_value)
+        entry.focus_set()
+
+        def on_focus_out(event):
+            new_value = entry.get()
+            treeview.set(rowid, column, new_value)
+            entry.destroy()
+            # Update the database record.
+            pid = treeview.set(rowid, "participant_id")
+            # Load the full participant info dictionary.
+            p_info = load_participant_info(db_file, pid)
+            # Update the changed field.
+            p_info[field] = new_value
+            update_participant_info(db_file, p_info)
+
+        entry.bind("<Return>", lambda e: on_focus_out(e))
+        entry.bind("<FocusOut>", on_focus_out)
+
+    # Create the main window.
     root = tk.Tk()
     root.title("Select Participant")
     root.attributes('-fullscreen', True)
@@ -529,22 +620,46 @@ def select_participant_gui():
     main_frame = tk.Frame(root)
     main_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-    tk.Label(main_frame, text="Select Participant", font=("Helvetica", 16)).pack(pady=10)
-    participant_listbox = tk.Listbox(main_frame, width=50, height=20, font=("Helvetica", 14))
-    participant_listbox.pack(pady=10)
+    # Create a Treeview widget with our desired columns.
+    columns = ("participant_id", "participant_initials", "current_session", "completed_tasks")
+    treeview = ttk.Treeview(main_frame, columns=columns, show="headings", height=20)
+    treeview.heading("participant_id", text="Participant ID")
+    treeview.heading("participant_initials", text="Participant Initials")
+    treeview.heading("current_session", text="Current Session")
+    treeview.heading("completed_tasks", text="Completed Tasks")
+    treeview.column("participant_id", width=100)
+    treeview.column("participant_initials", width=150)
+    treeview.column("current_session", width=120)
+    treeview.column("completed_tasks", width=200)
+    treeview.pack(pady=10)
 
+    # Load participants from the database.
     participant_ids = []
-    if os.path.exists(csv_file):
-        with open(csv_file, mode='r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                participant_ids.append(row['participant_id'])
-                participant_listbox.insert(tk.END, f"ID: {row['participant_id']}, Initials: {row['participant_initials']}, session: {row['current_session']}, Language: {row['language']}")
+    try:
+        conn = sqlite3.connect(db_file)
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        c.execute("SELECT * FROM participants")
+        rows = c.fetchall()
+        for row in rows:
+            pid = row['participant_id']
+            participant_ids.append(pid)
+            initials = row['participant_initials']
+            current_session = row['current_session']
+            completed = row['completed_tasks']
+            treeview.insert("", tk.END, values=(pid, initials, current_session, completed))
+        conn.close()
+    except Exception as e:
+        print(f"Error loading participants from DB: {e}")
 
-    tk.Button(main_frame, text="Load", command=load_selected_participant, font=("Helvetica", 16)).pack(pady=10)
+    # Bind a double-click to allow editing cells.
+    treeview.bind("<Double-1>", on_double_click)
 
-    # Back button at the bottom
+    # Load button.
+    tk.Button(main_frame, text="Load", command=load_selected_participant_from_tree, font=("Helvetica", 16)).pack(pady=10)
+    # Back button.
     tk.Button(main_frame, text="Back", command=close_load_selected_participant, font=("Helvetica", 10)).pack(pady=20)
+
     root.mainloop()
 
 
@@ -553,7 +668,6 @@ def launch_experiment_gui(participant_info):
     def start_experiment():
         root.destroy()
         run_session(participant_info)
-        show_end_page_experiment(participant_info)
         core.quit()
 
     root = tk.Tk()
@@ -570,37 +684,50 @@ def launch_experiment_gui(participant_info):
     tk.Button(main_frame, text="Start", command=start_experiment, font=("Helvetica", 16)).pack(pady=10)
     root.mainloop()
 
+def run_and_update_questionnaire(q_path, participant_info, db_file):
+    # Run the questionnaire (this call blocks until the questionnaire window is closed)
+    run_questionnaire(q_path, participant_info)
+    mark_questionnaire_completed(db_file, participant_info, q_path)
+    updated_info = get_participant_info(db_file, participant_info['participant_id'])
+    current_root = tk._default_root
+    if current_root is not None:
+        current_root.destroy()
+    launch_questionnaire_gui(updated_info)
 
 def launch_questionnaire_gui(participant_info):
     """Launches the GUI for selecting questionnaires based on the session and language."""
+    # Refresh participant_info from the DB so we have the latest completed_questionnaires.
+    participant_info = get_participant_info(db_file, participant_info['participant_id'])
+    
     current_session = participant_info['current_session']
     language = participant_info['language']
-
+    
+    # Define the paths for each questionnaire based on the session and language
     if current_session == '1':
-        urls = {
-            "Demographics": url_demographics_french if language == "French" else url_demographics_english,
-            "Personality (BIG-5)": url_BIG5_personality_french if language == "French" else url_BIG5_personality_english,
-            "Sleep Quality (SCI)": url_SCI_sleep_french if language == "French" else url_SCI_sleep_english,
-            "Handedness (EHI)": url_EHI_laterality_french if language == "French" else url_EHI_laterality_english,
-            "Pre-session": url_presession_french if language == "French" else url_presession_english
+        paths = {
+            "Demographics": path_demographics_french if language == "French" else path_demographics_english,
+            "Personality (BIG-5)": path_BIG5_personality_french if language == "French" else path_BIG5_personality_english,
+            "Sleep Quality (SCI)": path_SCI_sleep_french if language == "French" else path_SCI_sleep_english,
+            "Handedness (EHI)": path_EHI_laterality_french if language == "French" else path_EHI_laterality_english,
+            "Pre-session": path_presession_french if language == "French" else path_presession_english
         }
     elif current_session == '2':
-        urls = {
-            "Rationality (REI)": url_REI_rationality_french if language == "French" else url_REI_rationality_english,
-            "Meta-cognition (MAI)": url_MAI_metacognition_french if language == "French" else url_MAI_metacognition_english,
-            "Video Game Experience (VGxp)": url_VGxp_videogames_french if language == "French" else url_VGxp_videogames_english,
-            "Self-esteem (RSES)": url_RSES_selfesteem_french if language == "French" else url_RSES_selfesteem_english,
-            "Pre-session": url_presession_french if language == "French" else url_presession_english
+        paths = {
+            "Rationality (REI)": path_REI_rationality_french if language == "French" else path_REI_rationality_english,
+            "Meta-cognition (MAI)": path_MAI_metacognition_french if language == "French" else path_MAI_metacognition_english,
+            "Video Game Experience (VGxp)": path_VGxp_videogames_french if language == "French" else path_VGxp_videogames_english,
+            "Self-esteem (RSES)": path_RSES_selfesteem_french if language == "French" else path_RSES_selfesteem_english,
+            "Pre-session": path_presession_french if language == "French" else path_presession_english
         }
     elif current_session == '3':
-        urls = {
-            "Chronotype (rMEQ)": url_RMEQ_chronotype_french if language == "French" else url_RMEQ_chronotype_english,
-            "Emotions (TEIQ)": url_TEIQ_emotions_french if language == "French" else url_TEIQ_emotions_english,
-            "Emotions (SSEIT)": url_SSEIT_emotions_french if language == "French" else url_SSEIT_emotions_english,
-            "Executive Functions (BRIEF)": url_BRIEF_executivefunctions_french if language == "French" else url_BRIEF_executivefunctions_english
+        paths = {
+            "Chronotype (rMEQ)": path_RMEQ_chronotype_french if language == "French" else path_RMEQ_chronotype_english,
+            "Emotions (TEIQ)": path_TEIQ_emotions_french if language == "French" else path_TEIQ_emotions_english,
+            "Emotions (SSEIT)": path_SSEIT_emotions_french if language == "French" else path_SSEIT_emotions_english,
+            "Executive Functions (BRIEF)": path_BRIEF_executivefunctions_french if language == "French" else path_BRIEF_executivefunctions_english
         }
     else:
-        urls = {}
+        paths = {}
 
     root = tk.Tk()
     root.title(f"Questionnaires for Participant {participant_info['participant_id']}")
@@ -609,15 +736,37 @@ def launch_questionnaire_gui(participant_info):
     tk.Label(root, text=f"Participant ID: {participant_info['participant_id']}", font=("Helvetica", 16)).pack(pady=10)
     button_frame = tk.Frame(root)
     button_frame.pack(pady=50)
+    
+    # Process the completed_questionnaires list: split and strip any whitespace.
+    completed_questionnaires = participant_info.get("completed_questionnaires", [])
+    if isinstance(completed_questionnaires, str):
+        completed_questionnaires = [x.strip() for x in completed_questionnaires.split(',') if x.strip()]
 
-    for title, url in urls.items():
-        tk.Button(button_frame, text=title, font=("Helvetica", 14), command=lambda u=url: open_url(u)).pack(padx=20, pady=10)
+    # We'll also keep a reference to the buttons if needed later.
+    questionnaire_buttons = {}
 
-    button_back = tk.Button(root, text="Back", font=("Helvetica", 16),
-                            command=lambda: [root.destroy(), launch_main_gui(participant_info)])
+    for title, path in paths.items():
+        # Extract and trim the questionnaire name from the file path.
+        qname = extract_questionnaire_name(path).strip()
+        # Disable the button if the questionnaire is already completed.
+        state = "disabled" if qname in completed_questionnaires else "normal"
+        btn = tk.Button(
+            button_frame, text=title, font=("Helvetica", 14),
+            command=lambda p=path: run_and_update_questionnaire(p, participant_info, db_file),
+            state=state
+        )
+        btn.pack(padx=20, pady=10)
+        questionnaire_buttons[qname] = btn
+
+    # Back button to return to main menu
+    button_back = tk.Button(
+        root, text="Back", font=("Helvetica", 16),
+        command=lambda: [root.destroy(), launch_main_gui(participant_info)]
+    )
     button_back.pack(pady=20)
 
     root.mainloop()
+
 
 
 def launch_supplementary_questionnaire_gui(participant_info):
@@ -684,7 +833,7 @@ def launch_main_gui(participant_info):
     button_start_recording = tk.Button(button_frame, text="Start Recording", **button_options, command=start_recording)
     button_start_recording.grid(row=1, column=0, padx=20, pady=20)
 
-    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options, state="disabled", command=start_tasks)
+    button_tasks = tk.Button(button_frame, text="Start Tasks", **button_options, state="normal", command=start_tasks)
     button_tasks.grid(row=2, column=0, padx=20, pady=20)
 
     button_supplementary = tk.Button(button_frame, text="Supplementary Questionnaires", **button_options,
@@ -709,6 +858,7 @@ def launch_main_gui(participant_info):
     button_finish.grid(row=0, column=1, padx=10)
 
     root.mainloop()
+
 
 def show_end_page_experiment(participant_info):
     """
