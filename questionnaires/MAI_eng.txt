@@ -1,0 +1,68 @@
+page: begin
+
+scale: mai2  
+- {score=1} Strongly disagree  
+- {score=2} Disagree  
+- {score=3} Neutral  
+- {score=4} Agree  
+- {score=5} Strongly agree  
+
+l: english_mai  
+t: scale mai2  
+o: width 50%  
+q: Please indicate whether you agree or disagree with the following statements:  
+- I ask myself periodically if I am meeting my goals.  
+- I consider several alternatives to a problem before I answer.  
+- I try to use strategies that have worked in the past.  
+- I pace myself while learning in order to have enough time.  
+- I understand my intellectual strengths and weaknesses.  
+- I think about what I really need to learn before I begin a task.  
+- I know how well I did once I finish a test.  
+- I set specific goals before I begin a task.  
+- I slow down when I encounter important information.  
+- I know what kind of information is most important to learn.  
+- I ask myself if I have considered all options when solving a problem.  
+- I am good at organizing information.  
+- I consciously focus my attention on important information.  
+- I have a specific purpose for each strategy I use.  
+- I learn best when I know something about the topic.  
+- I know what the teacher expects me to learn.  
+- I am good at remembering information.  
+- I use different learning strategies depending on the situation.  
+- I ask myself if there was an easier way to do things after I finish a task.  
+- I have control over how well I learn.  
+- I periodically review to help me understand important relationships.  
+- I ask myself questions about the material before I begin.  
+- I think of several ways to solve a problem and choose the best one.  
+- I summarize what I’ve learned after I finish.  
+- I ask others for help when I don’t understand something.  
+- I can motivate myself to learn when I need to.  
+- I am aware of what strategies I use when I study.  
+- I find myself analyzing the usefulness of strategies while I study.  
+- I use my intellectual strengths to compensate for my weaknesses.  
+- I focus on the meaning and significance of new information.  
+- I create my own examples to make information more meaningful.  
+- I am a good judge of how well I understand something.  
+- I find myself using helpful learning strategies automatically.  
+- I find myself pausing regularly to check my comprehension.  
+- I know when each strategy I use will be most effective.  
+- I ask myself how well I accomplish my goals once I’m finished.  
+- I draw pictures or diagrams to help me understand while learning.  
+- I ask myself if I have considered all options after I solve a problem.  
+- I try to translate new information into my own words.  
+- I change strategies when I fail to understand.  
+- I use the organizational structure of the text to help me learn.  
+- I read instructions carefully before I begin a task.  
+- I ask myself if what I’m reading is related to what I already know.  
+- I re-evaluate my assumptions when I get confused.  
+- I organize my time to best accomplish my goals.  
+- I learn more when I am interested in the topic.  
+- I try to break studying down into smaller steps.  
+- I focus on overall meaning rather than specifics.  
+- I ask myself questions about how well I am doing while learning something new.  
+- I ask myself if I learned as much as I could have once I finish a task.  
+- I stop and go back over new information that is not clear.  
+- I stop and reread when I get confused.  
+
+
+page: end

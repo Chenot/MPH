@@ -1,0 +1,35 @@
+page: begin
+
+scale: satisfaction
+- {score=1} Très insatisfait(e)
+- {score=2} Insatisfait(e)
+- {score=3} Ni satisfait(e), ni insatisfait(e)
+- {score=4} Satisfait(e)
+- {score=5} Très satisfait(e)
+
+l: qualite_de_vie
+t: scale satisfaction
+o: width 50%
+q: En tenant compte de tout, au cours des 7 derniers jours,<br>à quel point avez-vous été satisfait(e) de...
+- votre santé physique ?
+- votre humeur ?
+- votre travail ?
+- vos tâches ménagères ?
+- vos relations sociales ?
+- votre activité physique ?
+- votre alimentation ?
+- votre sommeil ?
+- votre capacité à vous concentrer ?
+- votre capacité à gérer le stress ?
+- votre vie sexuelle ?
+- vos loisirs ?
+- vos relations familiales ?
+- votre situation financière ?
+- votre environnement de vie ?
+- votre santé mentale ?
+- votre niveau d'énergie ?
+- votre image de vous-même ?
+- votre sentiment de sécurité ?
+- votre indépendance ?
+
+page: end

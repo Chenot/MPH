@@ -1,0 +1,66 @@
+page: begin
+
+scale: english_rMEQ
+- {score=5} 5:00–6:30 AM
+- {score=4} 6:30–7:45 AM
+- {score=3} 7:45–9:45 AM
+- {score=2} 9:45–11:00 AM
+- {score=1} 11:00–12 noon
+
+l: english_rMEQ
+t: scale english_rMEQ
+o: width 50%
+q: <br>Approximately what time would you get up...
+- ...if you were entirely free to plan your day?
+
+scale: english_rMEQ2
+- {score=1} Very tired
+- {score=2} Fairly tired
+- {score=3} Fairly refreshed
+- {score=4} Very refreshed
+
+l: english_rMEQ2
+t: scale english_rMEQ2
+o: width 50%
+q: <br>During the first half hour after you wake up in the morning...
+- ...how do you feel ?
+
+scale: english_rMEQ3
+- {score=5} 8:00–9:00 PM
+- {score=4} 9:00–10:15 PM
+- {score=3} 10:15–12:45 AM
+- {score=2} 12:45–2:00 AM
+- {score=1} 2:00–3:00 AM
+
+l: english_rMEQ3
+t: scale english_rMEQ3
+o: width 50%
+q: <br>At approximately what time in the evening do you feel tired, and...
+- ...as a result, in need of sleep?
+
+scale: english_rMEQ4
+- {score=5} 5–8 AM
+- {score=4} 8–10 AM
+- {score=3} 10 AM–5 PM
+- {score=2} 5–10 PM
+- {score=1} 10 PM–5 AM
+
+l: english_rMEQ4
+t: scale english_rMEQ4
+o: width 50%
+q: <br> 
+- At approximately what time of day do you usually feel your best?
+
+scale: english_rMEQ5
+- {score=6} Definitely a morning-type
+- {score=4} Rather more a morning-type than an evening-type
+- {score=2} Rather more an evening-type than a morning-type
+- {score=0} Definitely an evening-type
+
+l: english_rMEQ5
+t: scale english_rMEQ5
+o: width 50%
+q: <br>One hears about “morning-types” and “evening-types”. 
+- Which one of these types do you consider yourself to be?
+
+page: end

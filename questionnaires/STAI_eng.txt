@@ -1,0 +1,81 @@
+page: begin
+
+l: english_STAI_instructions
+t: info
+q: <b>A number of statements which people have used to describe themselves are given below.
+Read each statement and then circle the appropriate number to the right of the statement to indicate how you feel RIGHT NOW, that is, at this moment.
+There are no right or wrong answers. Do not spend too much time on any one statement but give the answer which seems to describe your present feelings best.
+
+scale: english_STAIY1
+- {score=1} Not at all
+- {score=2} Somewhat
+- {score=3} Moderately so
+- {score=4} Very much so
+
+l: english_STAIY1
+t: scale english_STAIY1
+o: width 50%
+q: <br>Right now, in this situation:
+- I feel calm.
+- I feel secure.
+- I am tense.
+- I feel strained.
+- I feel at ease.
+- I feel upset.
+- I am presently worrying over possible misfortunes.
+- I feel satisfied.
+- I feel frightened.
+- I feel comfortable.
+- I feel self-confident.
+- I feel nervous.
+- I am jittery.
+- I feel indecisive.
+- I am relaxed.
+- I feel content.
+- I am worried.
+- I feel confused.
+- I feel steady.
+- I feel pleasant.
+
+page: end
+
+page: begin
+
+l: french_STAI_instructions2
+t: info
+q: <b>A number of statements which people have used to describe themselves are given below.
+Read each statement and select the response that indicates how you GENERALLY feel.
+There are no right or wrong answers. Do not spend too much time on each statement, but provide the response that best describes how you generally feel.
+
+scale: english_STAIY2
+- {score=1} Almost never
+- {score=2} Sometimes
+- {score=3} Often
+- {score=4} Almost always
+
+l: english_STAIY2
+t: scale english_STAIY2
+o: width 50%
+q: <br>In general, in my daily life:
+- I feel pleasant.
+- I feel nervous and restless.
+- I feel satisfied with myself.
+- I wish I could be as happy as others seem to be.
+- I feel like a failure.
+- I feel rested.
+- I am 'calm, cool, and collected'.
+- I feel that difficulties are piling up so that I cannot overcome them.
+- I worry too much over something that really doesn't matter.
+- I am happy.
+- I have disturbing thoughts.
+- I lack self-confidence.
+- I feel secure.
+- I make decisions easily.
+- I feel inadequate.
+- I am content.
+- Some unimportant thought runs through my mind and bothers me.
+- I take disappointments so keenly that I can't put them out of my mind.
+- I am a steady person.
+- I get in a state of tension or turmoil as I think over my recent concerns and interests.
+
+page: end

@@ -1,0 +1,28 @@
+%%
+# Create the new environment with Python 3.8
+conda create -n psychopy_env python=3.8
+
+# Activate the new environment
+conda activate psychopy_env
+
+# Install Spyder
+conda install spyder
+
+# Install pip (if not already installed)
+conda install pip
+
+# Install specific version of PsychoPy using pip
+pip install psychopy==2024.1.4
+pip install pywinauto
+pip install pygetwindow
+pip install pygame
+pip install pylsl
+pip install pyautogui
+pip install pyinput
+
+%%
+conda activate psychopy_env
+spyder
+%%
+
+

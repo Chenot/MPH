@@ -1,0 +1,48 @@
+page: begin
+
+scale: agreement2
+- {score=1} Completely Disagree
+- {score=2} Mostly Disagree
+- {score=3} Somewhat Disagree
+- {score=4} Neither Agree Nor Disagree
+- {score=5} Somewhat Agree
+- {score=6} Mostly Agree
+- {score=7} Completely Agree
+
+l: TEIQ_english
+t: scale agreement2
+o: width 50%
+q: Please respond to each statement below by indicating the degree that best reflects your level of agreement or disagreement. Do not think too long about the exact meaning of the statements. Answer quickly and try to respond as accurately as possible. There are no right or wrong answers.
+- Expressing my emotions with words is not a problem for me.
+- I often find it difficult to see things from another person’s viewpoint.
+- On the whole, I’m a highly motivated person.
+- I usually find it difficult to regulate my emotions.
+- I generally don’t find life enjoyable.
+- I can deal effectively with people.
+- I tend to change my mind frequently.
+- Many times, I can’t figure out what emotion I'm feeling.
+- I feel that I have a number of good qualities.
+- I often find it difficult to stand up for my rights.
+- I’m usually able to influence the way other people feel.
+- On the whole, I have a gloomy perspective on most things.
+- Those close to me often complain that I don’t treat them right.
+- I often find it difficult to adjust my life according to the circumstances.
+- On the whole, I’m able to deal with stress.
+- I often find it difficult to show my affection to those close to me.
+- I’m normally able to “get into someone’s shoes” and experience their emotions.
+- I normally find it difficult to keep myself motivated.
+- I’m usually able to find ways to control my emotions when I want to.
+- On the whole, I’m pleased with my life.
+- I would describe myself as a good negotiator.
+- I tend to get involved in things I later wish I could get out of.
+- I often pause and think about my feelings.
+- I believe I’m full of personal strengths.
+- I tend to “back down” even if I know I’m right.
+- I don’t seem to have any power at all over other people’s feelings.
+- I generally believe that things will work out fine in my life.
+- I find it difficult to bond well even with those close to me.
+- Generally, I’m able to adapt to new environments.
+- Others admire me for being relaxed.
+
+page: end
+

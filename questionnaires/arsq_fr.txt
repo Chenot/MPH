@@ -1,0 +1,57 @@
+page: begin
+
+scale: arsq1
+- {score=1} Pas du tout d'accord
+- {score=2} Pas d'accord
+- {score=3} Ni d'accord ni en désaccord
+- {score=4} D'accord
+- {score=5} Tout à fait d'accord
+
+l: french
+t: scale arsq1
+o: width 50%
+q: Pour les 5 dernières minutes, veuillez indiquer votre degré d'accord avec les affirmations suivantes :
+- J'ai pensé à mes émotions.
+- Je me suis senti.e agité.e.
+- Je me suis senti.e fatigué.e.
+- Je me suis senti.e endormi.e.
+- Je me suis senti.e à l'aise.
+- Je me suis senti.e détendu.e.
+- Je me suis senti.e heureux.se.
+- J'ai apprécié la session.
+- Je me suis ennuyé.e.
+- Je n'ai rien senti.e.
+- J'ai ressenti.e la même chose tout au long de la session.
+- J'ai pensé à ma santé.
+- J'ai pensé à mon travail / mes études.
+- J'ai pensé à mon comportement.
+- J'ai eu des pensées que je n'aurais pas volontiers partagées avec d'autres.
+- J'étais occupé à penser.
+- J'avais des pensées similaires tout au long de la session.
+- J'ai pensé aux autres.
+- J'ai pensé à moi-même.
+- J'ai pensé à des choses agréables.
+- J'ai pensé à résoudre des problèmes.
+- J'ai pensé au but de l'expérience.
+- J'ai eu du mal à rester éveillé.e.
+- J'ai eu des pensées qui changeaient rapidement.
+- J'ai eu des pensées superficielles.
+- J'ai pensé au passé.
+- J'ai pensé au présent.
+- J'ai pensé au futur.
+- J'ai eu des pensées profondes.
+- Je ne pensais à rien.
+- J'ai eu des difficultés à retenir mes pensées.
+- J'ai pensé aux personnes que j'aime bien.
+- J'ai pensé en images.
+- J'ai pensé en mots.
+- J'ai pensé aux choses que je dois faire.
+- J'étais conscient.e de mon corps.
+- J'ai pensé aux sons qui m'entourent.
+- J'ai pensé aux odeurs autour de moi.
+- J'ai pensé aux battements de mon cœur.
+- J'ai pensé à ma respiration.
+- Je me suis mis.e à la place
+
+
+page: end

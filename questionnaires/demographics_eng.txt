@@ -1,0 +1,177 @@
+page: begin
+
+l: age_english
+t: textline
+q: Year and month of birth (MM/YYYY format):
+-
+
+l: gender
+t: radio
+q: Sex assigned at birth:
+- Male
+- Female
+- Other
+
+l: education
+t: textline
+q: Level of education:
+-
+
+l: education_field
+t: textline
+q: Field of study (if applicable):
+-
+
+l: employment_status
+t: radio
+q: Employment status:
+- Full-time employee
+- Part-time employee
+- Unemployed
+- Student
+- Other
+
+l: native_language
+t: textline
+q: Native language:
+-
+
+l: secondary_language
+t: textline
+q: Secondary language(s) and level (A1: elementary; C2: mastery):
+-
+
+l: marital_status
+t: radio
+q: What is your marital status?
+- Single
+- In a relationship
+- Married
+- Divorced/Separated
+- Widowed
+- Other
+
+l: upbringing
+t: radio
+q: Where did you primarily grow up?
+- Hamlet: Fewer than 200 inhabitants
+- Village: 200 to 2,000 inhabitants
+- Small town: 2,000 to 5,000 inhabitants
+- Small city: 5,000 to 20,000 inhabitants
+- Medium city: 20,000 to 50,000 inhabitants
+- Large city: 50,000 to 200,000 inhabitants
+- Metropolis: More than 200,000 inhabitants
+
+l: siblings
+t: textline
+q: How many brothers and sisters do you have?
+- Number of brothers:
+- Number of sisters:
+
+l: monthly_resources
+t: radio
+q: What are your monthly resources (grants, scholarships, family support, salary, etc.)?
+- Less than 1000 €
+- Between 1000 and 2000 €
+- Between 2000 and 3000 €
+- Between 3000 and 4000 €
+- More than 4000 €
+
+l: guardian_income_1
+t: radio
+q: What was your legal guardian 1's (usually mother) approximate monthly income when you were growing up?
+- Less than 1000 €
+- Between 1000 and 2000 €
+- Between 2000 and 3000 €
+- Between 3000 and 4000 €
+- More than 4000 €
+- Without legal guardian 1
+
+l: socio_economic_status_1
+t: radio
+q: What was the socio-economic class of your legal guardian 1 (usually mother) when you were growing up?
+- Executive
+- Intellectual and/or scientific profession
+- Intermediate salaried profession
+- Small entrepreneur
+- Skilled employee
+- Skilled worker
+- Low-skilled employee
+- Retired
+- Other
+- Without legal guardian 1
+
+l: guardian_income_2
+t: radio
+q: What was your legal guardian 2's (usually father) approximate monthly income when you were growing up?
+- Less than 1000 €
+- Between 1000 and 2000 €
+- Between 2000 and 3000 €
+- Between 3000 and 4000 €
+- More than 4000 €
+- Without legal guardian 2
+
+l: socio_economic_status_2
+t: radio
+q: What was the socio-economic class of your legal guardian 2 (usually father) when you were growing up?
+- Executive
+- Intellectual and/or scientific profession
+- Intermediate salaried profession
+- Small entrepreneur
+- Skilled employee
+- Skilled worker
+- Low-skilled employee
+- Retired
+- Other
+- Without legal guardian 2
+
+scale: religiosity_scale
+- {score=1} Not religious at all
+- {score=2} Slightly religious
+- {score=3} Somewhat religious
+- {score=4} Moderately religious
+- {score=5} Fairly religious
+- {score=6} Religious
+- {score=7} Very religious
+
+l: religiosity
+t: scale religiosity_scale
+o: width 50%
+q: How religious are you?
+
+scale: engagement2
+- {score=1} 0h
+- {score=2} 0-1h
+- {score=3} 1-2h
+- {score=4} 2-3h
+- {score=5} 3-4h
+- {score=6} 4h+
+
+l: activities
+t: scale engagement2
+o: width 50%
+q: Engagement in activities (hours per week):
+- Reading
+- Writing
+- Puzzles or brain games (sudoku, crosswords, etc.)
+- Strategy games (chess, go, etc.)
+- Board games (Monopoly, Risk, etc.)
+- Musical practice (instrument, voice, etc.)
+- Artistic activity (painting, drawing, sculpture, etc.)
+- Craft activity (DIY, gardening, cooking, etc.)
+- Cultural activity (lectures, museums, etc.)
+- Computing (programming, algorithms, etc.)
+- Active internet browsing (information research)
+- Social networks (Instagram, TikTok, etc.)
+- Television (movies/series)
+- Participation in discussion groups (books, debates, etc.)
+- Sport
+- Meditation
+
+l: menstruation
+t: textline
+o: require
+q: If you have a uterus, how many days have passed since the first day of your last menstrual period? (if you don't know exactly, give an estimate). If not, indicate “NA” for not applicable.
+
+page: end
+

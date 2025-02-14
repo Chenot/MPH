@@ -1,0 +1,28 @@
+page: begin
+
+scale: french_EHI
+- {score=1} Toujours gauche
+- {score=2} Habituellement gauche
+- {score=3} Pas de préférence 
+- {score=4} Habituellement droite
+- {score=5} Toujours droite
+
+l: french_EHI
+t: scale french_EHI
+o: width 50%
+q: Veuillez cocher la case qui décrit le mieux la main que vous utilisez pour l'activité en question
+- Écriture
+- Lancer
+- Ciseaux
+- Brosse à dents
+- Couteau (sans fourchette)
+- Cuillère
+- Allumer une allumette (frottement)
+- Souris d'ordinateur
+- Quel pied préférez-vous utiliser pour donner un coup de pied ?
+- Quel œil utilisez-vous lorsque vous n'en utilisez qu'un seul ?
+
+
+page: end
+
+

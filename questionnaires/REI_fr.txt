@@ -1,0 +1,55 @@
+page: begin 
+
+scale: fr_rei
+- {score=1} Complètement faux
+- {score=2} Moyennement faux
+- {score=3} Pas vraiment vrai ou faux
+- {score=4} Moyennement vrai
+- {score=5} Complètement vrai
+
+l: fr_rei
+t: scale fr_rei
+o: width 50%
+q: Pour chaque affirmation, indiquez dans quelle mesure elle est vraie pour vous :
+- J'ai un esprit logique.
+- Je préfère les problèmes complexes aux problèmes simples.
+- Je crois en mes intuitions.
+- Je ne suis pas un penseur très analytique.
+- Je fais confiance à mes premières impressions sur les gens.
+- J'essaie d'éviter les situations qui nécessitent de réfléchir en profondeur.
+- J'aime me fier à mes impressions intuitives.
+- Je ne raisonne pas bien sous pression.
+- Je n'aime pas les situations où je dois me fier à l'intuition.
+- Réfléchir intensément et longtemps à quelque chose ne me donne pas beaucoup de satisfaction.
+- L'intuition peut être un moyen très utile de résoudre des problèmes.
+- Je ne voudrais pas dépendre de quelqu'un qui se décrirait comme intuitif.
+- Je suis beaucoup mieux à résoudre les problèmes de manière logique que la plupart des gens.
+- J'ai généralement des raisons claires et explicables pour mes décisions.
+- Je ne pense pas que ce soit une bonne idée de se fier à son intuition pour des décisions importantes.
+- Penser n'est pas pour moi une activité agréable.
+- Je n'ai aucun problème à réfléchir soigneusement.
+- En ce qui concerne la confiance aux gens, je peux généralement me fier à mes instincts.
+- Je peux généralement sentir quand une personne a raison ou tort, même si je ne peux pas expliquer comment je le sais.
+- Apprendre de nouvelles façons de penser serait très attrayant pour moi.
+- Je me trompe rarement quand j'écoute mes instincts les plus profonds pour trouver une réponse.
+- Je pense qu'il est insensé de prendre des décisions importantes basées sur des sentiments.
+- J'ai tendance à utiliser mon cœur comme guide pour mes actions.
+- Je me fie souvent à mes instincts pour décider d'une ligne de conduite.
+- Je ne suis pas très doué pour résoudre des problèmes complexes.
+- J'aime les défis intellectuels.
+- Raisonner soigneusement n'est pas un de mes points forts.
+- J'aime penser en termes abstraits.
+- Je ne dépends généralement pas de mes sentiments pour prendre des décisions.
+- Utiliser la logique fonctionne généralement bien pour moi pour résoudre les problèmes de ma vie.
+- Je pense qu'il y a des moments où l'on devrait se fier à son intuition.
+- Je n'aime pas avoir à beaucoup réfléchir.
+- Connaître la réponse sans avoir à comprendre le raisonnement qui la sous-tend me suffit.
+- Utiliser mes instincts fonctionne généralement bien pour moi pour résoudre les problèmes de ma vie.
+- Je n'ai pas un très bon sens de l'intuition.
+- Si je devais me fier à mes instincts, je ferais souvent des erreurs.
+- Je soupçonne que mes intuitions sont aussi souvent incorrectes que correctes.
+- Mes jugements rapides ne sont probablement pas aussi bons que ceux de la plupart des gens.
+- Je ne suis pas très bon pour résoudre des problèmes qui nécessitent une analyse logique minutieuse.
+- J'aime résoudre des problèmes qui nécessitent une réflexion approfondie.
+
+page: end

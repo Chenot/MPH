@@ -1,0 +1,134 @@
+page: begin
+
+scale: french_bigfive
+- {score=1} Fortement en désaccord
+- {score=2} Modérément en désaccord
+- {score=3} Ni en accord, ni en désaccord
+- {score=4} Modérément en accord
+- {score=5} Fortement en accord
+
+l: french_bigfive
+t: scale french_bigfive
+o: width 50%
+q: Veuillez indiquer votre niveau d'accord avec les affirmations suivantes :
+- Je m'inquiète facilement.
+- Je me fais facilement des amis.
+- J'ai beaucoup d'imagination.
+- Je fais confiance aux autres.
+- J'accomplis les tâches avec succès.
+- Je me mets facilement en colère.
+- J'aime les grandes fêtes.
+- Je crois en l'importance de l'art.
+- J'utilise les autres à mes propres fins.
+- J'aime ranger et mettre en ordre.
+- J'ai souvent le cafard.
+- Je prends les choses en main.
+- Je vis mes émotions intensément.
+- J'aime aider les autres.
+- Je tiens mes promesses.
+- Je trouve difficile d'approcher les autres.
+- Je suis toujours occupé(e).
+- Je préfère la variété à la routine.
+- J'aime un bon combat.
+- Je travaille dur.
+- Je fais des excès.
+- J'aime l'excitation.
+- J'aime lire des documents exigeants.
+- Je crois que je suis meilleur(e) que les autres.
+- Je suis toujours prêt(e).
+- Je panique facilement.
+- Je rayonne de joie.
+- J'ai tendance à voter pour des candidats politiques libéraux.
+- Je sympathise avec les sans-abri.
+- Je me lance dans les choses sans réfléchir.
+- Je crains le pire.
+- Je me sens à l'aise avec les autres.
+- J'aime me perdre dans des pensées fantaisistes.
+- Je crois que les autres ont de bonnes intentions.
+- J'excelle dans ce que je fais.
+- Je suis facilement irritable.
+- Je parle à beaucoup de personnes différentes lors de fêtes.
+- Je vois de la beauté dans des choses que les autres pourraient ne pas remarquer.
+- Je triche pour avancer.
+- J'oublie souvent de remettre les choses à leur place.
+- Je ne m'aime pas.
+- J'essaie de guider les autres.
+- Je ressens les émotions des autres.
+- Je me préoccupe des autres.
+- Je dis la vérité.
+- J'ai peur d'attirer l'attention sur moi.
+- Je suis toujours en mouvement.
+- Je préfère m'en tenir aux choses que je connais.
+- Je crie après les gens.
+- Je fais plus que ce que l'on attend de moi.
+- Je fais rarement des excès.
+- Je recherche l'aventure.
+- J'évite les discussions philosophiques.
+- Je réalise mes projets.
+- Je deviens dépassé(e) par les événements.
+- Je m'amuse beaucoup.
+- Je crois qu'il n'y a pas de bien ou de mal absolu.
+- Je ressens de la sympathie pour ceux qui sont plus mal lotis que moi.
+- Je prends des décisions irréfléchies.
+- J'ai peur de beaucoup de choses.
+- J'évite les contacts avec les autres.
+- J'aime rêvasser.
+- Je fais confiance à ce que les gens disent.
+- Je gère les tâches avec aisance.
+- Je perds mon sang-froid.
+- Je préfère être seul(e).
+- Je n'aime pas la poésie.
+- Je profite des autres.
+- Je laisse du désordre dans ma chambre.
+- Je me sens souvent découragé.
+- Je prends le contrôle des choses.
+- Je remarque rarement mes réactions émotionnelles.
+- Je suis indifférent(e) aux sentiments des autres.
+- J'enfreins les règles.
+- Je ne me sens à l'aise qu'avec des amis.
+- Je fais beaucoup de choses pendant mon temps libre.
+- Je n'aime pas les changements.
+- J'insulte les gens.
+- Je fais juste assez de travail pour m'en sortir.
+- Je résiste facilement aux tentations.
+- J'aime être imprudent ou insouciant.
+- J'ai des difficultés à comprendre les idées abstraites.
+- J'ai une haute opinion de moi-même.
+- Je perds mon temps.
+- Je me sens incapable de gérer les choses.
+- J'aime la vie.
+- J'ai tendance à voter pour des candidats politiques conservateurs.
+- Je ne m'intéresse pas aux problèmes des autres.
+- Je me précipite dans les choses.
+- Je suis facilement stressé(e).
+- Je tiens les autres à distance.
+- J'aime me perdre dans mes pensées.
+- Je me méfie des gens.
+- Je sais comment faire avancer les choses.
+- Je ne suis pas facilement agacé(e).
+- J'évite les foules.
+- Je n'aime pas aller dans les musées d'art.
+- Je sabote les projets des autres.
+- Je laisse traîner mes affaires.
+- Je suis à l'aise avec moi-même.
+- J'attends que les autres prennent les devants.
+- Je ne comprends pas les gens qui sont émotifs.
+- Je ne prends pas de temps pour les autres.
+- Je ne tiens pas mes promesses.
+- Je ne suis pas dérangé(e) par les situations sociales difficiles.
+- J'aime me détendre, me relaxer.
+- Je suis attaché(e) aux méthodes conventionnelles.
+- Je me venge des autres.
+- Je consacre peu de temps et d'efforts à mon travail.
+- Je suis capable de contrôler mes envies.
+- J'agis de manière sauvage et folle.
+- Je ne suis pas intéressé(e) par les discussions théoriques.
+- Je me vante de mes vertus.
+- J'ai de la difficulté à commencer des tâches.
+- Je reste calme sous la pression.
+- Je regarde le bon côté de la vie.
+- Je crois que nous devons être sévères envers les criminels.
+- J'essaie de ne pas penser aux personnes dans le besoin.
+- J'agis sans réfléchir.
+
+page: end

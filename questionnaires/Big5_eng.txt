@@ -1,0 +1,134 @@
+page: begin
+
+scale: english_bigfive
+- {score=1} Strongly Disagree
+- {score=2} Moderately Disagree
+- {score=3} Neither Agree nor Disagree
+- {score=4} Moderately Agree
+- {score=5} Strongly Agree
+
+l: english_bigfive
+t: scale english_bigfive
+o: width 50%
+q: Please indicate your level of agreement with the following statements:
+- I worry easily.
+- I make friends easily.
+- I have a lot of imagination.
+- I trust others.
+- I accomplish tasks successfully.
+- I get angry easily.
+- I like big parties.
+- I believe in the importance of art.
+- I use others for my own purposes.
+- I like to tidy and organize.
+- I often feel down.
+- I take charge.
+- I experience my emotions intensely.
+- I like helping others.
+- I keep my promises.
+- I find it difficult to approach others.
+- I am always busy.
+- I prefer variety to routine.
+- I like a good fight.
+- I work hard.
+- I overindulge.
+- I like excitement.
+- I enjoy reading demanding materials.
+- I believe I am better than others.
+- I am always ready.
+- I panic easily.
+- I radiate joy.
+- I tend to vote for liberal political candidates.
+- I sympathize with the homeless.
+- I jump into things without thinking.
+- I fear the worst.
+- I feel comfortable with others.
+- I like to lose myself in fanciful thoughts.
+- I believe others have good intentions.
+- I excel at what I do.
+- I am easily irritated.
+- I talk to many different people at parties.
+- I see beauty in things that others might not notice.
+- I cheat to get ahead.
+- I often forget to put things back in their place.
+- I do not like myself.
+- I try to lead others.
+- I feel the emotions of others.
+- I care about others.
+- I tell the truth.
+- I am afraid of attracting attention to myself.
+- I am always on the move.
+- I prefer to stick to what I know.
+- I yell at people.
+- I do more than what is expected of me.
+- I rarely overindulge.
+- I seek adventure.
+- I avoid philosophical discussions.
+- I accomplish my goals.
+- I get overwhelmed by events.
+- I have a lot of fun.
+- I believe there is no absolute right or wrong.
+- I feel sympathy for those who are worse off than me.
+- I make thoughtless decisions.
+- I am afraid of many things.
+- I avoid contact with others.
+- I love daydreaming.
+- I trust what people say.
+- I handle tasks with ease.
+- I lose my temper.
+- I prefer to be alone.
+- I do not like poetry.
+- I take advantage of others.
+- I leave my room in a mess.
+- I often feel downhearted.
+- I take control of things.
+- I rarely notice my emotional reactions.
+- I am indifferent to the feelings of others.
+- I break rules.
+- I only feel comfortable with friends.
+- I do a lot during my free time.
+- I do not like changes.
+- I insult people.
+- I do just enough work to get by.
+- I resist temptations easily.
+- I like being reckless or careless.
+- I have difficulty understanding abstract ideas.
+- I have a high opinion of myself.
+- I waste my time.
+- I feel incapable of handling things.
+- I love life.
+- I tend to vote for conservative political candidates.
+- I am not interested in the problems of others.
+- I rush into things.
+- I get stressed easily.
+- I keep others at a distance.
+- I like getting lost in my thoughts.
+- I distrust people.
+- I know how to get things done.
+- I am not easily annoyed.
+- I avoid crowds.
+- I do not like going to art museums.
+- I sabotage the plans of others.
+- I leave my things lying around.
+- I feel comfortable with myself.
+- I wait for others to take the lead.
+- I do not understand emotional people.
+- I do not make time for others.
+- I do not keep my promises.
+- I am not bothered by difficult social situations.
+- I like to take it easy, relax.
+- I am attached to conventional methods.
+- I take revenge on others.
+- I spend little time and effort on my work.
+- I can control my urges.
+- I act wild and crazy.
+- I am not interested in theoretical discussions.
+- I brag about my virtues.
+- I have difficulty starting tasks.
+- I remain calm under pressure.
+- I look on the bright side of life.
+- I believe we should be tough on criminals.
+- I try not to think about people in need.
+- I act without thinking.
+
+page: end

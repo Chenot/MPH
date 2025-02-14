@@ -1,0 +1,49 @@
+page: begin
+
+scale: accord
+- {score=1} Pas du tout d'accord
+- {score=2} Plutôt pas d'accord
+- {score=3} Ni d'accord ni en désaccord
+- {score=4} Plutôt d'accord
+- {score=5} Tout à fait d'accord
+
+l: SSEIT_french
+t: scale accord
+o: width 50%
+q: Veuillez indiquer dans quelle mesure chaque affirmation s'applique à vous :
+- Je sais quand parler de mes problèmes personnels à d'autres.
+- Lorsque je suis confronté à des obstacles, je me souviens des moments où j'ai surmonté des obstacles similaires.
+- Je m'attends à bien réussir dans la plupart des choses que j'essaie.
+- Les autres trouvent facile de se confier à moi.
+- J'ai du mal à comprendre les messages non verbaux des autres.
+- Certains des événements majeurs de ma vie m'ont amené à réévaluer ce qui est important et ce qui ne l'est pas.
+- Lorsque mon humeur change, je vois de nouvelles possibilités.
+- Les émotions sont l'une des choses qui rendent ma vie digne d'être vécue.
+- Je suis conscient de mes émotions au fur et à mesure que je les ressens.
+- Je m'attends à ce que de bonnes choses arrivent.
+- J'aime partager mes émotions avec les autres.
+- Lorsque je ressens une émotion positive, je sais comment la faire durer.
+- J'organise des événements que les autres apprécient.
+- Je recherche des activités qui me rendent heureux.
+- Je suis conscient des messages non verbaux que j'envoie aux autres.
+- Je me présente de manière à faire bonne impression sur les autres.
+- Lorsque je suis de bonne humeur, il est facile pour moi de résoudre des problèmes.
+- En regardant leurs expressions faciales, je reconnais les émotions que les gens ressentent.
+- Je sais pourquoi mes émotions changent.
+- Lorsque je suis de bonne humeur, je suis capable de trouver de nouvelles idées.
+- J'ai le contrôle de mes émotions.
+- Je reconnais facilement mes émotions lorsque je les ressens.
+- Je me motive en imaginant un bon résultat aux tâches que j'entreprends.
+- Je complimente les autres lorsqu'ils ont bien fait quelque chose.
+- Je suis conscient des messages non verbaux que les autres envoient.
+- Lorsque quelqu'un me raconte un événement important de sa vie, j'ai presque l'impression d'avoir vécu cet événement moi-même.
+- Lorsque je ressens un changement d'émotions, j'ai tendance à trouver de nouvelles idées.
+- Lorsque je suis confronté à un défi, j'abandonne parce que je crois que j'échouerai.
+- Je sais ce que les autres ressentent rien qu'en les regardant.
+- J'aide les autres à se sentir mieux quand ils sont déprimés.
+- J'utilise de bonnes humeurs pour m'aider à persévérer face aux obstacles.
+- Je peux savoir comment les gens se sentent en écoutant le ton de leur voix.
+- Il m'est difficile de comprendre pourquoi les gens ressentent ce qu'ils ressentent.
+
+page: end
+

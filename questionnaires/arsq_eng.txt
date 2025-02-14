@@ -1,0 +1,69 @@
+page: begin
+
+scale: arsq2
+- {score=1} Completely Disagree
+- {score=2} Disagree
+- {score=3} Neither Agree nor Disagree
+- {score=4} Agree
+- {score=5} Completely Agree
+
+l: english
+t: scale arsq2
+o: width 50%
+q: For the last 5 minutes, please indicate your level of agreement with the following statements:
+- I thought about my feelings.
+- I felt restless.
+- I felt tired.
+- I felt sleepy.
+- I felt comfortable.
+- I felt relaxed.
+- I felt happy.
+- I enjoyed the session.
+- I felt bored.
+- I felt nothing.
+- I felt the same throughout the session.
+- I thought about my health.
+- I thought about my work/study.
+- I thought about my behavior.
+- I had thoughts that I would not readily share with others.
+- I had busy thoughts.
+- I had similar thoughts throughout the session.
+- I thought about others.
+- I thought about myself.
+- I thought about pleasant things.
+- I thought about solving problems.
+- I thought about the aim of the experiment.
+- I had difficulty staying awake.
+- I had rapidly switching thoughts.
+- I had superficial thoughts.
+- I thought about the past.
+- I thought about the present.
+- I thought about the future.
+- I had deep thoughts.
+- I thought about nothing.
+- I had difficulty holding on to my thoughts.
+- I thought about people I like.
+- I thought in images.
+- I thought in words.
+- I thought about things I need to do.
+- I was conscious of my body.
+- I thought about the sounds around me.
+- I thought about the odors around me.
+- I thought about my heartbeat.
+- I thought about my breathing.
+- I placed myself in other people’s shoes.
+- I had negative feelings.
+- I had my thoughts under control.
+- I felt ill.
+- I felt pain.
+- I pictured events.
+- I pictured places.
+- I had silent conversations.
+- I imagined talking to myself.
+- I felt motivated to participate.
+- I have difficulty remembering my thoughts.
+- I have difficulty remembering my feelings.
+- I had my eyes closed.
+- I was able to rate the statements.
+
+page: end

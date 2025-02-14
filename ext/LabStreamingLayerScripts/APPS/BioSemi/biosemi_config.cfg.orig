@@ -1,0 +1,11 @@
+[cap]
+circumference=54
+knownschemes=[Rita-MoBI-2010-7, BioSemi-ABC]
+defaultscheme=BioSemi-ABC
+[locations]
+filename=D:/Google Drive/Professionnel/3_Post-doc_ISAE-MPH/Experience_MPH/project/code/utils/LabStreamingLayer/APPS/BioSemi/biosemi64.sfp
+[reference]
+channels=[EX1, EX2]
+[recording]
+chansubset=3
+resample=true

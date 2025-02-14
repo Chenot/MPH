@@ -1,0 +1,62 @@
+page: begin
+
+scale: hours_sleep
+- {score=1} less than 5h
+- {score=2} 5h30
+- {score=3} 6h
+- {score=4} 6h30
+- {score=5} 7h
+- {score=6} 7h30
+- {score=7} 8h
+- {score=8} 8h30
+- {score=9} more than 9h
+
+l: hours_english
+t: scale hours_sleep
+o: width 50%
+q: Hours of sleep last night:
+
+scale: presession_english
+- {score=1} Very low
+- {score=2} Low
+- {score=3} Medium
+- {score=4} High
+- {score=5} Very high
+
+l: presession_english
+t: scale presession_english
+o: width 50%
+q: <br>Currently, how do you rate:
+- Quality of sleep last night
+- Alertness
+- Stress
+
+scale: presession3_english
+- {score=1} Not capable at all
+- {score=2} Very little capable
+- {score=3} Slightly capable
+- {score=4} Moderately capable
+- {score=5} Fairly capable
+- {score=6} Almost fully capable
+- {score=7} Fully capable
+
+l: presession3_english
+t: scale presession3_english
+o: width 50%
+q: <br>To what extent do you currently feel fully physically and psychologically capable of participating in this session? (e.g., if you have experienced recent health issues, a disruptive personal event, or other difficulties)
+- Physical
+- Psychological
+
+scale: presession2_english
+- {score=1} Yes
+- {score=2} No
+
+l: presession2_english
+t: scale presession2_english
+o: width 50%
+q: <br>Substance consumption in the 8 hours prior to the experiment:
+- Caffeine
+- Nicotine
+- Other substances (alcohol, drugs, medication) that may influence cognition
+
+page: end

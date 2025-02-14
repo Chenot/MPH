@@ -1,0 +1,122 @@
+page: begin
+
+scale: videogame_type2
+- {score=1} 0h
+- {score=2} 0-1h
+- {score=2} 1-2h
+- {score=3} 3-5h
+- {score=4} 6-10h
+- {score=5} 11-20h
+- {score=6} +20h
+
+l: type_of_game_2
+t: scale videogame_type2
+o: width 50%
+q: For each of the following types of video games, please estimate the number of hours per week spent playing during childhood (up to 12 years):
+- Puzzle games (e.g., Portal)
+- Multiplayer online battle arena (MOBA) (e.g., League Of Legends, DotA...)
+- First-person shooter (FPS) game (e.g., Call of Duty, Counterstrike, Fortnite...)
+- Board games (e.g., Candy Crush, Board Game Arena, Monopoly, Mario Party...)
+- Sports games (e.g., FIFA, NBA 2K24...)
+- Platform games (e.g., Mario, Rayman...)
+- Real-time strategy games (e.g., Starcraft, Age of Empire...)
+- Simulation games (flight simulation, driving simulation) (e.g., Flight Simulator, Assetto Corsa...)
+- Turn-based strategy games (e.g., Civilization, Pokémon, Dofus...)
+- Role-playing games (RPG, including MMORPG) (e.g., World of Warcraft, Assassin’s Creed...)
+- Music games (e.g., Guitar Hero, Rock Band...)
+- Fighting games (e.g., Street Fighter, Mortal Kombat, Super Smash Bros...)
+- Arcade games (e.g., Rocket League, Mario Kart...)
+- Educational games (e.g., Adibou, serious games...)
+- Other: games that don't fit into any of the categories
+
+page: end
+
+page: begin
+
+l: type_of_game2_2
+t: scale videogame_type2
+o: width 50%
+q: For each of the following types of video games, please estimate the number of hours per week spent playing during adolescence (13 to 18 years):
+- Puzzle games (e.g., Portal)
+- Multiplayer online battle arena (MOBA) (e.g., League Of Legends, DotA...)
+- First-person shooter (FPS) game (e.g., Call of Duty, Counterstrike, Fortnite...)
+- Board games (e.g., Candy Crush, Board Game Arena, Monopoly, Mario Party...)
+- Sports games (e.g., FIFA, NBA 2K24...)
+- Platform games (e.g., Mario, Rayman...)
+- Real-time strategy games (e.g., Starcraft, Age of Empire...)
+- Simulation games (flight simulation, driving simulation) (e.g., Flight Simulator, Assetto Corsa...)
+- Turn-based strategy games (e.g., Civilization, Pokémon, Dofus...)
+- Role-playing games (RPG, including MMORPG) (e.g., World of Warcraft, Assassin’s Creed...)
+- Music games (e.g., Guitar Hero, Rock Band...)
+- Fighting games (e.g., Street Fighter, Mortal Kombat, Super Smash Bros...)
+- Arcade games (e.g., Rocket League, Mario Kart...)
+- Educational games (e.g., Adibou, serious games...)
+- Other: games that don't fit into any of the categories
+
+page: end
+
+page: begin
+
+l: type_of_game3_2
+t: scale videogame_type2
+o: width 50%
+q: For each of the following types of video games, please estimate the number of hours per week spent playing as an adult (19 years and older):
+- Puzzle games (e.g., Portal)
+- Multiplayer online battle arena (MOBA) (e.g., League Of Legends, DotA...)
+- First-person shooter (FPS) game (e.g., Call of Duty, Counterstrike, Fortnite...)
+- Board games (e.g., Candy Crush, Board Game Arena, Monopoly, Mario Party...)
+- Sports games (e.g., FIFA, NBA 2K24...)
+- Platform games (e.g., Mario, Rayman...)
+- Real-time strategy games (e.g., Starcraft, Age of Empire...)
+- Simulation games (flight simulation, driving simulation) (e.g., Flight Simulator, Assetto Corsa...)
+- Turn-based strategy games (e.g., Civilization, Pokémon, Dofus...)
+- Role-playing games (RPG, including MMORPG) (e.g., World of Warcraft, Assassin’s Creed...)
+- Music games (e.g., Guitar Hero, Rock Band...)
+- Fighting games (e.g., Street Fighter, Mortal Kombat, Super Smash Bros...)
+- Arcade games (e.g., Rocket League, Mario Kart...)
+- Educational games (e.g., Adibou, serious games...)
+- Other: games that don't fit into any of the categories
+
+page: end
+
+page: begin
+
+l: type_of_game4_2
+t: scale videogame_type2
+o: width 50%
+q: For each of the following types of video games, please estimate the number of hours per week spent playing this past year:
+- Puzzle games (e.g., Portal)
+- Multiplayer online battle arena (MOBA) (e.g., League Of Legends, DotA...)
+- First-person shooter (FPS) game (e.g., Call of Duty, Counterstrike, Fortnite...)
+- Board games (e.g., Candy Crush, Board Game Arena, Monopoly, Mario Party...)
+- Sports games (e.g., FIFA, NBA 2K24...)
+- Platform games (e.g., Mario, Rayman...)
+- Real-time strategy games (e.g., Starcraft, Age of Empire...)
+- Simulation games (flight simulation, driving simulation) (e.g., Flight Simulator, Assetto Corsa...)
+- Turn-based strategy games (e.g., Civilization, Pokémon, Dofus...)
+- Role-playing games (RPG, including MMORPG) (e.g., World of Warcraft, Assassin’s Creed...)
+- Music games (e.g., Guitar Hero, Rock Band...)
+- Fighting games (e.g., Street Fighter, Mortal Kombat, Super Smash Bros...)
+- Arcade games (e.g., Rocket League, Mario Kart...)
+- Educational games (e.g., Adibou, serious games...)
+- Other: games that don't fit into any of the categories
+
+page: begin
+
+l: specific_games2
+t: textline
+q: If you have played a lot (> 300 hours) of one or more video games in particular, please list them below along with an estimated number of hours and the age range of your life:
+- Game(s)
+- Number of hours
+- Age range(s)
+
+l: competitive_gaming2
+t: radio
+q: Have you ever played video games with a competitive purpose, whether to improve your skills, climb the ranks in a leaderboard, or participate in e-sports competitions?
+- Never
+- Yes, I played to improve my personal skills
+- Yes, I played to climb the ranks in an online leaderboard
+- Yes, I participated in local or online tournaments without financial stakes
+- Yes, I participated in e-sports competitions, including tournaments with financial stakes
+
+page: end

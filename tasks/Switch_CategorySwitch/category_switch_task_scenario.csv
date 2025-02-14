@@ -1,0 +1,8 @@
+block,block_n,block_type,trial,instruction,word_fr,word_eng,trial_type,stimulus,correct_resp,iti,soa,iti_60hz,soa_60hz
+practice,1,living,1,living,éléphant,elephant,undefined,images/heart.png,k,0.539,0.538,32,32
+practice,2,size,12,size,frelon,hornet,undefined,images/arrowcross.png,d,0.593,0.571,36,34
+practice,3,both,1,living,table,table,switch,images/heart.png,d,0.517,0.439,31,26
+test,1,both,48,living,cheval,horse,switch,images/heart.png,k,0.59,0.403,35,24
+test,2,both,1,living,bouteille,bottle,switch,images/heart.png,d,0.52,0.479,31,29
+test,3,both,48,living,clé,key,repeat,images/heart.png,d,0.629,0.547,38,33
+test,4,both,1,size,cerf,deer,switch,images/arrowcross.png,k,0.678,0.534,41,32

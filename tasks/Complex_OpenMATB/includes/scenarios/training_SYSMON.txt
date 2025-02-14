@@ -1,0 +1,23 @@
+# OpenMATB scenario generator
+
+# Name: training_SYSMON
+# Date: 09/10/2024 14:18:34
+
+# Start tasks
+0:00:00;sysmon;start
+
+# Events
+0:00:05;sysmon;scales-1-failure;True
+0:00:10;sysmon;lights-1-failure;True
+0:00:14;sysmon;lights-2-failure;True
+0:00:22;sysmon;scales-4-failure;True
+0:00:26;sysmon;scales-3-failure;True
+0:00:34;sysmon;scales-1-failure;True
+0:00:39;sysmon;scales-2-failure;True
+0:00:47;sysmon;lights-2-failure;True
+0:00:52;sysmon;scales-4-failure;True
+0:00:57;sysmon;lights-1-failure;True
+
+# End tasks
+0:01:00;sysmon;stop
+

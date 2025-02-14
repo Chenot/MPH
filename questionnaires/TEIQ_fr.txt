@@ -1,0 +1,47 @@
+page: begin
+
+scale: accord
+- {score=1} Pas du tout d'accord
+- {score=2} Plutôt pas d'accord
+- {score=3} Un peu en désaccord
+- {score=4} Ni d'accord ni en désaccord
+- {score=5} Un peu d'accord
+- {score=6} Plutôt d'accord
+- {score=7} Tout à fait d'accord
+
+l: TEIQ_french
+t: scale accord
+o: width 50%
+q: Veuillez répondre à chaque affirmation ci-dessous qui reflète le mieux votre degré d'accord ou de désaccord. Ne réfléchissez pas trop longtemps au sens exact des affirmations. Répondez rapidement et essayez de répondre aussi précisément que possible. Il n'y a pas de bonnes ou de mauvaises réponses.
+- Exprimer mes émotions avec des mots n'est pas un problème pour moi.
+- Je trouve souvent difficile de voir les choses du point de vue d'une autre personne.
+- Dans l'ensemble, je suis une personne très motivée.
+- Je trouve généralement difficile de réguler mes émotions.
+- Je ne trouve généralement pas la vie agréable.
+- Je peux gérer efficacement les gens.
+- J'ai tendance à changer d'avis fréquemment.
+- Souvent, je n'arrive pas à comprendre quelle émotion je ressens.
+- Je pense que j'ai de nombreuses qualités.
+- Je trouve souvent difficile de défendre mes droits.
+- Je suis généralement capable d'influencer les émotions des autres.
+- Dans l'ensemble, j'ai une perspective sombre sur la plupart des choses.
+- Ceux qui sont proches de moi se plaignent souvent que je ne les traite pas bien.
+- Je trouve souvent difficile d'adapter ma vie selon les circonstances.
+- Dans l'ensemble, je suis capable de gérer le stress.
+- Je trouve souvent difficile de montrer mon affection à mes proches.
+- Je suis normalement capable de me mettre à la place de quelqu'un et de ressentir ses émotions.
+- Je trouve généralement difficile de me motiver.
+- Je suis généralement capable de trouver des moyens de contrôler mes émotions quand je le veux.
+- Dans l'ensemble, je suis satisfait de ma vie.
+- Je me décrirais comme un bon négociateur.
+- J'ai tendance à m'engager dans des choses dont je voudrais ensuite me sortir.
+- Je fais souvent une pause pour réfléchir à mes sentiments.
+- Je crois que je suis plein de forces personnelles.
+- J'ai tendance à céder même si je sais que j'ai raison.
+- Je ne semble pas avoir de pouvoir sur les sentiments des autres.
+- Je crois généralement que les choses vont bien se passer dans ma vie.
+- Je trouve difficile de bien m'entendre même avec mes proches.
+- En général, je suis capable de m'adapter à de nouveaux environnements.
+- Les autres m'admirent pour mon calme.
+
+page: end

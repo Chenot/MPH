@@ -1,0 +1,6 @@
+block,block_n,trial,stimulus,correct_resp,grid
+practice_keyboard,0,1,ressources/symbol1_0.png,num_1,ressources/symbolAndDigit0.png
+test_keyboard,1,26,ressources/symbol6_1.png,num_6,ressources/symbolAndDigit1.png
+test_keyboard,2,27,ressources/symbol4_2.png,num_4,ressources/symbolAndDigit2.png
+test_keyboard,3,1,ressources/symbol1_3.png,num_1,ressources/symbolAndDigit3.png
+test_keyboard,4,2,ressources/symbol3_4.png,num_3,ressources/symbolAndDigit4.png

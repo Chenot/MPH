@@ -1,0 +1,4 @@
+block,block_n,trial,stimulus,correct_resp,ISI,ISI_60Hz
+practice,1,1,1,num_1,0.6,36
+test,1,36,6,num_6,0.4,24
+test,2,1,5,num_5,0.6,36

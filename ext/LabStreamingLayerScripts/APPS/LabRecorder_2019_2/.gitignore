@@ -1,0 +1,5 @@
+*.ui.autosave
+ui_*.h
+/build*/
+/CMakeLists.txt.user
+/CMakeLists.json

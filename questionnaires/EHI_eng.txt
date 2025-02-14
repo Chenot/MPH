@@ -1,0 +1,25 @@
+page: begin
+
+scale: english_EHI
+- {score=1} Always left
+- {score=2} Usually left
+- {score=3} No preference
+- {score=4} Usually right
+- {score=5} Always right
+
+l: english_EHI
+t: scale english_EHI
+o: width 50%
+q: Please mark the box that best describes which hand you use for the activity in question
+- Writing
+- Throwing
+- Scissors
+- Toothbrush
+- Knife (without fork)
+- Spoon
+- Lighting a match (matchstick)
+- Computer mouse
+- Which foot do you prefer to kick with ?
+- Which eye do you use when using only one ?
+
+page: end

@@ -1,0 +1,85 @@
+page: begin
+
+l: french_STAI_instructions
+t: info
+q: <b>Un certain nombre d'affirmations que les gens ont utilisées pour se décrire sont données ci-dessous.
+Lisez chaque affirmation et sélectionnez la réponse pour indiquer comment vous vous sentez EN CE MOMENT, c'est-à-dire à cet instant précis.
+Il n'y a pas de bonnes ou de mauvaises réponses. Ne passez pas trop de temps sur chaque affirmation, mais donnez la réponse qui semble décrire le mieux vos sentiments actuels.
+
+scale: french_STAIY1
+- {score=1} Pas du tout
+- {score=2} Un peu
+- {score=3} Modérement
+- {score=4} Beaucoup
+
+l: french_STAIY1
+t: scale french_STAIY1
+o: width 50%
+q: <br> En ce moment, dans cette situation :
+- Je me sens calme.
+- Je me sens en sécurité.
+- Je suis tendu(e).
+- Je me sens surmené(e).
+- Je me sens tranquille.
+- Je me sens ému(e), bouleversé(e).
+- Je m'inquiète à l'idée de malheurs possibles.
+- Je me sens comblé(e).
+- Je me sens effrayé(e).
+- Je me sens bien, à l’aise.
+- Je me sens sûr(e) de moi.
+- Je me sens nerveux(e).
+- Je suis agité(e).
+- Je me sens indécis(e).
+- Je suis détendu(e).
+- Je me sens satisfait(e).
+- Je suis inquiet(e).
+- Je me sens troublé(e).
+- Je sens que j’ai les nerfs solides.
+- Je me sens dans de bonnes dispositions.
+
+page: end
+
+page: begin
+
+l: french_STAI_instructions2
+t: info
+q: <b>Un certain nombre d'affirmations que les gens ont utilisées pour se décrire sont données ci-dessous.
+Lisez chaque affirmation et sélectionnez la réponse pour indiquer comment vous vous sentez GÉNÉRALEMENT.
+Il n'y a pas de bonnes ou de mauvaises réponses. Ne passez pas trop de temps sur chaque affirmation, mais donnez la réponse qui semble décrire le mieux généralement.
+
+scale: french_STAIY2
+- {score=1} Preque jamais
+- {score=2} Parfois
+- {score=3} Souvent
+- {score=4} Presque toujours
+
+l: french_STAIY2
+t: scale french_STAIY2
+o: width 50%
+q: <br> En général, dans mon quotidien :
+- Je me sens dans de bonnes dispositions.
+- Je me sens nerveux(se) et agité(e).
+- Je me sens content(e) de moi-même.
+- Je voudrais être aussi heureux(se) que les autres semblent l'être.
+- J'ai l'impression d'être un(e) raté(e).
+- Je me sens reposé(e).
+- Je suis d'un grand calme.
+- Je sens que les difficultés s'accumulent au point où je n'arrive pas à les surmonter.
+- Je m'en fais trop pour des choses qui n'en valent pas vraiment la peine.
+- Je suis heureux(se).
+- J'ai des pensées troublantes.
+- Je manque de confiance en moi.
+- Je me sens en sécurité.
+- Prendre des décisions m'est facile.
+- Je sens que je ne suis pas à la hauteur de la situation.
+- Je suis satisfait(e).
+- Des idées sans importance me passent par la tête et me tracassent.
+- Je prends les déceptions tellement à cœur que je n'arrive pas à les chasser de mon esprit.
+- Je suis une personne qui a les nerfs solides.
+- Je deviens tendu(e) ou bouleversé(e) quand je songe à mes préoccupations et à mes intérêts récents.
+
+page: end
+
+
+
+

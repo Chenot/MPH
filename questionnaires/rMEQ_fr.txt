@@ -1,0 +1,71 @@
+page: begin
+
+scale: french_rMEQ
+- {score=5} 5:00–6:30 
+- {score=4} 6:30–7:45 
+- {score=3} 7:45–9:45
+- {score=2} 9:45–11:00 
+- {score=1} 11:00–12:00
+
+l: french_rMEQ
+t: scale french_rMEQ
+o: width 50%
+q: <br>En pensant à une journée où vous seriez entièrement libre de planifier votre journée...
+- ...à quelle heure vous lèveriez-vous approximativement?
+
+scale: french_rMEQ2
+- {score=1} Très fatigué
+- {score=2} Assez fatigué
+- {score=3} Assez réveillé
+- {score=4} Très réveillé
+
+l: french_rMEQ2
+t: scale french_rMEQ2
+o: random
+q: <br>Durant les 30 premières minutes après votre réveil le matin... 
+- ...comment vous sentez-vous ?
+
+scale: french_rMEQ3
+- {score=5} 20:00–21:00
+- {score=4} 21:00–22:15
+- {score=3} 22:15–00:45
+- {score=2} 00:45–02:00
+- {score=1} 02:00–03:00
+
+l: french_rMEQ3
+t: scale french_rMEQ3
+o: width 50%
+q: <br>À quelle heure environ le soir vous sentez-vous fatigué...
+- ...et par conséquent, avez-vous besoin de dormir ?
+
+scale: french_rMEQ4
+- {score=5} 5 à 8 heures du matin
+- {score=4} 8 à 10 heures du matin
+- {score=3} 10 heures du matin à 17 heures
+- {score=2} 17 h à 22 heures
+- {score=1} 22 heures à 5 heures du matin
+
+l: french_rMEQ4
+t: scale french_rMEQ4
+o: width 50%
+q: <br> 
+- À quelle heure de la journée vous sentez-vous généralement le mieux ?
+
+scale: french_rMEQ5
+- {score=6} Définitivement une personne “matinale”
+- {score=4} Plutôt une personne “matinale” qu’une personne “nocturne”
+- {score=2} Plutôt une personne “nocturne” qu’une personne “matinale”
+- {score=0} Définitivement une personne “nocturne”
+
+l: french_rMEQ5
+t: scale french_rMEQ5
+o: width 50%
+q: <br>Il est commun d'entendre parler de personnes “matinales” et “nocturnes”. 
+-  Lequel de ces types vous considérez-vous être ?
+
+page: end
+
+
+
+
+

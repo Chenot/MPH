@@ -1,0 +1,11 @@
+block,block_n,block_type,trial,square_position,visual_correct,auditory_path,auditory_correct,trial_type
+practice,1,1-back,1,pos_2,NA,ressources/6.wav,NA,none
+practice,2,1-back,10,pos_6,k,ressources/1.wav,NA,visual_only
+practice,3,1-back,1,pos_5,NA,ressources/3.wav,NA,none
+practice,4,2-back,10,pos_6,NA,ressources/8.wav,NA,none
+test,1,1-back,1,pos_7,NA,ressources/7.wav,NA,none
+test,2,2-back,20,pos_5,k,ressources/3.wav,NA,visual_only
+test,3,3-back,1,pos_9,NA,ressources/4.wav,NA,none
+test,4,1-back,20,pos_1,NA,ressources/5.wav,d,auditory_only
+test,5,2-back,1,pos_5,NA,ressources/7.wav,NA,none
+test,6,3-back,20,pos_8,NA,ressources/7.wav,d,auditory_only

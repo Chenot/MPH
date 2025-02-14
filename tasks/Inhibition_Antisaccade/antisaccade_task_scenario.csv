@@ -1,0 +1,4 @@
+block,block_n,trial,position,stimulus,correct_resp
+practice,1,1,left,ressources/left.png,left
+test,1,1,left,ressources/right.png,right
+test,2,30,right,ressources/left.png,left

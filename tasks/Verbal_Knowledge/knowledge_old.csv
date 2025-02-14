@@ -1,0 +1,37 @@
+stim_eng,stim_fr,trial,dimension
+Who was the first President of the United States?,Qui fut le premier président des États-Unis ?,1,History
+What year did the Berlin Wall fall?,En quelle année le mur de Berlin est-il tombé ?,2,History
+Who was the first emperor of Rome?,Qui fut le premier empereur de Rome ?,3,History
+Who discovered America?,Qui a découvert l'Amérique ?,4,History
+What is the longest river in the world?,Quel est le plus long fleuve du monde ?,5,Geography
+What is the largest desert in the world?,Quel est le plus grand désert du monde ?,6,Geography
+What is the highest mountain in Africa?,Quelle est la plus haute montagne d'Afrique ?,7,Geography
+What is the capital of Canada?,Quelle est la capitale du Canada ?,8,Geography
+Who created the sculpture 'The Thinker'?,Qui a réalisé la sculpture 'Le Penseur' ?,9,Art
+Who painted the ceiling of the Sistine Chapel?,Qui a peint le plafond de la chapelle Sixtine ?,10,Art
+Who wrote the European hymn (Ode to Joy)?,Qui a écrit l'hymne européen (Ode à la joie)?,11,Art
+Who directed 'The Godfather'?,Qui a réalisé 'Le Parrain'?,12,Art
+Who wrote 'Romeo and Juliet'?,Qui a écrit 'Roméo et Juliette' ?,13,Literature
+Who is the author of '1984'?,Qui est l'auteur de '1984' ?,14,Literature
+Who wrote 'Moby Dick'?,Qui a écrit 'Moby Dick'?,15,Literature
+Who wrote 'Pride and Prejudice'?,Qui a écrit 'Orgueil et Préjugés'?,16,Literature
+Who is the fastest man in the world?,Qui est l'homme le plus rapide du monde ?,17,Sport
+Who holds the record for the most goals in World Cup history?,Qui détient le record du plus grand nombre de buts dans l'histoire de la Coupe du monde ?,18,Sport
+What is the national sport of Japan?,Quel est le sport national du Japon ?,19,Sport
+Who is considered the greatest basketball player of all time?,Qui est considéré comme le plus grand joueur de basketball de tous les temps ?,20,Sport
+"Who formulated the expression 'I think, therefore I am' (cogito ergo sum)?",Qui a formulé l'expression 'Je pense donc je suis' (cogito ergo sum)?,21,Philosophy
+Who is the originator of the allegory of the Cave?,Qui est à l'origine de l'allégorie de la Caverne ?,22,Philosophy
+Who is considered the father of modern philosophy?,Qui est considéré comme le père de la philosophie moderne ?,23,Philosophy
+What is the study of ethics concerned with?,Que concerne l'étude de l'éthique ?,24,Philosophy
+What is the currency of Japan?,Quelle est la monnaie du Japon ?,25,Economy
+Who is known as the father of modern economics?,Qui est connu comme le père de l'économie moderne ?,26,Economy
+What does GDP stand for?,Que signifie PIB ?,27,Economy
+What is the most traded commodity in the world?,Quelle est la marchandise la plus échangée au monde ?,28,Economy
+What element does 'O' represent on the periodic table?,Quel élément le symbole 'O' représente-t-il dans le tableau périodique ?,29,Science
+Who discovered penicillin?,Qui a découvert la pénicilline ?,30,Science
+What is the speed of light?,Quelle est la vitesse de la lumière ?,31,Science
+What is the most abundant gas in the Earth's atmosphere?,Quel est le gaz le plus abondant dans l'atmosphère terrestre ?,32,Science
+What is the largest mammal?,Quel est le plus grand mammifère ?,33,Nature
+What is the fastest land animal?,Quel est l'animal terrestre le plus rapide ?,34,Nature
+What is the tallest tree species?,Quelle est la plus haute espèce d'arbre ?,35,Nature
+What animal is known as the king of the jungle?,Quel animal est connu comme le roi de la jungle ?,36,Nature

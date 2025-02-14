@@ -1,0 +1,29 @@
+# OpenMATB scenario generator
+
+# Name: training_COMMUNICATIONS
+# Date: 09/10/2024 14:18:34
+
+# Start tasks
+0:00:00;communications;start
+
+# Parameters
+0:00:00;communications;voicegender;male
+0:00:00;communications;airbandminvariationMhz;1
+0:00:00;communications;airbandmaxvariationMhz;3
+0:00:00;communications;othercallsign;D924
+0:00:00;communications;othercallsign;A713
+0:00:00;communications;owncallsign;T247
+0:00:00;communications;keys-selectradioup;JOY_HAT_UP
+0:00:00;communications;keys-selectradiodown;JOY_HAT_DOWN
+0:00:00;communications;keys-tunefrequencyup;JOY_HAT_RIGHT
+0:00:00;communications;keys-tunefrequencydown;JOY_HAT_LEFT
+
+# Events
+0:00:00;communications;radioprompt;own
+0:00:15;communications;radioprompt;own
+0:00:30;communications;radioprompt;other
+0:00:45;communications;radioprompt;own
+
+# End tasks
+0:01:00;communications;stop
+

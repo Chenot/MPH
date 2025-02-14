@@ -1,0 +1,90 @@
+page: begin
+
+scale: brief
+- {score=1} Jamais
+- {score=2} Parfois
+- {score=3} Souvent
+
+l: french_brief
+t: scale brief
+o: width 50%
+q: Ce questionnaire répertorie des comportements. Nous aimerions savoir si, au cours du dernier mois, vous avez présenté certains de ces comportements. Veuillez répondre à toutes les questions, du mieux que vous le pouvez.
+Au cours du dernier mois, dans quelle mesure chacun de ces comportements a-t-il été un problème ? : 
+- J'ai des accès de colère.
+- Je fais des erreurs d’inattention lorsque je réalise des tâches.
+- Je suis désorganisé(e).
+- J’ai des difficultés pour me concentrer sur les tâches (comme les tâches ménagères, la lecture ou le travail).
+- Je tapote avec mes doigts ou remue mes jambes.
+- J’ai besoin qu’on me rappelle de commencer une tâche même lorsque je suis d’accord pour le faire.
+- Mon armoire est totalement en désordre.
+- J’ai des difficultés pour passer d’une activité ou d’une tâche à l’autre.
+- Je suis dépassé(e) quand il y a beaucoup de choses à faire.
+- J’oublie mon nom.
+- J’ai des difficultés pour faire un travail ou des activités qui nécessitent plus d’une étape.
+- J’ai des réactions émotionnelles excessives.
+- Je m’aperçois trop tard que mon comportement fait de la peine ou énerve les autres.
+- J’ai des difficultés à me préparer pour la journée.
+- J’ai des difficultés pour organiser mes activités selon leur priorité.
+- J’ai des difficultés pour rester tranquillement assis(e).
+- J’oublie ce que j’étais en train de faire en plein milieu d’une activité.
+- Je ne vérifie pas mon travail pour voir s’il y a des erreurs.
+- Je me laisse envahir par mes émotions pour des raisons anodines.
+- Je traîne beaucoup à la maison.
+- Je commence les tâches (comme la cuisine ou des travaux manuels) sans avoir préparé le bon matériel.
+- J’ai des difficultés à accepter des points de vue différents du mien pour résoudre les problèmes dans le cadre du travail, avec les amis ou dans les tâches quotidiennes.
+- Je parle au mauvais moment.
+- J’évalue mal le niveau de difficulté des tâches que je dois réaliser.
+- J’ai des difficultés à commencer quelque chose par moi-même.
+- J’ai du mal à rester sur un seul sujet lorsque je parle.
+- Je me fatigue rapidement.
+- Je réagis de manière plus émotive que mes amis.
+- J’ai du mal à attendre mon tour.
+- Les gens disent que je suis désorganisé(e).
+- Je perds mes affaires (comme mes clés, mon argent, mon portefeuille, mes documents, etc.).
+- J’ai des difficultés à envisager une nouvelle approche pour résoudre un problème quand je suis bloqué(e).
+- J’ai des réactions excessives face à des problèmes peu importants.
+- Je ne m’y prends pas à l’avance pour organiser les choses que j’ai à faire.
+- J’ai une capacité d’attention limitée.
+- Je fais des commentaires inappropriés à connotation sexuelle.
+- Je ne comprends pas quand les autres semblent fâchés avec moi.
+- J’ai des difficultés pour compter jusqu’à 3.
+- Je formule des objectifs irréalistes.
+- Je laisse la salle de bain en désordre.
+- Je fais des fautes d’inattention.
+- Je suis facilement affecté(e) par mes émotions.
+- Je prends des décisions qui me mettent dans une situation difficile (légalement, financièrement, socialement).
+- Je suis gêné(e) quand je dois faire face à des changements.
+- J’ai des difficultés à m’enthousiasmer pour les choses.
+- J’oublie facilement les instructions.
+- J’ai de bonnes idées mais ne peux pas les mettre par écrit.
+- Je fais des erreurs.
+- J’ai des difficultés pour me mettre à faire quelque chose.
+- Je dis les choses sans réfléchir.
+- Mes accès de colère sont intenses mais se terminent rapidement.
+- J’ai du mal à terminer ce que je commence (tâches quotidiennes, travail).
+- Je commence les choses à la dernière minute (comme les travaux, les tâches de la vie quotidienne).
+- J’ai des difficultés à finir de moi-même ce que j’entreprends.
+- Les gens disent que je suis facilement distrait(e).
+- J’ai des difficultés à me souvenir des choses, même pendant quelques minutes (comme les trajets, les numéros de téléphone).
+- Les gens disent que je suis trop émotif(ve).
+- Je fais les choses de manière précipitée.
+- Je m’énerve facilement.
+- Je laisse la pièce ou mon domicile en désordre.
+- Je suis perturbé(e) par des changements imprévus dans ma vie quotidienne.
+- J’ai du mal à occuper mon temps libre.
+- Je ne planifie/organise pas mes activités à l’avance.
+- Les gens disent que je ne réfléchis pas avant d’agir.
+- J’ai des difficultés à trouver mes affaires dans ma chambre, mon placard ou mon bureau.
+- J’ai des difficultés pour organiser mes activités.
+- J’ai du mal à surmonter les difficultés/problèmes que je rencontre.
+- J’ai des difficultés pour faire plus d’une chose à la fois.
+- Mon humeur change souvent.
+- Je ne réfléchis pas aux conséquences avant de faire quelque chose.
+- J’ai des difficultés pour l’organisation de mon travail.
+- Je m’énerve rapidement ou facilement pour des choses sans importance.
+- Je suis impulsif(ve).
+- Je laisse traîner mes affaires partout.
+- J’ai du mal à terminer complètement mon travail.
+
+page: end
+

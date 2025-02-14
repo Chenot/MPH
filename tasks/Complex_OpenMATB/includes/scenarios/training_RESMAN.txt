@@ -1,0 +1,37 @@
+# OpenMATB scenario generator
+
+# Name: training_RESMAN
+# Date: 09/10/2024 14:18:34
+
+# Start tasks
+0:00:00;resman;start
+
+# Parameters
+0:00:00;resman;pump-1-key;_1
+0:00:00;resman;pump-2-key;_2
+0:00:00;resman;pump-3-key;_3
+0:00:00;resman;pump-4-key;_4
+0:00:00;resman;pump-5-key;_5
+0:00:00;resman;pump-6-key;_6
+0:00:00;resman;pump-7-key;_7
+0:00:00;resman;pump-8-key;_8
+0:00:00;resman;tank-a-lossperminute;800
+0:00:00;resman;tank-b-lossperminute;500
+0:00:00;resman;pump-1-flow;1000
+0:00:00;resman;pump-2-flow;500
+0:00:00;resman;pump-3-flow;750
+0:00:00;resman;pump-4-flow;250
+0:00:00;resman;pump-5-flow;500
+0:00:00;resman;pump-6-flow;500
+0:00:00;resman;pump-7-flow;500
+0:00:00;resman;pump-8-flow;500
+
+# Events
+0:00:10;resman;pump-1-state;off
+0:00:20;resman;pump-5-state;off
+0:00:40;resman;pump-2-state;off
+0:00:50;resman;pump-4-state;off
+
+# End tasks
+0:01:00;resman;stop
+

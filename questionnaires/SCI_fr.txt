@@ -1,0 +1,76 @@
+page: begin
+
+scale: french_sci1
+- {score=1} 0 – 15 min
+- {score=2} 16 – 30 min
+- {score=3} 31 – 45 min
+- {score=4} 46 – 60 min
+- {score=5} ≥ 61 min
+
+l: french_sci1
+t: scale french_sci1
+o: random
+o: width 50%
+q: <br>En pensant à une nuit typique du dernier mois
+- Combien de temps mettez-vous à vous endormir ?
+- Si vous vous réveillez ensuite pendant la nuit... combien de temps restez-vous éveillé au total ? (additionnez tous les réveils)
+
+scale: french_sci2
+- {score=1} 0 – 1
+- {score=2} 2
+- {score=3} 3
+- {score=4} 4
+- {score=5} 5 – 7
+
+l: french_sci2
+t: scale french_sci2
+o: random
+o: width 50%
+q: <br>En pensant à une nuit typique du dernier mois
+- Combien de nuits par semaine avez-vous des problèmes de sommeil ?
+
+scale: french_sci3
+- {score=1} Très bon
+- {score=2} Bon
+- {score=3} Moyen
+- {score=4} Mauvais
+- {score=5} Très mauvais
+
+l: french_sci3
+t: scale french_sci3
+o: random
+o: width 50%
+q: <br>En pensant à une nuit typique du dernier mois...
+- Comment évalueriez-vous la qualité de votre sommeil ?
+
+scale: french_sci4
+- {score=1} Pas du tout
+- {score=2} Un peu
+- {score=3} Moyennement
+- {score=4} Beaucoup
+- {score=5} Énormément
+
+l: french_sci4
+t: scale french_sci4
+o: random
+o: width 50%
+q: <br>En pensant au mois dernier, dans quelle mesure un mauvais sommeil...
+- a affecté votre humeur, votre énergie ou vos relations ?
+- a affecté votre concentration, votre productivité ou votre capacité à rester éveillé ?
+- vous a troublé en général ?
+
+scale: french_sci5
+- {score=1} Je n'ai pas de problème / < 1 mois
+- {score=2} 1 – 2 mois
+- {score=3} 3 – 6 mois
+- {score=4} 7 – 12 mois
+- {score=5} > 1 an
+
+l: french_sci5
+t: scale french_sci5
+o: random
+o: width 50%
+q: <br>Enfin...
+- Depuis combien de temps avez-vous des problèmes de sommeil ?
+
+page: end

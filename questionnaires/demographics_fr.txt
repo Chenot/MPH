@@ -1,0 +1,187 @@
+page: begin
+
+l: age
+t: textline
+q: Année et mois de naissance (format MM/AAAA) :
+- 
+
+l: sexe
+t: radio
+q: Sexe assigné à la naissance :
+- Homme
+- Femme
+- Autre
+
+l: etude
+t: radio
+q: Années d'étude (dernière année validée) :
+- < 12 (sans baccalauréat)	
+- 12 (baccalauréat)
+- 13 (bac+1)	
+- 14 (bac+2)		
+- 15 (bac+3)	
+- 16 (bac+4)	
+- 17 (bac+5)	
+- 18 (bac+6)	
+- 19 (bac+7)	
+- 20 (bac+8)	
+
+l: etude2
+t: textline
+q: Domaine d'étude (si applicable) :
+- 
+
+l: statut
+t: radio
+q: Statut professionnel :
+- Employé·e à plein temps	
+- Employé·e à mi-temps	
+- Chômage	
+- Étudiant·e	
+- Autre
+
+l: langue
+t: textline
+q: Langue maternelle :
+- 
+
+l: langue2
+t: textline
+q: Langue(s) secondaire(s) et niveau (A1: élémentaire; C2: maîtrise):
+- 
+
+
+l: statut_matrimonial
+t: radio
+q: Quel est votre statut matrimonial ?
+- Célibataire
+- En couple
+- Marié·e
+- Divorcé·e/Séparé·e
+- Veuf/Veuve
+- Autre
+
+l: enfance
+t: radio
+q: Où avez-vous principalement grandi ?
+- Hameau : Moins de 200 habitants 
+- Village : 200 à 2 000 habitants
+- Bourg : 2 000 à 5 000 habitants
+- Petite ville : 5 000 à 20 000 habitants
+- Ville moyenne : 20 000 à 50 000 habitants
+- Grande ville : 50 000 à 200 000 habitants
+- Métropole : Plus de 200 000 habitants
+
+l: nb_freres_soeurs
+t: textline
+q: Combien de frères et sœurs avez-vous ?
+- Nombre de frères :
+- Nombre de sœurs :
+
+l: ressources_mensuelles
+t: radio
+q: Quelles sont vos ressources mensuelles (allocations, bourses, soutien familial, salaire, etc.) ?
+- Moins de 1000 €
+- Entre 1000 et 2000 €
+- Entre 2000 et 3000 €
+- Entre 3000 et 4000 €
+- Plus de 4000 €
+
+l: revenus_tuteur_1
+t: radio
+q: Quel était approximativement le montant des revenus mensuels de votre tuteur légal 1 (généralement votre mère) lorsque vous avez grandi ?
+- Moins de 1000 €
+- Entre 1000 et 2000 €
+- Entre 2000 et 3000 €
+- Entre 3000 et 4000 €
+- Plus de 4000 €
+- Sans tuteur légal 1
+
+l: categorie_socio_eco_tuteur_1
+t: radio
+q: Quelle était la catégorie socio-économique de votre tuteur légal 1 (généralement votre mère) lorsque vous avez grandi ?
+- Cadre dirigeant
+- Profession intellectuelle et/ou scientifique
+- Profession intermédiaire salariée
+- Petit entrepreneur
+- Employé qualifié salarié
+- Ouvrier qualifié salarié
+- Salarié peu qualifié
+- Retraité
+- Autre
+- Sans tuteur légal 1
+
+l: revenus_tuteur_2
+t: radio
+q: Quel était approximativement le montant des revenus mensuels de votre tuteur légal 2 (généralement votre père) lorsque vous avez grandi ?
+- Moins de 1000 €
+- Entre 1000 et 2000 €
+- Entre 2000 et 3000 €
+- Entre 3000 et 4000 €
+- Plus de 4000 €
+- Sans tuteur légal 2
+
+l: categorie_socio_eco_tuteur_2
+t: radio
+q: Quelle était la catégorie socio-économique de votre tuteur légal 2 (généralement votre père) lorsque vous avez grandi ?
+- Cadre dirigeant
+- Profession intellectuelle et/ou scientifique
+- Profession intermédiaire salariée
+- Petit entrepreneur
+- Employé qualifié salarié
+- Ouvrier qualifié salarié
+- Salarié peu qualifié
+- Retraité
+- Autre
+- Sans tuteur légal 2
+
+scale: religiosite_scale
+- {score=1} Pas du tout religieux(se)
+- {score=2} Peu religieux(se)
+- {score=3} Légèrement religieux(se)
+- {score=4} Moyennement religieux(se)
+- {score=5} Assez religieux(se)
+- {score=6} Religieux(se)
+- {score=7} Très religieux(se)
+
+l: religiosite
+t: scale religiosite_scale
+o: width 50%
+q: À quel point êtes-vous religieux(se) ?
+
+scale: engagement
+- {score=1} 0h
+- {score=2} 0-1h
+- {score=3} 1-2h
+- {score=4} 2-3h
+- {score=5} 3-4h
+- {score=6} 4h+
+
+l: activites
+t: scale engagement
+o: width 50%
+q: Engagement dans des activités (heures par semaine) :
+- Lecture
+- Ecriture
+- Puzzles ou jeux cérébraux (sudoku, mots croisés, etc)
+- Jeux de stratégie (échecs, go, etc)
+- Jeux de société (monopoly, risk, etc)
+- Pratique musicale (instrument, voix, etc)
+- Activité artistique (peinture, dessin, sculpture, etc)
+- Activité manuelle (bricolage, jardinage, cuisine, etc.)
+- Activité culturelle (conférences, musées, etc.)
+- Informatique (programmation, algorithmie, etc.)
+- Navigation active sur internet (recherche d’information)
+- Réseaux sociaux (instagram, tiktok, etc)
+- Télévision (films/séries)
+- Participation à des groupes de réflexion (livres, débats, etc)
+- Sport
+- Méditation
+
+l: menstruation
+t: textline
+o: require
+q: Si vous êtes une personne porteuse d'utérus, combien de jours se sont écoulés depuis le premier jour de vos dernières menstruations ? (si vous ne savez pas exactement, donnez une estimation). Si ce n'est pas le cas, indiquez "NA" pour non applicable.
+-
+
+page: end

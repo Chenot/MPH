@@ -1,0 +1,4 @@
+block,block_n,trial,isi_sec,isi_frame60hz
+practice,1,1,1.2222,73
+test,1,15,2.9998,180
+test,2,1,1.4444,87

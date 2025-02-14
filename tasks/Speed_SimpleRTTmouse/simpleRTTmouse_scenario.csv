@@ -1,0 +1,4 @@
+block,block_n,trial,square_sec,square_frame60hz,prestim_sec,prestim_frame60hz,circle_degree
+practice,1,1,0.8,48,2.3332,140,0
+test,1,20,1.2,72,1.0,60,324
+test,2,1,1.2,72,1.4444,87,18

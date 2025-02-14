@@ -1,0 +1,40 @@
+page: begin
+
+scale: response
+- {score=0} Very False or Often False
+- {score=1} Sometimes or Somewhat False
+- {score=2} Sometimes or Somewhat True
+- {score=3} Very True or Often True
+
+l: english_PID_5_BF
+t: scale response
+o: width 50%
+q: This is a list of things different people might say about themselves. We’d like you to take your time and read each statement carefully, selecting the
+response that best describes you. There are no right or wrong answers.
+- People would describe me as reckless.
+- I feel like I act totally on impulse.
+- Even though I know better, I can’t stop making rash decisions.
+- I often feel like nothing I do really matters.
+- Others see me as irresponsible.
+- I’m not good at planning ahead.
+- My thoughts often don’t make sense to others.
+- I worry about almost everything.
+- I get emotional easily, often for very little reason.
+- I fear being alone in life more than anything else.
+- I get stuck on one way of doing things, even when it’s clear it won’t work.
+- I have seen things that weren’t really there.
+- I steer clear of romantic relationships.
+- I’m not interested in making friends.
+- I get irritated easily by all sorts of things.
+- I don’t like to get too close to people.
+- It’s no big deal if I hurt other peoples’ feelings.
+- I rarely get enthusiastic about anything.
+- I crave attention.
+- I often have to deal with people who are less important than me.
+- I often have thoughts that make sense to me but that other people say are strange.
+- I use people to get what I want.
+- I often “zone out” and then suddenly come to and realize that a lot of time has passed.
+- Things around me often feel unreal, or more real than usual.
+- It is easy for me to take advantage of others.
+
+page: end

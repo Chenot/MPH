@@ -1,0 +1,69 @@
+page: begin
+
+scale: mai2  
+- {score=1} Pas du tout d'accord  
+- {score=2} Pas d'accord  
+- {score=3} Neutre  
+- {score=4} D'accord  
+- {score=5} Tout à fait d'accord  
+
+l: french_mai  
+t: scale mai2  
+o: width 50%  
+q: Veuillez indiquer si vous êtes d'accord ou pas avec les affirmations suivantes :  
+- Je me demande régulièrement si j'atteins mes objectifs.  
+- J'examine plusieurs alternatives à un problème avant de répondre.  
+- J'essaie d'utiliser des stratégies qui ont fonctionné dans le passé.  
+- Je me donne du temps en apprenant pour ne pas me précipiter.  
+- Je comprends mes forces et mes faiblesses intellectuelles.  
+- Je réfléchis à ce que j'ai vraiment besoin d'apprendre avant de commencer une tâche.  
+- Je sais comment j'ai réussi une fois que j'ai terminé un test.  
+- Je fixe des objectifs spécifiques avant de commencer une tâche.  
+- Je ralentis lorsque je rencontre des informations importantes.  
+- Je sais quel type d'informations est le plus important à apprendre.  
+- Je me demande si j'ai envisagé toutes les options lors de la résolution d'un problème.  
+- Je suis doué pour organiser des informations.  
+- Je concentre consciemment mon attention sur des informations importantes.  
+- J'ai un objectif précis pour chaque stratégie que j'utilise.  
+- J'apprends mieux quand je connais un peu le sujet.  
+- Je sais ce que l'enseignant attend que j'apprenne.  
+- Je suis bon pour mémoriser des informations.  
+- J'utilise différentes stratégies d'apprentissage selon la situation.  
+- Je me demande s'il y avait une manière plus simple de faire les choses après avoir terminé une tâche.  
+- J'ai le contrôle sur la façon dont j'apprends.  
+- Je révise périodiquement pour m'aider à comprendre les relations importantes.  
+- Je me pose des questions sur le matériel avant de commencer.  
+- Je réfléchis à plusieurs façons de résoudre un problème et je choisis la meilleure.  
+- Je résume ce que j'ai appris une fois terminé.  
+- Je demande de l'aide aux autres quand je ne comprends pas quelque chose.  
+- Je peux me motiver à apprendre lorsque c'est nécessaire.  
+- Je suis conscient des stratégies que j'utilise lorsque j'étudie.  
+- Je trouve que j'analyse l'utilité des stratégies pendant que j'étudie.  
+- J'utilise mes forces intellectuelles pour compenser mes faiblesses.  
+- Je me concentre sur la signification et l'importance des nouvelles informations.  
+- Je crée mes propres exemples pour donner plus de sens aux informations.  
+- Je suis un bon juge de la façon dont je comprends quelque chose.  
+- J'utilise automatiquement des stratégies d'apprentissage utiles.  
+- Je fais des pauses régulières pour vérifier ma compréhension.  
+- Je sais quand chaque stratégie que j'utilise sera la plus efficace.  
+- Je me demande comment j'ai atteint mes objectifs une fois terminé.  
+- Je dessine des images ou des diagrammes pour m'aider à comprendre en apprenant.  
+- Je me demande si j'ai envisagé toutes les options après avoir résolu un problème.  
+- J'essaie de traduire de nouvelles informations dans mes propres mots.  
+- Je change de stratégie lorsque je ne comprends pas.  
+- J'utilise la structure organisationnelle du texte pour m'aider à apprendre.  
+- Je lis attentivement les instructions avant de commencer une tâche.  
+- Je me demande si ce que je lis est lié à ce que je connais déjà.  
+- Je réévalue mes hypothèses lorsque je suis confus.  
+- J'organise mon temps pour atteindre au mieux mes objectifs.  
+- J'apprends davantage lorsque le sujet m'intéresse.  
+- J'essaie de diviser l'étude en étapes plus petites.  
+- Je me concentre davantage sur le sens général que sur les détails spécifiques.  
+- Je me pose des questions sur la façon dont je progresse en apprenant quelque chose de nouveau.  
+- Je me demande si j'ai appris autant que possible une fois que j'ai terminé une tâche.  
+- Je m'arrête et je reviens sur de nouvelles informations qui ne sont pas claires.  
+- Je m'arrête et je relis quand je suis confus.  
+
+page: end
+
+

@@ -1,0 +1,188 @@
+page: begin
+
+l: french_BDI
+t: info
+q: <b>Ceci est un questionnaire contenant plusieurs groupes de phrases. Pour chacun des groupes :
+1. Lisez attentivement toutes les phrases.
+2. Cochez la phrase qui décrit le mieux comment vous vous sentez depuis une semaine et dans le moment présent.
+
+l: MyQuestion_1
+t: radio
+q: 1.
+- Je ne me sens pas triste.
+- Je me sens morose ou triste.
+- Je suis morose ou triste tout le temps et je ne peux pas me remettre d’aplomb.
+- Je suis tellement triste ou malheureux(se) que cela me fait mal.
+- Je suis tellement triste ou malheureux(se) que je ne peux plus le supporter.
+
+l: MyQuestion_2
+t: radio
+q: 2.
+- Je ne suis pas particulièrement pessimiste ou découragé(e) à propos du futur.
+- Je me sens découragé(e) à propos du futur.
+- Je sens que je n’ai rien à attendre du futur.
+- Je sens que je n’arriverai jamais à surmonter mes difficultés.
+- Je sens que le futur est sans espoir et que les choses ne peuvent pas s’améliorer.
+
+l: MyQuestion_3
+t: radio
+q: 3.
+- Je ne sens pas que je suis un échec.
+- Je sens que j’ai échoué plus que la moyenne des gens.
+- Je sens que j’ai accompli très peu de choses qui aient de la valeur ou une signification quelconque.
+- Quand je pense à ma vie passée, je ne peux voir rien d’autre qu’un grand nombre d’échecs.
+- Je sens que je suis un échec complet en tant que personne (parent, mari, femme).
+
+l: MyQuestion_4
+t: radio
+q: 4.
+- Je ne suis pas particulièrement mécontent(e).
+- Je me sens «tanné(e)» la plupart du temps.
+- Je ne prends pas plaisir aux choses comme auparavant.
+- Je n’obtiens plus de satisfaction de quoi que ce soit.
+- Je suis mécontent(e) de tout.
+
+l: MyQuestion_5
+t: radio
+q: 5. 
+- Je ne me sens pas particulièrement coupable.
+- Je me sens souvent mauvais(e) ou indigne.
+- Je me sens plutôt coupable.
+- Je me sens mauvais(e) et indigne presque tout le temps.
+- Je sens que je suis très mauvais(e) ou très indigne.
+
+l: MyQuestion_6
+t: radio
+q: 6. 
+- Je n’ai pas l’impression d’être puni(e).
+- J’ai l’impression que quelque chose de malheureux peut m’arriver.
+- Je sens que je suis ou serai puni(e).
+- Je sens que je mérite d’être puni(e).
+- Je veux être puni(e).
+
+l: MyQuestion_7
+t: radio
+q: 7.  
+- Je ne me sens pas déçu(e) de moi-même.
+- je suis déçu(e) de moi-même.
+- Je ne m’aime pas.
+- Je suis dégoûté(e) de moi-même.
+- Je me hais.
+
+l: MyQuestion_8
+t: radio
+q: 8.
+- Je ne sens pas que je suis pire que les autres.
+- Je me critique pour mes faiblesses et mes erreurs.
+- Je me blâme pour mes fautes.
+- Je me blâme pour tout ce qui m’arrive de mal.
+
+l: MyQuestion_9
+t: radio
+q: 9. 
+- Je n’ai aucune idée de me faire du mal.
+- J’ai des idées de me faire du mal mais je ne les mettrais pas à exécution.
+- Je sens que je serais mieux mort(e).
+- Je sens que ma famille serait mieux si j’étais mort(e).
+- J’ai des plans définis pour un acte suicidaire.
+- Je me tuerais si je le pouvais.
+
+l: MyQuestion_10
+t: radio
+q: 10.
+- Je ne pleure pas plus que d’habitude.
+- Je pleure plus maintenant qu’auparavant.
+- Je pleure tout le temps maintenant. Je ne peux plus m’arrêter.
+- Auparavant, j’étais capable de pleurer mais maintenant je ne peux pas pleurer du tout, même si je le veux.
+
+l: MyQuestion_11
+t: radio
+q: 11. 
+- Je ne suis pas plus irrité(e) maintenant que je le suis d’habitude.
+- Je deviens contrarié(e) ou irrité(e) plus facilement maintenant qu’en temps ordinaire.
+- Je me sens irrité(e) tout le temps.
+- Je ne suis plus irrité(e) du tout par les choses qui m’irritent habituellement.
+
+l: MyQuestion_12
+t: radio
+q: 12.
+- Je n’ai pas perdu intérêt aux autres.
+- Je suis moins intéressé(e) aux autres maintenant qu’auparavant.
+- J’ai perdu la plupart de mon intérêt pour les autres et j’ai peu de sentiment pour eux.
+- J’ai perdu tout mon intérêt pour les autres et je ne me soucie pas d’eux du tout.
+
+l: MyQuestion_13
+t: radio
+q: 13.
+- Je prends des décisions aussi bien que d’habitude.
+- J’essaie de remettre à plus tard mes décisions.
+- J’ai beaucoup de difficultés à prendre des décisions.
+- Je ne suis pas capable de prendre des décisions du tout.
+
+l: MyQuestion_14
+t: radio
+q: 14.
+- Je n’ai pas l’impression de paraître pire qu’auparavant.
+- Je m’inquiète de paraître vieux(vieille) et sans attrait.
+- Je sens qu’il y a des changements permanents dans mon apparence et que ces changements me font paraître sans attrait.
+- Je me sens laid(e) et répugnant(e).
+
+l: MyQuestion_15
+t: radio
+q: 15.
+- Je peux travailler pratiquement aussi bien qu’avant.
+- J’ai besoin de faire des efforts supplémentaires pour commencer à faire quelque chose.
+- Je ne travaille pas aussi bien qu’avant.
+- J’ai besoin de me pousser fort pour faire quoi que ce soit.
+- Je ne peux faire aucun travail.
+
+l: MyQuestion_16
+t: radio
+q: 16.
+- Je peux dormir aussi bien que d’habitude.
+- Je me réveille plus fatigué(e) que d’habitude.
+- Je me réveille 1-2 heures plus tôt que d’habitude et j’ai de la difficulté à me rendormir.
+- Je me réveille tôt chaque jour et je ne peux dormir plus de cinq heures.
+
+l: MyQuestion_17
+t: radio
+q: 17.
+- Je ne suis pas plus fatigué(e) que d’habitude.
+- Je me fatigue plus facilement qu’avant.
+- Je me fatigue à faire quoi que ce soit.
+- Je suis trop fatigué(e) pour faire quoi que ce soit.
+
+l: MyQuestion_18
+t: radio
+q: 18.
+- Mon appétit est aussi bon que d’habitude.
+- Mon appétit n’est plus aussi bon que d’habitude.
+- Mon appétit est beaucoup moins bon maintenant.
+- Je n’ai plus d’appétit du tout.
+
+l: MyQuestion_19
+t: radio
+q: 19.
+- Je n’ai pas perdu beaucoup de poids (si j’en ai vraiment perdu dernièrement).
+- J’ai perdu plus de 3 kilogrammes.
+- J’ai perdu plus de 5 kilogrammes.
+- J’ai perdu plus de 10 kilogrammes.
+
+l: MyQuestion_20
+t: radio
+q: 20.
+- Je ne suis pas plus préoccupé(e) de ma santé que d’habitude.
+- Je suis préoccupé(e) par des maux ou des douleurs, ou des problèmes de digestion ou de constipation.
+- Je suis tellement préoccupé(e) par ce que je ressens ou comment je me sens qu’il est difficile pour moi de penser à autre chose.
+- Je pense seulement à ce que je ressens ou comment je me sens.
+
+l: MyQuestion_21
+t: radio
+q: 21.
+- Je n’ai noté aucun changement récent dans mon intérêt pour le sexe.
+- Je suis moins intéressé(e) par le sexe qu’auparavant.
+- Je suis beaucoup moins intéressé(e) par le sexe maintenant.
+- J’ai complètement perdu mon intérêt pour le sexe.
+
+page: end
+

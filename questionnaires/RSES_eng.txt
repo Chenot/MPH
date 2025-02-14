@@ -1,0 +1,24 @@
+page: begin
+
+scale: RSES
+- {score=4} Fortement en désaccord
+- {score=3} En désaccord
+- {score=2} En accord
+- {score=1} Fortement en accord
+
+l: french_RSES
+t: scale RSES
+o: width 50%
+q: Veuillez indiquer votre niveau d'accord avec les affirmations suivantes :
+- Dans l'ensemble, je suis satisfait(e) de moi.
+- Parfois, je pense que je ne vaux rien du tout.
+- Je sens que j'ai de nombreuses qualités.
+- Je suis capable de faire les choses aussi bien que la plupart des gens.
+- Je pense que je n'ai pas grand-chose dont je puisse être fier.
+- J'ai une attitude positive envers moi-même.
+- Dans l'ensemble, je suis porté(e) à me croire un(e) raté(e).
+- J'aimerais avoir plus de respect pour moi-même.
+- Parfois, je me sens vraiment inutile.
+- Parfois, je pense que je suis une personne de valeur, au moins à égalité avec les autres.
+
+page: end

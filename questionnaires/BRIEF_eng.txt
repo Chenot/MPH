@@ -1,0 +1,92 @@
+page: begin
+
+scale: brief2
+- {score=1} Never
+- {score=2} Sometimes
+- {score=3} Often
+
+l: english_brief
+t: scale brief2
+o: width 50%
+q: This questionnaire lists various behaviors. We would like to know if you have exhibited any of these behaviors in the past month. Please answer all the questions to the best of your ability. Check your response according to the following scale :
+N: the behavior is Never a problem
+S: the behavior is Sometimes a problem
+O: the behavior is Often a problem
+To what extent has each of these behaviors been a problem in the past month?
+- I have anger outbursts.
+- I make careless mistakes when doing tasks.
+- I am disorganized.
+- I have difficulty focusing on tasks (such as household chores, reading, or work).
+- I tap my fingers or fidget with my legs.
+- I need to be reminded to start a task even when I agree to do it.
+- My closet is a complete mess.
+- I have difficulty transitioning from one activity or task to another.
+- I feel overwhelmed when there is a lot to do.
+- I forget my name.
+- I have difficulty doing work or activities that require more than one step.
+- I have excessive emotional reactions.
+- I realize too late that my behavior has hurt or annoyed others.
+- I have difficulty getting ready for the day.
+- I have difficulty organizing my activities according to their priority.
+- I have difficulty sitting still.
+- I forget what I was doing in the middle of an activity.
+- I do not check my work for errors.
+- I get carried away by my emotions over trivial reasons.
+- I loaf around a lot at home.
+- I start tasks (like cooking or crafts) without having the right materials ready.
+- I have difficulty accepting different points of view to solve problems at work, with friends, or in daily tasks.
+- I speak at the wrong time.
+- I underestimate the difficulty of the tasks I have to do.
+- I have difficulty starting something on my own.
+- I have difficulty sticking to one topic when I talk.
+- I get tired quickly.
+- I react more emotionally than my friends.
+- I have difficulty waiting my turn.
+- People say I am disorganized.
+- I lose my belongings (like keys, money, wallet, documents, etc.).
+- I have difficulty considering a new approach to solving a problem when I am stuck.
+- I overreact to minor problems.
+- I do not plan ahead to organize the things I have to do.
+- I have a limited attention span.
+- I make inappropriate sexual comments.
+- I do not understand when others seem angry with me.
+- I have difficulty counting to 3.
+- I set unrealistic goals.
+- I leave the bathroom in a mess.
+- I make careless errors.
+- I am easily affected by my emotions.
+- I make decisions that get me into trouble (legally, financially, socially).
+- I feel embarrassed when facing changes.
+- I have difficulty getting excited about things.
+- I easily forget instructions.
+- I have good ideas but cannot put them into writing.
+- I make mistakes.
+- I have difficulty getting started on something.
+- I say things without thinking.
+- My anger outbursts are intense but end quickly.
+- I have difficulty finishing what I start (daily tasks, work).
+- I start things at the last minute (like assignments, daily tasks).
+- I have difficulty completing what I start on my own.
+- People say I am easily distracted.
+- I have difficulty remembering things, even for a few minutes (like directions, phone numbers).
+- People say I am too emotional.
+- I do things hastily.
+- I get upset easily.
+- I leave the room or my home in a mess.
+- I get upset by unexpected changes in my daily routine.
+- I have difficulty filling my free time.
+- I do not plan/organize my activities in advance.
+- People say I do not think before I act.
+- I have difficulty finding my belongings in my room, closet, or desk.
+- I have difficulty organizing my activities.
+- I have difficulty overcoming the challenges/problems I encounter.
+- I have difficulty doing more than one thing at a time.
+- My mood changes often.
+- I do not think about the consequences before doing something.
+- I have difficulty organizing my work.
+- I get upset quickly or easily over unimportant things.
+- I am impulsive.
+- I leave my belongings everywhere.
+- I have difficulty finishing my work completely.
+
+page: end

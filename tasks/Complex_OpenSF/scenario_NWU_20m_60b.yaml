@@ -1,0 +1,810 @@
+experiment:
+  name: expename
+  config:
+    general:
+      sound: true
+      allow_pause: true
+      pause_overlay: true
+    graphics:
+      display_mode: full_screen
+      show_fps: false
+      line_width: 1
+      border_thickness: 2
+    scoring:
+      missile_points: 0
+      letters:
+      - A
+      - B
+      - C
+    defaults:
+      mines:
+        ttl: 10
+        expected_key: J
+    lsl:
+    - stream_inlet: sf_lslin
+    - stream_outlet: sf_lslout_keys
+      event_types:
+      - keys
+  navigation:
+    pages:
+      title_screen:
+        type: title
+      easy_game:
+        type: game
+        scenario: easy_scenario
+        enable_lsl: true
+      score_easy:
+        type: score
+      mines:
+        type: instruction_mine
+      hard_game:
+        type: game
+        scenario: hard_scenario
+      score_hard:
+        type: score
+      end:
+        type: end
+    links:
+      title_screen:
+        space: easy_game
+      easy_game:
+        _: score_easy
+      score_easy:
+        space: hard_game
+      hard_game:
+        _: score_hard
+      score_hard:
+        space: end
+    initial: title_screen
+  scenarios:
+    hard_scenario:
+      steps:
+      - timestamp: 0:00:06
+        events:
+        - event: pop_bonus
+          id: b1
+          location: near_north_east
+          symbol: '@'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_@
+      - timestamp: 0:00:09
+        events:
+        - event: pop_bonus
+          id: b1
+          location: near_north_east
+          symbol: '&'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_&
+      - timestamp: 0:00:11
+        events:
+        - event: pop_bonus
+          id: b2
+          location: near_south_east
+          symbol: $
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_$
+      - timestamp: 0:00:13
+        events:
+        - event: pop_mine
+          id: m1
+          location: vertical
+          letter: Q
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:00:14
+        events:
+        - event: pop_bonus
+          id: b2
+          location: near_south_east
+          symbol: '#'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_#
+      - timestamp: 0:00:19
+        events:
+        - event: pop_bonus
+          id: b3
+          location: far_north_west
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:00:22
+        events:
+        - event: pop_bonus_valid
+          id: b3
+          location: far_north_west
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:00:24
+        events:
+        - event: pop_bonus
+          id: b4
+          location: near_north_west
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:00:25
+        events:
+        - event: pop_mine
+          id: m2
+          location: horizontal
+          letter: W
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:00:27
+        events:
+        - event: pop_bonus_valid
+          id: b4
+          location: near_north_west
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:00:31
+        events:
+        - event: pop_bonus
+          id: b5
+          location: far_east
+          symbol: '#'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_#
+      - timestamp: 0:00:34
+        events:
+        - event: pop_bonus
+          id: b5
+          location: far_east
+          symbol: '&'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_&
+      - timestamp: 0:00:36
+        events:
+        - event: pop_mine
+          id: m3
+          location: opposite
+          letter: I
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:00:37
+        events:
+        - event: pop_bonus
+          id: b6
+          location: near_south
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:00:40
+        events:
+        - event: pop_bonus_valid
+          id: b6
+          location: near_south
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:00:47
+        events:
+        - event: pop_bonus
+          id: b7
+          location: far_north_east
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:00:49
+        events:
+        - event: pop_mine
+          id: m4
+          location: horizontal
+          letter: N
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:00:50
+        events:
+        - event: pop_bonus_valid
+          id: b7
+          location: far_north_east
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:00:52
+        events:
+        - event: pop_bonus
+          id: b8
+          location: far_south_east
+          symbol: $
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_$
+      - timestamp: 0:00:55
+        events:
+        - event: pop_bonus
+          id: b8
+          location: far_south_east
+          symbol: '#'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_#
+      - timestamp: 0:01:00
+        events:
+        - event: pop_mine
+          id: m5
+          location: vertical
+          letter: A
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:01:00
+        events:
+        - event: pop_bonus
+          id: b9
+          location: near_east
+          symbol: $
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_$
+      - timestamp: 0:01:03
+        events:
+        - event: pop_bonus
+          id: b9
+          location: near_east
+          symbol: '@'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_@
+      - timestamp: 0:01:07
+        events:
+        - event: pop_bonus
+          id: b10
+          location: far_north
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:01:10
+        events:
+        - event: pop_bonus_valid
+          id: b10
+          location: far_north
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:01:14
+        events:
+        - event: pop_mine
+          id: m6
+          location: horizontal
+          letter: W
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:01:16
+        events:
+        - event: pop_bonus
+          id: b11
+          location: near_south_west
+          symbol: '@'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_@
+      - timestamp: 0:01:19
+        events:
+        - event: pop_bonus
+          id: b11
+          location: near_south_west
+          symbol: '&'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_&
+      - timestamp: 0:01:22
+        events:
+        - event: pop_bonus
+          id: b12
+          location: far_south_west
+          symbol: '@'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_@
+      - timestamp: 0:01:23
+        events:
+        - event: pop_mine
+          id: m7
+          location: opposite
+          letter: H
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:01:25
+        events:
+        - event: pop_bonus
+          id: b12
+          location: far_south_west
+          symbol: '#'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_#
+      - timestamp: 0:01:29
+        events:
+        - event: pop_bonus
+          id: b13
+          location: near_north
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:01:32
+        events:
+        - event: pop_bonus_valid
+          id: b13
+          location: near_north
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:01:33
+        events:
+        - event: pop_mine
+          id: m8
+          location: opposite
+          letter: W
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:01:36
+        events:
+        - event: pop_bonus
+          id: b14
+          location: near_west
+          symbol: $
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_$
+      - timestamp: 0:01:39
+        events:
+        - event: pop_bonus
+          id: b14
+          location: near_west
+          symbol: '&'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_&
+      - timestamp: 0:01:43
+        events:
+        - event: pop_bonus
+          id: b15
+          location: far_west
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:01:44
+        events:
+        - event: pop_mine
+          id: m9
+          location: horizontal
+          letter: L
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:01:46
+        events:
+        - event: pop_bonus_valid
+          id: b15
+          location: far_west
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:01:49
+        events:
+        - event: pop_bonus
+          id: b16
+          location: far_south
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:01:52
+        events:
+        - event: pop_bonus_valid
+          id: b16
+          location: far_south
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:01:55
+        events:
+        - event: pop_mine
+          id: m10
+          location: opposite
+          letter: Q
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:01:59
+        events:
+        - event: pop_bonus
+          id: b17
+          location: far_south
+          symbol: '#'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_#
+      - timestamp: 0:02:02
+        events:
+        - event: pop_bonus
+          id: b17
+          location: far_south
+          symbol: '@'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_@
+      - timestamp: 0:02:05
+        events:
+        - event: pop_bonus
+          id: b18
+          location: far_north
+          symbol: '&'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_&
+      - timestamp: 0:02:08
+        events:
+        - event: pop_mine
+          id: m11
+          location: vertical
+          letter: U
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:02:08
+        events:
+        - event: pop_bonus
+          id: b18
+          location: far_north
+          symbol: $
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_$
+      - timestamp: 0:02:14
+        events:
+        - event: pop_bonus
+          id: b19
+          location: near_north
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:02:17
+        events:
+        - event: pop_bonus_valid
+          id: b19
+          location: near_north
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:02:18
+        events:
+        - event: pop_mine
+          id: m12
+          location: horizontal
+          letter: W
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:02:24
+        events:
+        - event: pop_bonus
+          id: b20
+          location: near_north_west
+          symbol: '@'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_@
+      - timestamp: 0:02:27
+        events:
+        - event: pop_bonus
+          id: b20
+          location: near_north_west
+          symbol: '#'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_#
+      - timestamp: 0:02:30
+        events:
+        - event: pop_bonus
+          id: b21
+          location: far_west
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:02:31
+        events:
+        - event: pop_mine
+          id: m13
+          location: opposite
+          letter: O
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:02:33
+        events:
+        - event: pop_bonus_valid
+          id: b21
+          location: far_west
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:02:39
+        events:
+        - event: pop_bonus
+          id: b22
+          location: near_east
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:02:42
+        events:
+        - event: pop_bonus_valid
+          id: b22
+          location: near_east
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:02:43
+        events:
+        - event: pop_mine
+          id: m14
+          location: vertical
+          letter: D
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:02:45
+        events:
+        - event: pop_bonus
+          id: b23
+          location: near_west
+          symbol: $
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_$
+      - timestamp: 0:02:48
+        events:
+        - event: pop_bonus
+          id: b23
+          location: near_west
+          symbol: '@'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_@
+      - timestamp: 0:02:52
+        events:
+        - event: pop_bonus
+          id: b24
+          location: far_east
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:02:55
+        events:
+        - event: pop_bonus_valid
+          id: b24
+          location: far_east
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:02:57
+        events:
+        - event: pop_mine
+          id: m15
+          location: opposite
+          letter: U
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:02:58
+        events:
+        - event: pop_bonus
+          id: b25
+          location: near_south_east
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:03:01
+        events:
+        - event: pop_bonus_valid
+          id: b25
+          location: near_south_east
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:03:08
+        events:
+        - event: pop_bonus
+          id: b26
+          location: far_south_west
+          symbol: '&'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_&
+      - timestamp: 0:03:10
+        events:
+        - event: pop_mine
+          id: m16
+          location: vertical
+          letter: W
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:03:11
+        events:
+        - event: pop_bonus
+          id: b26
+          location: far_south_west
+          symbol: '@'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_@
+      - timestamp: 0:03:15
+        events:
+        - event: pop_bonus
+          id: b27
+          location: far_north_east
+          symbol: '#'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_#
+      - timestamp: 0:03:18
+        events:
+        - event: pop_bonus
+          id: b27
+          location: far_north_east
+          symbol: '@'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_@
+      - timestamp: 0:03:19
+        events:
+        - event: pop_mine
+          id: m17
+          location: opposite
+          letter: E
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:03:22
+        events:
+        - event: pop_bonus
+          id: b28
+          location: near_north_east
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:03:25
+        events:
+        - event: pop_bonus_valid
+          id: b28
+          location: near_north_east
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:03:30
+        events:
+        - event: pop_mine
+          id: m18
+          location: horizontal
+          letter: U
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:03:30
+        events:
+        - event: pop_bonus
+          id: b29
+          location: far_north_west
+          symbol: '#'
+          symbol_n: 1
+          validity: invalid
+          log: bonus_symbol_#
+      - timestamp: 0:03:33
+        events:
+        - event: pop_bonus
+          id: b29
+          location: far_north_west
+          symbol: '#'
+          symbol_n: 2
+          validity: invalid
+          log: bonus_symbol_#
+      - timestamp: 0:03:44
+        events:
+        - event: pop_mine
+          id: m19
+          location: opposite
+          letter: Y
+          log: mine_type-1
+          foe: type-1
+      - timestamp: 0:03:50
+        events:
+        - event: pop_mine
+          id: m20
+          location: vertical
+          letter: U
+          log: mine_type-2
+          foe: type-2
+      - timestamp: 0:03:52
+        events:
+        - event: pop_bonus
+          id: b30
+          location: far_south_east
+          symbol: '#'
+          symbol_n: 1
+          validity: valid
+          log: bonus_symbol_#
+      - timestamp: 0:03:55
+        events:
+        - event: pop_bonus_valid
+          id: b30
+          location: far_south_east
+          symbol: $
+          symbol_n: 2
+          validity: valid
+          expected_bonus_key: L
+          expected_missile_key: K
+          ttl_key: 3
+          log: bonus_symbol_$
+      - timestamp: 0:04:00
+        events:
+        - event: game_end
+          log: game_end

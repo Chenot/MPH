@@ -1,0 +1,48 @@
+page: begin
+
+scale: agreement2
+- {score=1} Strongly disagree
+- {score=2} Disagree
+- {score=3} Neither agree nor disagree
+- {score=4} Agree
+- {score=5} Strongly agree
+
+l: SSEIT_english
+t: scale agreement2
+o: width 50%
+q: Please indicate the extent to which each statement applies to you:
+- I know when to speak about my personal problems to others.
+- When I am faced with obstacles, I remember times I faced similar obstacles and overcame them.
+- I expect that I will do well on most things I try.
+- Other people find it easy to confide in me.
+- I find it hard to understand the non-verbal messages of other people.
+- Some of the major events of my life have led me to re-evaluate what is important and not important.
+- When my mood changes, I see new possibilities.
+- Emotions are one of the things that make my life worth living.
+- I am aware of my emotions as I experience them.
+- I expect good things to happen.
+- I like to share my emotions with others.
+- When I experience a positive emotion, I know how to make it last.
+- I arrange events others enjoy.
+- I seek out activities that make me happy.
+- I am aware of the non-verbal messages I send to others.
+- I present myself in a way that makes a good impression on others.
+- When I am in a positive mood, solving problems is easy for me.
+- By looking at their facial expressions, I recognize the emotions people are experiencing.
+- I know why my emotions change.
+- When I am in a positive mood, I am able to come up with new ideas.
+- I have control over my emotions.
+- I easily recognize my emotions as I experience them.
+- I motivate myself by imagining a good outcome to tasks I take on.
+- I compliment others when they have done something well.
+- I am aware of the non-verbal messages other people send.
+- When another person tells me about an important event in his or her life, I almost feel as though I have experienced this event myself.
+- When I feel a change in emotions, I tend to come up with new ideas.
+- When I am faced with a challenge, I give up because I believe I will fail.
+- I know what other people are feeling just by looking at them.
+- I help other people feel better when they are down.
+- I use good moods to help myself keep trying in the face of obstacles.
+- I can tell how people are feeling by listening to the tone of their voice.
+- It is difficult for me to understand why people feel the way they do.
+
+page: end

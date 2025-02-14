@@ -1,0 +1,8 @@
+block,block_n,block_type,trial,instruction,instruction_fr,instruction_eng,trial_type,stimulus,correct_resp,iti,soa,iti_60hz,soa_60hz
+practice,1,color,1,color,C,C,undefined,images/redtriangle.png,k,0.675,0.431,40,26
+practice,2,shape,12,shape,F,S,undefined,images/greencircle.png,d,0.694,0.421,42,25
+practice,3,both,1,color,C,C,repeat,images/redtriangle.png,k,0.592,0.466,36,28
+test,1,both,48,shape,F,S,switch,images/redtriangle.png,k,0.51,0.511,31,31
+test,2,both,1,shape,F,S,repeat,images/greentriangle.png,k,0.594,0.469,36,28
+test,3,both,48,shape,F,S,repeat,images/redtriangle.png,k,0.592,0.47,36,28
+test,4,both,1,shape,F,S,repeat,images/greentriangle.png,k,0.555,0.573,33,34

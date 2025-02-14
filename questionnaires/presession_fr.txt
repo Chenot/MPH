@@ -1,0 +1,62 @@
+page: begin
+
+scale: hours_sleep
+- {score=1} moins de 5h
+- {score=2} 5h30
+- {score=3} 6h
+- {score=4} 6h30
+- {score=5} 7h
+- {score=6} 7h30
+- {score=7} 8h
+- {score=8} 8h30
+- {score=9} plus de 9h
+
+l: hours_francais
+t: scale hours_sleep
+o: width 50%
+q: Heures de sommeil cette nuit :
+
+scale: presession_francais
+- {score=1} Très faible
+- {score=2} Faible
+- {score=3} Moyenne
+- {score=4} Élevée
+- {score=5} Très élevée
+
+l: presession_francais
+t: scale presession_francais
+o: width 50%
+q: <br>Actuellement, comment évalueriez-vous :
+- Qualité du sommeil la nuit dernière
+- Vigilance
+- Stress
+
+scale: presession3_francais
+- {score=1} Pas du tout en capacité
+- {score=2} Très peu en capacité
+- {score=3} Peu en capacité
+- {score=4} Moyennement en capacité
+- {score=5} Plutôt en capacité
+- {score=6} Presque totalement en capacité
+- {score=7} Tout à fait en capacité
+
+l: presession3_francais
+t: scale presession3_francais
+o: width 50%
+q: <br>Dans quelle mesure vous sentez-vous actuellement en pleine capacité physique et psychologique pour participer à cette session ?  (par exemple, si vous avez appris un problème de santé récent, un événement personnel perturbant ou autre)
+- Physique
+- Psychologique
+
+scale: presession2_francais
+- {score=1} Oui
+- {score=2} Non
+
+l: presession2_francais
+t: scale presession2_francais
+o: width 50%
+q: <br>Consommation de substances dans les 8 heures précédant l'expérience :
+- Caféine
+- Nicotine
+- Autres substances (alcool, drogues, médicaments) pouvant influencer la cognition
+
+page: end

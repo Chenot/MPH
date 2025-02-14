@@ -1,0 +1,40 @@
+page: begin
+
+scale: réponse
+- {score=0} Très faux ou souvent faux
+- {score=1} Parfois ou quelque peu faux
+- {score=2} Parfois ou quelque peu vrai
+- {score=3} Très vrai ou souvent vrai
+
+l: french_PID_5_BF
+t: scale réponse
+o: width 50%
+q: Vous trouverez ici une liste de choses que différentes personnes pourraient dire à propos d'elles-mêmes. Nous vous invitons à prendre votre temps et à lire chaque affirmation attentivement, en sélectionnant la réponse qui vous décrit le mieux. Il n'y a pas de bonnes ou de mauvaises réponses. 
+- On me décrit comme téméraire.
+- J'ai l'impression de n'agir que sur impulsion.
+- Même si je le sais je ne peux pas m'empêcher de prendre des décisions irréfléchies.
+- J'ai souvent l'impression que ce que je fais n'a pas d'importance.
+- On me trouve irresponsable.
+- Je ne sais pas planifier les choses à l'avance.
+- Souvent mes pensées n'ont pas de sens pour les autres.
+- Je me fais du souci pour à peu près tout.
+- Je suis ému(e), souvent sans raison.
+- J'ai peur de rester seul dans la vie plus que de tout le reste.
+- J'ai du mal à changer ma façon de faire, même quand il est clair que ça ne marchera pas.
+- J'ai déjà vu des choses qui n'existent pas vraiment.
+- J'évite les relations amoureuses.
+- Je n'ai pas envie de me faire des amis.
+- Je suis facilement irrité(e) par toute sorte de choses.
+- Je n'aime pas trop les relations intimes.
+- Ce n'est pas bien grave si je heurte les sentiments des autres.
+- Je suis rarement enthousiaste.
+- J'ai besoin d'attirer l'attention sur moi.
+- Je dois souvent traiter avec des gens qui sont moins importants que moi.
+- J'ai souvent des idées qui ont du sens pour moi mais que les autres trouvent étranges.
+- J'utilise les gens pour avoir ce que je veux.
+- Souvent je décroche et d'un coup je m'aperçois que beaucoup de temps s'est écoulé.
+- Les choses autour de moi semblent irréelles ou plus réelles que d'habitude.
+- C'est facile pour moi de tirer avantages des autres.
+
+page: end
+

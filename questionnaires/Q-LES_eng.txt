@@ -1,0 +1,37 @@
+page: begin
+
+scale: satisfactionn
+- {score=1} Very dissatisfied
+- {score=2} Dissatisfied
+- {score=3} Neither satisfied nor dissatisfied
+- {score=4} Satisfied
+- {score=5} Very satisfied
+
+l: quality_of_life
+t: scale satisfactionn
+o: width 50%
+q: Considering everything, over the past 7 days,<br>how satisfied have you been with...
+- your physical health?
+- your mood?
+- your work?
+- your household activities?
+- your social relationships?
+- your physical activity?
+- your diet?
+- your sleep?
+- your ability to concentrate?
+- your ability to manage stress?
+- your sexual life?
+- your hobbies?
+- your family relationships?
+- your financial situation?
+- your living environment?
+- your mental health?
+- your energy level?
+- your self-image?
+- your feeling of safety?
+- your independence?
+
+page: end
+
+
