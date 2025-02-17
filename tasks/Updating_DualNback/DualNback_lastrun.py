@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 This experiment was created using PsychoPy3 Experiment Builder (v2024.1.4),
-    on janvier 29, 2025, at 18:03
+    on février 17, 2025, at 13:15
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -131,7 +131,7 @@ def setupData(expInfo, dataDir=None):
     thisExp = data.ExperimentHandler(
         name=expName, version='',
         extraInfo=expInfo, runtimeInfo=None,
-        originPath='E:\\OneDrive - ISAE-SUPAERO\\MPH\\tasks\\Updating_DualNback\\DualNback_lastrun.py',
+        originPath='E:\\OneDrive - ISAE-SUPAERO\\MPH_test\\tasks\\Updating_DualNback\\DualNback_lastrun.py',
         savePickle=True, saveWideText=True,
         dataFileName=dataDir + os.sep + filename, sortColumns='time'
     )
@@ -432,11 +432,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     # Load the scenario CSV file
     scenario_df = pd.read_csv('DualNback_scenario.csv')
     
-    # Filter the practice trials
-    practice_indices = scenario_df.index[scenario_df['block'] == 'practice'].tolist()
-    # Convert indices to PsychoPy's format (string of ranges)
-    selected_rows_practice = f"{practice_indices[0]}:{practice_indices[-1]+1}" if practice_indices else ""
-    
     # Run 'Begin Experiment' code from language
     # Check if expInfo exists and create the language variable
     if 'expInfo' not in globals():
@@ -656,10 +651,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         languageStyle='LTR',
         depth=0.0);
     go2_practice = keyboard.Keyboard(deviceName='go2_practice')
-    # Run 'Begin Experiment' code from check_block_counter_practice
-    # Check if the block is test and block_n is to skip the loop
-    if is_practice and block_index >= len(scenario_df[scenario_df['block'] == 'test']['block_n'].unique()):
-        practiceblocks.finished = True  # Skip the loop
     
     # --- Initialize components for Routine "startTask" ---
     InstructionsText2 = visual.TextStim(win=win, name='InstructionsText2',
@@ -670,26 +661,26 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         languageStyle='LTR',
         depth=0.0);
     go = keyboard.Keyboard(deviceName='go')
-    # Run 'Begin Experiment' code from define_block_rows
-    is_test = True
     
     # --- Initialize components for Routine "block_counter" ---
     # Run 'Begin Experiment' code from LSL_start_testblock
     send_marker("start_block")
+    
+    # --- Initialize components for Routine "instructions_test" ---
     textblock = visual.TextStim(win=win, name='textblock',
         text='',
         font='Arial',
         pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
         languageStyle='LTR',
-        depth=-2.0);
+        depth=0.0);
     wait = visual.TextStim(win=win, name='wait',
         text=None,
         font='Arial',
         pos=(0, 0), height=0.05, wrapWidth=None, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
         languageStyle='LTR',
-        depth=-3.0);
+        depth=-1.0);
     
     # --- Initialize components for Routine "main" ---
     grid = visual.ImageStim(
@@ -726,10 +717,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         languageStyle='LTR',
         depth=0.0);
     go2 = keyboard.Keyboard(deviceName='go2')
-    # Run 'Begin Experiment' code from check_block_counter
-    # Check if the block is test and block_n is to skip the loop
-    if is_test and block_index >= len(scenario_df[scenario_df['block'] == 'test']['block_n'].unique()):
-        testblocks.finished = True  # Skip the loop
     
     # --- Initialize components for Routine "thanks" ---
     InstructionsText4 = visual.TextStim(win=win, name='InstructionsText4',
@@ -1630,6 +1617,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # Set the text for the third set of instructions
         InstructionsText3_practice.setText(instructions['Text_pause_between_blocks'])
         
+        # Run 'Begin Routine' code from check_block_counter_practice
+        # Check if the block is test and block_n is to skip the loop
+        if is_practice and block_index >= len(scenario_df[scenario_df['block'] == 'test']['block_n'].unique()):
+            practiceblocks.finished = True  # Skip the loop
         # keep track of which components have finished
         pause_practiceComponents = [InstructionsText3_practice, go2_practice]
         for thisComponent in pause_practiceComponents:
@@ -1749,6 +1740,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     InstructionsText2.setText(instructions['Text_start_task'])
     # Run 'Begin Routine' code from define_block_rows
     # Initialize block variables
+    is_test = True
     block_index = 0  # Start with the first block for test
     # keep track of which components have finished
     startTaskComponents = [InstructionsText2, go]
@@ -1888,7 +1880,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         
         # Determine the current block type and number
         # block_type = 'test'
-        if block_index >= len(scenario_df[scenario_df['block'] == 'test']['block_n'].unique()):
+        if block_index > len(scenario_df[scenario_df['block'] == 'test']['block_n'].unique()):
             # Skip the remaining test blocks
             testblocks.finished = True
             continueRoutine = False
@@ -1897,9 +1889,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             block_type = scenario_df[(scenario_df['block'] == 'test') & (scenario_df['block_n'] == block_n)]['block_type'].iloc[0]
         
         
-        textblock.setText(block_type)
         # keep track of which components have finished
-        block_counterComponents = [textblock, wait]
+        block_counterComponents = []
         for thisComponent in block_counterComponents:
             thisComponent.tStart = None
             thisComponent.tStop = None
@@ -1913,6 +1904,60 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         frameN = -1
         
         # --- Run Routine "block_counter" ---
+        routineForceEnded = not continueRoutine
+        while continueRoutine:
+            # get current time
+            t = routineTimer.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+            if thisExp.status == FINISHED or endExpNow:
+                endExperiment(thisExp, win=win)
+                return
+            
+            # check if all components have finished
+            if not continueRoutine:  # a component has requested a forced-end of Routine
+                routineForceEnded = True
+                break
+            continueRoutine = False  # will revert to True if at least one component still running
+            for thisComponent in block_counterComponents:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+            
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+        
+        # --- Ending Routine "block_counter" ---
+        for thisComponent in block_counterComponents:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        thisExp.addData('block_counter.stopped', globalClock.getTime(format='float'))
+        # the Routine "block_counter" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+        
+        # --- Prepare to start Routine "instructions_test" ---
+        continueRoutine = True
+        # update component parameters for each repeat
+        thisExp.addData('instructions_test.started', globalClock.getTime(format='float'))
+        textblock.setText(block_type)
+        # keep track of which components have finished
+        instructions_testComponents = [textblock, wait]
+        for thisComponent in instructions_testComponents:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        frameN = -1
+        
+        # --- Run Routine "instructions_test" ---
         routineForceEnded = not continueRoutine
         while continueRoutine and routineTimer.getTime() < 2.0:
             # get current time
@@ -1998,7 +2043,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 routineForceEnded = True
                 break
             continueRoutine = False  # will revert to True if at least one component still running
-            for thisComponent in block_counterComponents:
+            for thisComponent in instructions_testComponents:
                 if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                     continueRoutine = True
                     break  # at least one component has not yet finished
@@ -2007,11 +2052,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                 win.flip()
         
-        # --- Ending Routine "block_counter" ---
-        for thisComponent in block_counterComponents:
+        # --- Ending Routine "instructions_test" ---
+        for thisComponent in instructions_testComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
-        thisExp.addData('block_counter.stopped', globalClock.getTime(format='float'))
+        thisExp.addData('instructions_test.stopped', globalClock.getTime(format='float'))
         # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
         if routineForceEnded:
             routineTimer.reset()
@@ -2083,9 +2128,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             send_marker("stimulus_" + auditory_path + "_" + square_position)
             marker_sent_visual = False
             marker_sent_auditory = False
-            # Run 'Begin Routine' code from test
-            print(block_type)
-            print(block_n)
             # keep track of which components have finished
             mainComponents = [grid, stimulus_visual, stimulus_auditory, response_visual, response_auditory]
             for thisComponent in mainComponents:
@@ -2393,6 +2435,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # Set the text for the third set of instructions
         InstructionsText3.setText(instructions['Text_pause_between_blocks'])
         
+        # Run 'Begin Routine' code from check_block_counter
+        # Check if the block is test and block_n is to skip the loop
+        if is_test and block_index >= len(scenario_df[scenario_df['block'] == 'test']['block_n'].unique()):
+            testblocks.finished = True  # Skip the loop
         # keep track of which components have finished
         pauseComponents = [InstructionsText3, go2]
         for thisComponent in pauseComponents:

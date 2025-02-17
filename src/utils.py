@@ -8,6 +8,8 @@ import socket
 import sys
 import webbrowser
 import psutil
+import numpy as np
+import sounddevice as sd
 import pygetwindow as gw
 import sqlite3
 
@@ -247,6 +249,20 @@ def generate_random_id(length=6):
     """Generates a random anonymized participant ID."""
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
+def run_soundtest():
+    """Plays a 440 Hz pure sine wave for 0.25 seconds."""
+    fs = 44100  # Sample rate (standard for audio)
+    duration = 0.25  # Duration in seconds
+    frequency = 440  # Frequency in Hz
+
+    # Generate a sine wave
+    t = np.linspace(0, duration, int(fs * duration), endpoint=False)
+    waveform = 0.5 * np.sin(2 * np.pi * frequency * t)  # Amplitude scaled to 0.5
+
+    # Play sound
+    sd.play(waveform, samplerate=fs)
+    sd.wait()  # Ensure the sound plays completely before the function exits
+    sd.stop()
 
 def save_participant_info(db_file, info):
     """Saves new participant info into the DB if the participant does not already exist."""

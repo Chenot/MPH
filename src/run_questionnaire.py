@@ -572,14 +572,15 @@ class QuestionnaireGUI(QtWidgets.QMainWindow):
         bids_directory = os.path.abspath(os.path.join(current_directory, '..', 'BIDS_data'))
         output_folder = os.path.join(bids_directory, sub_str, ses_str)
         os.makedirs(output_folder, exist_ok=True)
-        csv_filename = f"{sub_str}_{ses_str}_questionnaire_{base_name}.csv"
+        csv_filename = f"{sub_str}_{ses_str}_questionnaire_{base_name}_{time_end_str}.csv"
         output_path = os.path.join(output_folder, csv_filename)
 
         try:
             with open(output_path, "w", newline='', encoding="utf-8") as f:
-                writer = csv.writer(f)
+                writer = csv.writer(f, quoting=csv.QUOTE_ALL)
                 writer.writerow(final_responses.keys())
                 writer.writerow(final_responses.values())
+
         except Exception as e:
             print(f"Error saving responses: {e}")
 
@@ -612,5 +613,7 @@ if __name__ == "__main__":
         'current_session': '1',
         'language': 'English'
     }
-    questionnaire_file = "arsq_fr.txt"  # adjust as needed for testing
+    
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    questionnaire_file = os.path.join(script_dir, '..', 'questionnaires', 'demographics_fr.txt')  # adjust as needed for testing
     run_questionnaire(questionnaire_file, participant_info)

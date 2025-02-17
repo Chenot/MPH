@@ -1,0 +1,419 @@
+17.8459 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000026A5B9BF220>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000026A5B9BF1C0>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([0, 0, 0]), colorSpace='rgb', depthBits=8, fullscr=<method-wrapper '__getattribute__' of attributeSetter object at 0x0000026A5B9BCFD0>, gamma=None, gammaErrorPolicy='raise', infoMsg=UNKNOWN, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x0000026A5BCCD610>, multiSample=False, name='window1', numSamples=2, pos=[0.0, 0.0], screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, title='PsychoPy', units='height', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+17.8463 	EXP 	window1: mouseVisible = True
+17.8463 	EXP 	window1: backgroundImage = ''
+17.8463 	EXP 	window1: backgroundFit = 'none'
+17.8466 	EXP 	window1: mouseVisible = True
+17.8468 	EXP 	window1: mouseVisible = True
+17.8485 	EXP 	window1: mouseVisible = True
+17.8491 	EXP 	window1: mouseVisible = True
+17.9224 	EXP 	window1: mouseVisible = True
+17.9227 	EXP 	window1: mouseVisible = True
+17.9234 	EXP 	window1: mouseVisible = True
+17.9239 	EXP 	window1: mouseVisible = True
+17.9562 	EXP 	window1: Attempting to measure frame rate of screen (0) ...
+17.9563 	EXP 	window1: recordFrameIntervals = False
+18.0993 	EXP 	window1: recordFrameIntervals = True
+18.2831 	EXP 	Screen (0) actual frame rate measured at 59.98Hz
+18.2832 	EXP 	window1: recordFrameIntervals = False
+18.2834 	EXP 	window1: mouseVisible = False
+19.6428 	EXP 	CategorySwitch: status = STARTED
+19.6518 	EXP 	window1: mouseVisible = True
+19.6705 	EXP 	Created instruction_text_component_introduction = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.04, italic=False, languageStyle='LTR', name='instruction_text_component_introduction', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1.5)
+19.6707 	EXP 	window1: mouseVisible = True
+19.6725 	EXP 	Created nametask = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-6.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.06, italic=False, languageStyle='LTR', name='nametask', opacity=1.0, ori=0.0, pos=array([0.  , 0.45]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.6726 	EXP 	window1: mouseVisible = True
+19.6738 	EXP 	Created text_practice = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.04, italic=False, languageStyle='LTR', name='text_practice', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1.5)
+19.6741 	EXP 	window1: mouseVisible = True
+19.6755 	EXP 	Created ITI_practice = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='ITI_practice', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.6757 	EXP 	window1: mouseVisible = True
+19.6770 	EXP 	Created instruction_text_component_practice = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='instruction_text_component_practice', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.6771 	EXP 	window1: mouseVisible = True
+19.6932 	EXP 	Created stimulus_image_practice = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, draggable=False, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='stimulus_image_practice', opacity=1.0, ori=0.0, pos=array([0.  , 0.15]), size=array([0.12, 0.12]), texRes=128.0, units='height', win=Window(...))
+19.6934 	EXP 	window1: mouseVisible = True
+19.6945 	EXP 	Created instruction_d = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-5.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='instruction_d', opacity=1.0, ori=0.0, pos=array([-0.4, -0.3]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.6947 	EXP 	window1: mouseVisible = True
+19.6959 	EXP 	Created instruction_k = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-6.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='instruction_k', opacity=1.0, ori=0.0, pos=array([ 0.4, -0.3]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.6960 	EXP 	window1: mouseVisible = True
+19.6975 	EXP 	Created feedback_text = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.2, italic=False, languageStyle='LTR', name='feedback_text', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.6976 	EXP 	window1: mouseVisible = True
+19.6988 	EXP 	Created instruction_d_2 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='instruction_d_2', opacity=1.0, ori=0.0, pos=array([-0.4, -0.3]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.6989 	EXP 	window1: mouseVisible = True
+19.7000 	EXP 	Created instruction_k_2 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='instruction_k_2', opacity=1.0, ori=0.0, pos=array([ 0.4, -0.3]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.7002 	EXP 	window1: mouseVisible = True
+19.7013 	EXP 	Created instruction_text_component_start_task = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='instruction_text_component_start_task', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1.5)
+19.7019 	EXP 	window1: mouseVisible = True
+19.7031 	EXP 	Created ITI = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='ITI', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.7032 	EXP 	window1: mouseVisible = True
+19.7044 	EXP 	Created instruction_text_component = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-2.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, languageStyle='LTR', name='instruction_text_component', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.7045 	EXP 	window1: mouseVisible = True
+19.7081 	EXP 	Created stimulus_image = ImageStim(__class__=<class 'psychopy.visual.image.ImageStim'>, anchor=('center', 'center'), autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-3.0, draggable=False, flipHoriz=False, flipVert=False, image='default.png', interpolate=True, mask=None, maskParams=None, name='stimulus_image', opacity=1.0, ori=0.0, pos=array([0.  , 0.15]), size=array([0.12, 0.12]), texRes=128.0, units='height', win=Window(...))
+19.7084 	EXP 	window1: mouseVisible = True
+19.7093 	EXP 	Created feedback_text_test = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=-1.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.2, italic=False, languageStyle='LTR', name='feedback_text_test', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.7095 	EXP 	window1: mouseVisible = True
+19.7106 	EXP 	Created instruction_text_component_pause = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='instruction_text_component_pause', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+19.7107 	EXP 	window1: mouseVisible = True
+19.7118 	EXP 	Created InstructionsText4 = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0.0, draggable=False, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.05, italic=False, languageStyle='LTR', name='InstructionsText4', opacity=1.0, ori=0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='height', win=Window(...), wrapWidth=1)
+0.0048 	EXP 	window1: mouseVisible = False
+0.0419 	EXP 	instruction_text_component_introduction: text = ''
+0.0419 	EXP 	instruction_text_component_introduction: height = 0.04
+0.0419 	EXP 	instruction_text_component_introduction: height = 0.04
+0.0419 	EXP 	instruction_text_component_introduction: height = 0.04
+0.0419 	EXP 	instruction_text_component_introduction: text = "Welcome to the 'Category Switch' task.\n\nIn this task, you will see one of several words, appearing one at a time.\n\nSometimes you will be asked to respond to whether the word represents a LIVING BEING or not; at other times, you will be asked to respond to whether the object described by the word is LARGER or SMALLER than a basketball."
+0.0419 	EXP 	nametask: height = 0.06
+0.0419 	EXP 	nametask: height = 0.06
+0.0419 	EXP 	nametask: height = 0.06
+0.0419 	EXP 	nametask: text = 'CATEGORY SWITCH'
+0.0419 	EXP 	instruction_text_component_introduction: autoDraw = True
+0.0419 	EXP 	nametask: autoDraw = True
+5.8933 	EXP 	Imported category_switch_task_scenario.csv as conditions, 7 conditions, 14 params
+5.8935 	EXP 	Created sequence: sequential, trialTypes=7, nReps=1, seed=None
+5.8936 	EXP 	New trial (rep=0, index=0): OrderedDict([('block', 'practice'), ('block_n', 1), ('block_type', 'living'), ('trial', 1), ('instruction', 'living'), ('word_fr', 'éléphant'), ('word_eng', 'elephant'), ('trial_type', 'undefined'), ('stimulus', 'images/heart.png'), ('correct_resp', 'k'), ('iti', 0.539), ('soa', 0.538), ('iti_60hz', 32), ('soa_60hz', 32)])
+5.9053 	DATA 	Keypress: space
+5.9074 	EXP 	instruction_text_component_introduction: autoDraw = False
+5.9074 	EXP 	nametask: autoDraw = False
+5.9074 	EXP 	text_practice: height = 0.04
+5.9074 	EXP 	text_practice: height = 0.04
+5.9074 	EXP 	text_practice: height = 0.04
+5.9074 	EXP 	text_practice: text = "If you see a heart on the screen, you will be asked to respond to whether the word represents a LIVING BEING or not.\n\nIf the word represents a LIVING BEING, press the 'k' key.\nIf the word does NOT represent a living being, press the 'd' key.\n\nPress the space bar to begin the practice session for living beings only."
+5.9074 	EXP 	text_practice: autoDraw = True
+6.6092 	EXP 	Imported category_switch_task_scenario.csv as conditions, 1 conditions, 14 params
+6.6094 	EXP 	Created sequence: sequential, trialTypes=1, nReps=1, seed=None
+6.6095 	EXP 	New trial (rep=0, index=0): OrderedDict([('block', 'practice'), ('block_n', 1), ('block_type', 'living'), ('trial', 1), ('instruction', 'living'), ('word_fr', 'éléphant'), ('word_eng', 'elephant'), ('trial_type', 'undefined'), ('stimulus', 'images/heart.png'), ('correct_resp', 'k'), ('iti', 0.539), ('soa', 0.538), ('iti_60hz', 32), ('soa_60hz', 32)])
+6.6294 	DATA 	Keypress: space
+6.6311 	EXP 	text_practice: autoDraw = False
+6.6311 	EXP 	ITI_practice: text = ''
+6.6311 	EXP 	instruction_text_component_practice: text = ''
+6.6311 	EXP 	stimulus_image_practice: image = 'images/heart.png'
+6.6311 	EXP 	instruction_text_component_practice: height = 0.1
+6.6311 	EXP 	instruction_text_component_practice: height = 0.1
+6.6311 	EXP 	instruction_text_component_practice: height = 0.1
+6.6311 	EXP 	instruction_text_component_practice: text = 'elephant'
+6.6311 	EXP 	instruction_d: height = 0.05
+6.6311 	EXP 	instruction_d: height = 0.05
+6.6311 	EXP 	instruction_d: height = 0.05
+6.6311 	EXP 	instruction_d: text = 'd\nnot living'
+6.6311 	EXP 	instruction_k: height = 0.05
+6.6311 	EXP 	instruction_k: height = 0.05
+6.6311 	EXP 	instruction_k: height = 0.05
+6.6311 	EXP 	instruction_k: text = 'k\nliving'
+6.6311 	EXP 	ITI_practice: autoDraw = True
+6.6311 	EXP 	instruction_d: autoDraw = True
+6.6311 	EXP 	instruction_k: autoDraw = True
+7.1669 	EXP 	ITI_practice: autoDraw = False
+7.1669 	EXP 	stimulus_image_practice: autoDraw = True
+7.6876 	EXP 	instruction_text_component_practice: autoDraw = True
+9.6398 	DATA 	Keypress: space
+10.8281 	DATA 	Keypress: k
+10.8376 	EXP 	ITI_practice: autoDraw = False
+10.8376 	EXP 	instruction_text_component_practice: autoDraw = False
+10.8376 	EXP 	stimulus_image_practice: autoDraw = False
+10.8376 	EXP 	instruction_d: autoDraw = False
+10.8376 	EXP 	instruction_k: autoDraw = False
+10.8376 	EXP 	feedback_text: text = ''
+10.8376 	EXP 	instruction_d_2: height = 0.05
+10.8376 	EXP 	instruction_d_2: height = 0.05
+10.8376 	EXP 	instruction_d_2: height = 0.05
+10.8376 	EXP 	instruction_d_2: text = 'd\nnot living'
+10.8376 	EXP 	instruction_k_2: height = 0.05
+10.8376 	EXP 	instruction_k_2: height = 0.05
+10.8376 	EXP 	instruction_k_2: height = 0.05
+10.8376 	EXP 	instruction_k_2: text = 'k\nliving'
+10.8376 	EXP 	feedback_text: autoDraw = True
+10.8376 	EXP 	instruction_d_2: autoDraw = True
+10.8376 	EXP 	instruction_k_2: autoDraw = True
+10.8376 	EXP 	feedback_text: height = 0.2
+10.8376 	EXP 	feedback_text: height = 0.2
+10.8376 	EXP 	feedback_text: height = 0.2
+10.8376 	EXP 	feedback_text: text = ''
+11.3217 	EXP 	New trial (rep=0, index=1): OrderedDict([('block', 'practice'), ('block_n', 2), ('block_type', 'size'), ('trial', 12), ('instruction', 'size'), ('word_fr', 'frelon'), ('word_eng', 'hornet'), ('trial_type', 'undefined'), ('stimulus', 'images/arrowcross.png'), ('correct_resp', 'd'), ('iti', 0.593), ('soa', 0.571), ('iti_60hz', 36), ('soa_60hz', 34)])
+11.3394 	EXP 	feedback_text: autoDraw = False
+11.3394 	EXP 	instruction_d_2: autoDraw = False
+11.3394 	EXP 	instruction_k_2: autoDraw = False
+11.3394 	EXP 	feedback_text: autoDraw = False
+11.3394 	EXP 	instruction_d_2: autoDraw = False
+11.3394 	EXP 	instruction_k_2: autoDraw = False
+11.3394 	EXP 	text_practice: height = 0.04
+11.3394 	EXP 	text_practice: height = 0.04
+11.3394 	EXP 	text_practice: height = 0.04
+11.3394 	EXP 	text_practice: text = "If you see an arrowcross on the screen, you will be asked to respond to the SIZE of the object described by the word.\n\nIf the object is LARGER than a basketball, press the 'k' key.\nIf the object is SMALLER than a basketball, press the 'd' key.\n\nPress the space bar to begin the practice session for size only."
+11.3394 	EXP 	text_practice: autoDraw = True
+11.3435 	EXP 	Imported category_switch_task_scenario.csv as conditions, 1 conditions, 14 params
+11.3437 	EXP 	Created sequence: sequential, trialTypes=1, nReps=1, seed=None
+11.3438 	EXP 	New trial (rep=0, index=0): OrderedDict([('block', 'practice'), ('block_n', 2), ('block_type', 'size'), ('trial', 12), ('instruction', 'size'), ('word_fr', 'frelon'), ('word_eng', 'hornet'), ('trial_type', 'undefined'), ('stimulus', 'images/arrowcross.png'), ('correct_resp', 'd'), ('iti', 0.593), ('soa', 0.571), ('iti_60hz', 36), ('soa_60hz', 34)])
+11.3618 	EXP 	text_practice: autoDraw = False
+11.3618 	EXP 	ITI_practice: text = ''
+11.3618 	EXP 	instruction_text_component_practice: height = 0.1
+11.3618 	EXP 	instruction_text_component_practice: height = 0.1
+11.3618 	EXP 	instruction_text_component_practice: height = 0.1
+11.3618 	EXP 	instruction_text_component_practice: text = ''
+11.3618 	EXP 	stimulus_image_practice: image = 'images/arrowcross.png'
+11.3618 	EXP 	instruction_text_component_practice: height = 0.1
+11.3618 	EXP 	instruction_text_component_practice: height = 0.1
+11.3618 	EXP 	instruction_text_component_practice: height = 0.1
+11.3618 	EXP 	instruction_text_component_practice: text = 'hornet'
+11.3618 	EXP 	instruction_d: height = 0.05
+11.3618 	EXP 	instruction_d: height = 0.05
+11.3618 	EXP 	instruction_d: height = 0.05
+11.3618 	EXP 	instruction_d: text = 'd\nsmaller than a basketball'
+11.3618 	EXP 	instruction_k: height = 0.05
+11.3618 	EXP 	instruction_k: height = 0.05
+11.3618 	EXP 	instruction_k: height = 0.05
+11.3618 	EXP 	instruction_k: text = 'k\nbigger than a basketball'
+11.3618 	EXP 	ITI_practice: autoDraw = True
+11.3618 	EXP 	instruction_d: autoDraw = True
+11.3618 	EXP 	instruction_k: autoDraw = True
+11.9544 	EXP 	ITI_practice: autoDraw = False
+11.9544 	EXP 	stimulus_image_practice: autoDraw = True
+12.5210 	EXP 	instruction_text_component_practice: autoDraw = True
+14.2975 	DATA 	Keypress: k
+14.3043 	EXP 	ITI_practice: autoDraw = False
+14.3043 	EXP 	instruction_text_component_practice: autoDraw = False
+14.3043 	EXP 	stimulus_image_practice: autoDraw = False
+14.3043 	EXP 	instruction_d: autoDraw = False
+14.3043 	EXP 	instruction_k: autoDraw = False
+14.3043 	EXP 	feedback_text: foreColor = 'red'
+14.3043 	EXP 	feedback_text: height = 0.2
+14.3043 	EXP 	feedback_text: height = 0.2
+14.3043 	EXP 	feedback_text: height = 0.2
+14.3043 	EXP 	feedback_text: text = 'X'
+14.3043 	EXP 	instruction_d_2: height = 0.05
+14.3043 	EXP 	instruction_d_2: height = 0.05
+14.3043 	EXP 	instruction_d_2: height = 0.05
+14.3043 	EXP 	instruction_d_2: text = 'd\nsmaller than a basketball'
+14.3043 	EXP 	instruction_k_2: height = 0.05
+14.3043 	EXP 	instruction_k_2: height = 0.05
+14.3043 	EXP 	instruction_k_2: height = 0.05
+14.3043 	EXP 	instruction_k_2: text = 'k\nbigger than a basketball'
+14.3043 	EXP 	feedback_text: autoDraw = True
+14.3043 	EXP 	instruction_d_2: autoDraw = True
+14.3043 	EXP 	instruction_k_2: autoDraw = True
+14.7885 	EXP 	New trial (rep=0, index=2): OrderedDict([('block', 'practice'), ('block_n', 3), ('block_type', 'both'), ('trial', 1), ('instruction', 'living'), ('word_fr', 'table'), ('word_eng', 'table'), ('trial_type', 'switch'), ('stimulus', 'images/heart.png'), ('correct_resp', 'd'), ('iti', 0.517), ('soa', 0.439), ('iti_60hz', 31), ('soa_60hz', 26)])
+14.8043 	EXP 	feedback_text: autoDraw = False
+14.8043 	EXP 	instruction_d_2: autoDraw = False
+14.8043 	EXP 	instruction_k_2: autoDraw = False
+14.8043 	EXP 	feedback_text: autoDraw = False
+14.8043 	EXP 	instruction_d_2: autoDraw = False
+14.8043 	EXP 	instruction_k_2: autoDraw = False
+14.8043 	EXP 	text_practice: height = 0.04
+14.8043 	EXP 	text_practice: height = 0.04
+14.8043 	EXP 	text_practice: height = 0.04
+14.8043 	EXP 	text_practice: text = 'You will now practice responding to both LIVING/NON-LIVING and SIZE categories.\n\nPay attention to the cues and respond to the words as quickly as possible without making too many errors.\n\nPress the space bar to begin the practice session.'
+14.8043 	EXP 	text_practice: autoDraw = True
+16.5756 	EXP 	Imported category_switch_task_scenario.csv as conditions, 1 conditions, 14 params
+16.5758 	EXP 	Created sequence: sequential, trialTypes=1, nReps=1, seed=None
+16.5760 	EXP 	New trial (rep=0, index=0): OrderedDict([('block', 'practice'), ('block_n', 3), ('block_type', 'both'), ('trial', 1), ('instruction', 'living'), ('word_fr', 'table'), ('word_eng', 'table'), ('trial_type', 'switch'), ('stimulus', 'images/heart.png'), ('correct_resp', 'd'), ('iti', 0.517), ('soa', 0.439), ('iti_60hz', 31), ('soa_60hz', 26)])
+16.5959 	DATA 	Keypress: space
+16.5977 	EXP 	text_practice: autoDraw = False
+16.5977 	EXP 	ITI_practice: text = ''
+16.5977 	EXP 	instruction_text_component_practice: height = 0.1
+16.5977 	EXP 	instruction_text_component_practice: height = 0.1
+16.5977 	EXP 	instruction_text_component_practice: height = 0.1
+16.5977 	EXP 	instruction_text_component_practice: text = ''
+16.5977 	EXP 	stimulus_image_practice: image = 'images/heart.png'
+16.5977 	EXP 	instruction_text_component_practice: height = 0.1
+16.5977 	EXP 	instruction_text_component_practice: height = 0.1
+16.5977 	EXP 	instruction_text_component_practice: height = 0.1
+16.5977 	EXP 	instruction_text_component_practice: text = 'table'
+16.5977 	EXP 	instruction_d: height = 0.05
+16.5977 	EXP 	instruction_d: height = 0.05
+16.5977 	EXP 	instruction_d: height = 0.05
+16.5977 	EXP 	instruction_d: text = 'd\nnot living\nsmaller than a basketball'
+16.5977 	EXP 	instruction_k: height = 0.05
+16.5977 	EXP 	instruction_k: height = 0.05
+16.5977 	EXP 	instruction_k: height = 0.05
+16.5977 	EXP 	instruction_k: text = 'k\nliving\nbigger than a basketball'
+16.5977 	EXP 	ITI_practice: autoDraw = True
+16.5977 	EXP 	instruction_d: autoDraw = True
+16.5977 	EXP 	instruction_k: autoDraw = True
+17.1043 	EXP 	ITI_practice: autoDraw = False
+17.1043 	EXP 	stimulus_image_practice: autoDraw = True
+17.5378 	EXP 	instruction_text_component_practice: autoDraw = True
+17.9806 	DATA 	Keypress: k
+17.9875 	EXP 	ITI_practice: autoDraw = False
+17.9875 	EXP 	instruction_text_component_practice: autoDraw = False
+17.9875 	EXP 	stimulus_image_practice: autoDraw = False
+17.9875 	EXP 	instruction_d: autoDraw = False
+17.9875 	EXP 	instruction_k: autoDraw = False
+17.9875 	EXP 	feedback_text: foreColor = 'red'
+17.9875 	EXP 	feedback_text: text = 'X'
+17.9875 	EXP 	instruction_d_2: height = 0.05
+17.9875 	EXP 	instruction_d_2: height = 0.05
+17.9875 	EXP 	instruction_d_2: height = 0.05
+17.9875 	EXP 	instruction_d_2: text = 'd\nnot living\nsmaller than a basketball'
+17.9875 	EXP 	instruction_k_2: height = 0.05
+17.9875 	EXP 	instruction_k_2: height = 0.05
+17.9875 	EXP 	instruction_k_2: height = 0.05
+17.9875 	EXP 	instruction_k_2: text = 'k\nliving\nbigger than a basketball'
+17.9875 	EXP 	feedback_text: autoDraw = True
+17.9875 	EXP 	instruction_d_2: autoDraw = True
+17.9875 	EXP 	instruction_k_2: autoDraw = True
+18.4875 	EXP 	feedback_text: autoDraw = False
+18.4875 	EXP 	instruction_d_2: autoDraw = False
+18.4875 	EXP 	instruction_k_2: autoDraw = False
+18.4875 	EXP 	feedback_text: autoDraw = False
+18.4875 	EXP 	instruction_d_2: autoDraw = False
+18.4875 	EXP 	instruction_k_2: autoDraw = False
+18.4875 	EXP 	instruction_text_component_start_task: height = 0.05
+18.4875 	EXP 	instruction_text_component_start_task: height = 0.05
+18.4875 	EXP 	instruction_text_component_start_task: height = 0.05
+18.4875 	EXP 	instruction_text_component_start_task: text = "The training is over. Let's now do the reak task.\n\nThis consists of 4 rounds. Each round lasts about 2 minutes.\n\nPress the space bar to start."
+18.4875 	EXP 	instruction_text_component_start_task: autoDraw = True
+19.7753 	EXP 	Imported category_switch_task_scenario.csv as conditions, 7 conditions, 14 params
+19.7755 	EXP 	Created sequence: sequential, trialTypes=7, nReps=1, seed=None
+19.7756 	EXP 	New trial (rep=0, index=0): OrderedDict([('block', 'practice'), ('block_n', 1), ('block_type', 'living'), ('trial', 1), ('instruction', 'living'), ('word_fr', 'éléphant'), ('word_eng', 'elephant'), ('trial_type', 'undefined'), ('stimulus', 'images/heart.png'), ('correct_resp', 'k'), ('iti', 0.539), ('soa', 0.538), ('iti_60hz', 32), ('soa_60hz', 32)])
+19.7789 	EXP 	Imported category_switch_task_scenario.csv as conditions, 1 conditions, 14 params
+19.7791 	EXP 	Created sequence: sequential, trialTypes=1, nReps=1, seed=None
+19.7792 	EXP 	New trial (rep=0, index=0): OrderedDict([('block', 'test'), ('block_n', 1), ('block_type', 'both'), ('trial', 48), ('instruction', 'living'), ('word_fr', 'cheval'), ('word_eng', 'horse'), ('trial_type', 'switch'), ('stimulus', 'images/heart.png'), ('correct_resp', 'k'), ('iti', 0.59), ('soa', 0.403), ('iti_60hz', 35), ('soa_60hz', 24)])
+19.7887 	DATA 	Keypress: space
+19.7905 	EXP 	instruction_text_component_start_task: autoDraw = False
+19.7905 	EXP 	ITI: text = ''
+19.7905 	EXP 	instruction_text_component: text = ''
+19.7905 	EXP 	stimulus_image: image = 'images/heart.png'
+19.7905 	EXP 	instruction_text_component: height = 0.1
+19.7905 	EXP 	instruction_text_component: height = 0.1
+19.7905 	EXP 	instruction_text_component: height = 0.1
+19.7905 	EXP 	instruction_text_component: text = 'horse'
+19.7905 	EXP 	ITI: autoDraw = True
+20.3711 	EXP 	ITI: autoDraw = False
+20.3711 	EXP 	stimulus_image: autoDraw = True
+20.7710 	EXP 	instruction_text_component: autoDraw = True
+23.4073 	DATA 	Keypress: k
+23.4208 	EXP 	ITI: autoDraw = False
+23.4208 	EXP 	instruction_text_component: autoDraw = False
+23.4208 	EXP 	stimulus_image: autoDraw = False
+23.4208 	EXP 	feedback_text_test: text = ''
+23.4208 	EXP 	feedback_text_test: autoDraw = True
+23.4208 	EXP 	feedback_text_test: height = 0.2
+23.4208 	EXP 	feedback_text_test: height = 0.2
+23.4208 	EXP 	feedback_text_test: height = 0.2
+23.4208 	EXP 	feedback_text_test: text = ''
+23.9210 	EXP 	feedback_text_test: autoDraw = False
+23.9210 	EXP 	feedback_text_test: autoDraw = False
+23.9210 	EXP 	instruction_text_component_pause: text = ''
+23.9210 	EXP 	instruction_text_component_pause: height = 0.05
+23.9210 	EXP 	instruction_text_component_pause: height = 0.05
+23.9210 	EXP 	instruction_text_component_pause: height = 0.05
+23.9210 	EXP 	instruction_text_component_pause: text = 'Pause\n\nPress the space bar when you are ready to continue'
+23.9210 	EXP 	instruction_text_component_pause: autoDraw = True
+24.7383 	EXP 	New trial (rep=0, index=1): OrderedDict([('block', 'practice'), ('block_n', 2), ('block_type', 'size'), ('trial', 12), ('instruction', 'size'), ('word_fr', 'frelon'), ('word_eng', 'hornet'), ('trial_type', 'undefined'), ('stimulus', 'images/arrowcross.png'), ('correct_resp', 'd'), ('iti', 0.593), ('soa', 0.571), ('iti_60hz', 36), ('soa_60hz', 34)])
+24.7420 	EXP 	Imported category_switch_task_scenario.csv as conditions, 1 conditions, 14 params
+24.7421 	EXP 	Created sequence: sequential, trialTypes=1, nReps=1, seed=None
+24.7423 	EXP 	New trial (rep=0, index=0): OrderedDict([('block', 'test'), ('block_n', 2), ('block_type', 'both'), ('trial', 1), ('instruction', 'living'), ('word_fr', 'bouteille'), ('word_eng', 'bottle'), ('trial_type', 'switch'), ('stimulus', 'images/heart.png'), ('correct_resp', 'd'), ('iti', 0.52), ('soa', 0.479), ('iti_60hz', 31), ('soa_60hz', 29)])
+24.7481 	DATA 	Keypress: space
+24.7542 	EXP 	instruction_text_component_pause: autoDraw = False
+24.7542 	EXP 	ITI: text = ''
+24.7542 	EXP 	instruction_text_component: height = 0.1
+24.7542 	EXP 	instruction_text_component: height = 0.1
+24.7542 	EXP 	instruction_text_component: height = 0.1
+24.7542 	EXP 	instruction_text_component: text = ''
+24.7542 	EXP 	stimulus_image: image = 'images/heart.png'
+24.7542 	EXP 	instruction_text_component: height = 0.1
+24.7542 	EXP 	instruction_text_component: height = 0.1
+24.7542 	EXP 	instruction_text_component: height = 0.1
+24.7542 	EXP 	instruction_text_component: text = 'bottle'
+24.7542 	EXP 	ITI: autoDraw = True
+25.2710 	EXP 	ITI: autoDraw = False
+25.2710 	EXP 	stimulus_image: autoDraw = True
+25.7542 	EXP 	instruction_text_component: autoDraw = True
+30.6729 	DATA 	Keypress: space
+31.1565 	DATA 	Keypress: k
+31.1709 	EXP 	ITI: autoDraw = False
+31.1709 	EXP 	instruction_text_component: autoDraw = False
+31.1709 	EXP 	stimulus_image: autoDraw = False
+31.1709 	EXP 	feedback_text_test: text = ''
+31.1709 	EXP 	feedback_text_test: autoDraw = True
+31.6708 	EXP 	feedback_text_test: autoDraw = False
+31.6708 	EXP 	feedback_text_test: autoDraw = False
+31.6708 	EXP 	instruction_text_component_pause: height = 0.05
+31.6708 	EXP 	instruction_text_component_pause: height = 0.05
+31.6708 	EXP 	instruction_text_component_pause: height = 0.05
+31.6708 	EXP 	instruction_text_component_pause: text = ''
+31.6708 	EXP 	instruction_text_component_pause: height = 0.05
+31.6708 	EXP 	instruction_text_component_pause: height = 0.05
+31.6708 	EXP 	instruction_text_component_pause: height = 0.05
+31.6708 	EXP 	instruction_text_component_pause: text = 'Pause\n\nPress the space bar when you are ready to continue'
+31.6708 	EXP 	instruction_text_component_pause: autoDraw = True
+31.6717 	EXP 	New trial (rep=0, index=2): OrderedDict([('block', 'practice'), ('block_n', 3), ('block_type', 'both'), ('trial', 1), ('instruction', 'living'), ('word_fr', 'table'), ('word_eng', 'table'), ('trial_type', 'switch'), ('stimulus', 'images/heart.png'), ('correct_resp', 'd'), ('iti', 0.517), ('soa', 0.439), ('iti_60hz', 31), ('soa_60hz', 26)])
+31.6754 	EXP 	Imported category_switch_task_scenario.csv as conditions, 1 conditions, 14 params
+31.6756 	EXP 	Created sequence: sequential, trialTypes=1, nReps=1, seed=None
+31.6757 	EXP 	New trial (rep=0, index=0): OrderedDict([('block', 'test'), ('block_n', 3), ('block_type', 'both'), ('trial', 48), ('instruction', 'living'), ('word_fr', 'clé'), ('word_eng', 'key'), ('trial_type', 'repeat'), ('stimulus', 'images/heart.png'), ('correct_resp', 'd'), ('iti', 0.629), ('soa', 0.547), ('iti_60hz', 38), ('soa_60hz', 33)])
+31.6883 	EXP 	instruction_text_component_pause: autoDraw = False
+31.6883 	EXP 	ITI: text = ''
+31.6883 	EXP 	instruction_text_component: height = 0.1
+31.6883 	EXP 	instruction_text_component: height = 0.1
+31.6883 	EXP 	instruction_text_component: height = 0.1
+31.6883 	EXP 	instruction_text_component: text = ''
+31.6883 	EXP 	stimulus_image: image = 'images/heart.png'
+31.6883 	EXP 	instruction_text_component: height = 0.1
+31.6883 	EXP 	instruction_text_component: height = 0.1
+31.6883 	EXP 	instruction_text_component: height = 0.1
+31.6883 	EXP 	instruction_text_component: text = 'key'
+31.6883 	EXP 	ITI: autoDraw = True
+32.3210 	EXP 	ITI: autoDraw = False
+32.3210 	EXP 	stimulus_image: autoDraw = True
+32.8709 	EXP 	instruction_text_component: autoDraw = True
+38.5901 	DATA 	Keypress: k
+38.6208 	EXP 	ITI: autoDraw = False
+38.6208 	EXP 	instruction_text_component: autoDraw = False
+38.6208 	EXP 	stimulus_image: autoDraw = False
+38.6208 	EXP 	feedback_text_test: text = ''
+38.6208 	EXP 	feedback_text_test: autoDraw = True
+39.1210 	EXP 	feedback_text_test: autoDraw = False
+39.1210 	EXP 	feedback_text_test: autoDraw = False
+39.1210 	EXP 	instruction_text_component_pause: height = 0.05
+39.1210 	EXP 	instruction_text_component_pause: height = 0.05
+39.1210 	EXP 	instruction_text_component_pause: height = 0.05
+39.1210 	EXP 	instruction_text_component_pause: text = ''
+39.1210 	EXP 	instruction_text_component_pause: height = 0.05
+39.1210 	EXP 	instruction_text_component_pause: height = 0.05
+39.1210 	EXP 	instruction_text_component_pause: height = 0.05
+39.1210 	EXP 	instruction_text_component_pause: text = 'Pause\n\nPress the space bar when you are ready to continue'
+39.1210 	EXP 	instruction_text_component_pause: autoDraw = True
+40.9384 	EXP 	New trial (rep=0, index=3): OrderedDict([('block', 'test'), ('block_n', 1), ('block_type', 'both'), ('trial', 48), ('instruction', 'living'), ('word_fr', 'cheval'), ('word_eng', 'horse'), ('trial_type', 'switch'), ('stimulus', 'images/heart.png'), ('correct_resp', 'k'), ('iti', 0.59), ('soa', 0.403), ('iti_60hz', 35), ('soa_60hz', 24)])
+40.9419 	EXP 	Imported category_switch_task_scenario.csv as conditions, 1 conditions, 14 params
+40.9421 	EXP 	Created sequence: sequential, trialTypes=1, nReps=1, seed=None
+40.9422 	EXP 	New trial (rep=0, index=0): OrderedDict([('block', 'test'), ('block_n', 4), ('block_type', 'both'), ('trial', 1), ('instruction', 'size'), ('word_fr', 'cerf'), ('word_eng', 'deer'), ('trial_type', 'switch'), ('stimulus', 'images/arrowcross.png'), ('correct_resp', 'k'), ('iti', 0.678), ('soa', 0.534), ('iti_60hz', 41), ('soa_60hz', 32)])
+40.9498 	DATA 	Keypress: space
+40.9541 	EXP 	instruction_text_component_pause: autoDraw = False
+40.9541 	EXP 	ITI: text = ''
+40.9541 	EXP 	instruction_text_component: height = 0.1
+40.9541 	EXP 	instruction_text_component: height = 0.1
+40.9541 	EXP 	instruction_text_component: height = 0.1
+40.9541 	EXP 	instruction_text_component: text = ''
+40.9541 	EXP 	stimulus_image: image = 'images/arrowcross.png'
+40.9541 	EXP 	instruction_text_component: height = 0.1
+40.9541 	EXP 	instruction_text_component: height = 0.1
+40.9541 	EXP 	instruction_text_component: height = 0.1
+40.9541 	EXP 	instruction_text_component: text = 'deer'
+40.9541 	EXP 	ITI: autoDraw = True
+41.6376 	EXP 	ITI: autoDraw = False
+41.6376 	EXP 	stimulus_image: autoDraw = True
+42.1710 	EXP 	instruction_text_component: autoDraw = True
+44.2564 	DATA 	Keypress: k
+44.2708 	EXP 	ITI: autoDraw = False
+44.2708 	EXP 	instruction_text_component: autoDraw = False
+44.2708 	EXP 	stimulus_image: autoDraw = False
+44.2708 	EXP 	feedback_text_test: text = ''
+44.2708 	EXP 	feedback_text_test: autoDraw = True
+44.7710 	EXP 	feedback_text_test: autoDraw = False
+44.7710 	EXP 	feedback_text_test: autoDraw = False
+44.7710 	EXP 	instruction_text_component_pause: height = 0.05
+44.7710 	EXP 	instruction_text_component_pause: height = 0.05
+44.7710 	EXP 	instruction_text_component_pause: height = 0.05
+44.7710 	EXP 	instruction_text_component_pause: text = ''
+44.7710 	EXP 	instruction_text_component_pause: height = 0.05
+44.7710 	EXP 	instruction_text_component_pause: height = 0.05
+44.7710 	EXP 	instruction_text_component_pause: height = 0.05
+44.7710 	EXP 	instruction_text_component_pause: text = 'Pause\n\nPress the space bar when you are ready to continue'
+44.7710 	EXP 	instruction_text_component_pause: autoDraw = True
+46.0765 	DATA 	Keypress: space
+46.0874 	EXP 	instruction_text_component_pause: autoDraw = False
+46.0874 	EXP 	InstructionsText4: height = 0.05
+46.0874 	EXP 	InstructionsText4: height = 0.05
+46.0874 	EXP 	InstructionsText4: height = 0.05
+46.0874 	EXP 	InstructionsText4: text = 'This task is now over.\n\nThank you!\n\nPress the space bar to continue'
+46.0874 	EXP 	InstructionsText4: autoDraw = True
+46.7722 	DATA 	Keypress: space
+46.7876 	EXP 	InstructionsText4: autoDraw = False
+46.7876 	EXP 	CategorySwitch: status = STOPPED
+47.5667 	EXP 	window1: mouseVisible = True

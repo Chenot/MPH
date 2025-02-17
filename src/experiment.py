@@ -42,6 +42,7 @@ from utils import (
     load_participant_info,
     update_participant_info,
     get_participant_info,
+    run_soundtest,
     extract_questionnaire_name,
     mark_questionnaire_completed,
     copy_matb_data_to_bids,
@@ -70,8 +71,8 @@ path_SCI_sleep_english = os.path.join(questionnaire_directory, 'SCI_eng.txt')
 path_SCI_sleep_french = os.path.join(questionnaire_directory, 'SCI_fr.txt')
 path_EHI_laterality_english = os.path.join(questionnaire_directory, 'EHI_eng.txt')
 path_EHI_laterality_french = os.path.join(questionnaire_directory, 'EHI_fr.txt')
-path_presession_english = os.path.join(questionnaire_directory, 'presession_eng.txt')
-path_presession_french = os.path.join(questionnaire_directory, 'presession_fr.txt')
+path_presession1_english = os.path.join(questionnaire_directory, 'presession1_eng.txt')
+path_presession1_french = os.path.join(questionnaire_directory, 'presession1_fr.txt')
 path_ARSQ_english = os.path.join(questionnaire_directory, 'arsq_eng.txt')
 path_ARSQ_french = os.path.join(questionnaire_directory, 'arsq_fr.txt')
 
@@ -84,6 +85,8 @@ path_VGxp_videogames_english = os.path.join(questionnaire_directory, 'VGexp_eng.
 path_VGxp_videogames_french = os.path.join(questionnaire_directory, 'VGexp_fr.txt')
 path_RSES_selfesteem_english = os.path.join(questionnaire_directory, 'RSES_eng.txt')
 path_RSES_selfesteem_french = os.path.join(questionnaire_directory, 'RSES_fr.txt')
+path_presession2_english = os.path.join(questionnaire_directory, 'presession2_eng.txt')
+path_presession2_french = os.path.join(questionnaire_directory, 'presession2_fr.txt')
 
 # Session 3
 path_RMEQ_chronotype_english = os.path.join(questionnaire_directory, 'rMEQ_eng.txt')
@@ -94,6 +97,8 @@ path_SSEIT_emotions_english = os.path.join(questionnaire_directory, 'SSEIT_eng.t
 path_SSEIT_emotions_french = os.path.join(questionnaire_directory, 'SSEIT_fr.txt')
 path_BRIEF_executivefunctions_english = os.path.join(questionnaire_directory, 'BRIEF_eng.txt')
 path_BRIEF_executivefunctions_french = os.path.join(questionnaire_directory, 'BRIEF_fr.txt')
+path_presession3_english = os.path.join(questionnaire_directory, 'presession3_eng.txt')
+path_presession3_french = os.path.join(questionnaire_directory, 'presession3_fr.txt')
 
 # All sessions
 path_post_task_q = os.path.join(questionnaire_directory, 'questionnaire_post-task.csv')
@@ -427,8 +432,8 @@ def run_session(participant_info):
             #run_EyeTracking_Calibration(participant_info)
             #run_RS_task(participant_info)
             #run_ARSQ_task(participant_info)
-            # run_psychopy_tasks(participant_info)
-            # run_MATB_training(participant_info)
+            #run_psychopy_tasks(participant_info)
+            #run_MATB_training(participant_info)
             run_MATB_tasks(participant_info)
             # run_SF_training(participant_info)
             # run_SF_tasks(participant_info)
@@ -443,7 +448,7 @@ def run_session(participant_info):
 
         elif current_session == '3':
             #run_EyeTracking_Calibration(participant_info)
-            #run_RS_task(participant_info)
+            run_RS_task(participant_info)
             run_psychopy_tasks(participant_info)
             run_MATB_instructions(participant_info)
             run_MATB_tasks(participant_info)
@@ -716,7 +721,7 @@ def launch_questionnaire_gui(participant_info):
             "Personality (BIG-5)": path_BIG5_personality_french if language == "French" else path_BIG5_personality_english,
             "Sleep Quality (SCI)": path_SCI_sleep_french if language == "French" else path_SCI_sleep_english,
             "Handedness (EHI)": path_EHI_laterality_french if language == "French" else path_EHI_laterality_english,
-            "Pre-session": path_presession_french if language == "French" else path_presession_english
+            "Pre-session 1": path_presession1_french if language == "French" else path_presession1_english
         }
     elif current_session == '2':
         paths = {
@@ -724,14 +729,15 @@ def launch_questionnaire_gui(participant_info):
             "Meta-cognition (MAI)": path_MAI_metacognition_french if language == "French" else path_MAI_metacognition_english,
             "Video Game Experience (VGxp)": path_VGxp_videogames_french if language == "French" else path_VGxp_videogames_english,
             "Self-esteem (RSES)": path_RSES_selfesteem_french if language == "French" else path_RSES_selfesteem_english,
-            "Pre-session": path_presession_french if language == "French" else path_presession_english
+            "Pre-session 2": path_presession2_french if language == "French" else path_presession2_english
         }
     elif current_session == '3':
         paths = {
             "Chronotype (rMEQ)": path_RMEQ_chronotype_french if language == "French" else path_RMEQ_chronotype_english,
             "Emotions (TEIQ)": path_TEIQ_emotions_french if language == "French" else path_TEIQ_emotions_english,
             "Emotions (SSEIT)": path_SSEIT_emotions_french if language == "French" else path_SSEIT_emotions_english,
-            "Executive Functions (BRIEF)": path_BRIEF_executivefunctions_french if language == "French" else path_BRIEF_executivefunctions_english
+            "Executive Functions (BRIEF)": path_BRIEF_executivefunctions_french if language == "French" else path_BRIEF_executivefunctions_english,
+            "Pre-session 3": path_presession3_french if language == "French" else path_presession3_english
         }
     else:
         paths = {}
@@ -773,8 +779,6 @@ def launch_questionnaire_gui(participant_info):
     button_back.pack(pady=20)
 
     root.mainloop()
-
-
 
 def launch_supplementary_questionnaire_gui(participant_info):
     """Launches the GUI for selecting supplementary questionnaires based on language."""
@@ -820,6 +824,7 @@ def launch_main_gui(participant_info):
 
     def start_recording():
         try:
+            run_soundtest()
             launch_lsl_metascript(participant_info)
             button_tasks.config(state="normal")
         except Exception as e:
